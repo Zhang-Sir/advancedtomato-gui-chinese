@@ -4,7 +4,7 @@ FTP Server - !!TB
 
 For use with Tomato Firmware only.
 No part of this file may be used without permission.
---><title>FTP Server</title>
+--><title>FTP 文件共享</title>
 <content>
 	<script type="text/javascript">
 		//	<% nvram("at_update,tomatoanon_answer,ftp_enable,ftp_super,ftp_anonymous,ftp_dirlist,ftp_port,ftp_max,ftp_ipmax,ftp_staytimeout,ftp_rate,ftp_anonrate,ftp_anonroot,ftp_pubroot,ftp_pvtroot,ftp_custom,ftp_users,ftp_sip,ftp_limit,log_ftp"); %>
@@ -49,29 +49,29 @@ No part of this file may be used without permission.
 			s = f[0].value.trim().replace(/\s+/g, ' ');
 			if (s.length > 0) {
 				if (s.search(/^[a-zA-Z0-9_\-]+$/) == -1) {
-					ferror.set(f[0], 'Invalid user name. Only characters "A-Z 0-9 - _" are allowed.', quiet);
+					ferror.set(f[0], '错误的用户名. 仅支持\"A-Z 0-9 . - _\"等字符.', quiet);
 					return 0;
 				}
 				if (this.existName(s)) {
-					ferror.set(f[0], 'Duplicate user name.', quiet);
+					ferror.set(f[0], '用户名已存在.', quiet);
 					return 0;
 				}
 				if (s == 'root' || s == 'admin') {
-					ferror.set(f[0], 'User names "root" and "admin" are not allowed.', quiet);
+					ferror.set(f[0], '用户名 "root" 和 "admin" 不允许.', quiet);
 					return 0;
 				}
 				f[0].value = s;
 			}
 
 			if (!v_length(f[1], quiet, 1)) return 0;
-			if (!v_nodelim(f[1], quiet, 'Password', 1)) return 0;
-			if (f[2].value == 'Private') {
+			if (!v_nodelim(f[1], quiet, '密码', 1)) return 0;
+			if (f[2].value == '私用') {
 				f[3].value = '';
 				f[3].disabled = true;
 			}
 			else {
 				f[3].disabled = false;
-				if (!v_nodelim(f[3], quiet, 'Root Directory', 1) || !v_path(f[3], quiet, 0)) return 0;
+				if (!v_nodelim(f[3], quiet, '根目录', 1) || !v_path(f[3], quiet, 0)) return 0;
 			}
 
 			return 1;
@@ -94,10 +94,10 @@ No part of this file may be used without permission.
 			this.init('aft-grid', 'sort', 50, [
 				{ type: 'text', maxlen: 50 },
 				{ type: 'password', maxlen: 50, peekaboo: 1 },
-				{ type: 'select', options: [['Read/Write', 'Read/Write'],['Read Only', 'Read Only'],['View Only', 'View Only'],['Private', 'Private']] },
+				{ type: 'select', options: [['Read/Write', '读/写'],['Read Only', '只读'],['View Only', '只能查看'],['Private', '个人目录']] },
 				{ type: 'text', maxlen: 128 }
 			]);
-			this.headerSet(['User Name', 'Password', 'Access', 'Root Directory*']);
+			this.headerSet(['用户名', '密码', '访问权限', '根目录*']);
 
 			var s = nvram.ftp_users.split('>');
 			for (var i = 0; i < s.length; ++i) {
@@ -202,25 +202,25 @@ No part of this file may be used without permission.
 		<input type="hidden" name="ftp_limit">
 
 		<div class="box" data-box="ftp-conf-main">
-			<div class="heading">FTP Server Configuration</div>
+			<div class="heading">FTP 服务配置</div>
 			<div class="content">
 				<div id="ftpconf"></div>
-				<small style="color: red">Note: Avoid using this option when FTP server is enabled for WAN. IT PROVIDES FULL ACCESS TO THE ROUTER FILE SYSTEM!</small>
+				<small style="color: red">注意: 尽量不要选择(WAN 和 LAN 都能访问)选项. 该选项允许 WAN 访问到路由器文件系统!</small>
 				<script type="text/javascript">
 					$('#ftpconf').forms([
-						{ title: 'Enable FTP Server', name: 'ftp_enable', type: 'select',
-							options: [['0', 'No'],['1', 'Yes, WAN and LAN'],['2', 'Yes, LAN only']],
+						{ title: '启用 FTP 服务', name: 'ftp_enable', type: 'select',
+							options: [['0', '否'],['1', '是 (WAN 和 LAN 都能访问)'],['2', '是 (只能 LAN 访问)']],
 							value: nvram.ftp_enable },
-						{ title: 'FTP Port', indent: 2, name: 'ftp_port', type: 'text', maxlen: 5, size: 7, value: fixPort(nvram.ftp_port, 21) },
-						{ title: 'Allowed Remote<br>Address(es)', indent: 2, name: 'f_ftp_sip', type: 'text', maxlen: 512, size: 64, value: nvram.ftp_sip,
-							suffix: '<br><small>(optional; ex: "1.1.1.1", "1.1.1.0/24", "1.1.1.1 - 2.2.2.2" or "me.example.com")</small>' },
-						{ title: 'Anonymous Users Access', name: 'ftp_anonymous', type: 'select',
-							options: [['0', 'Disabled'],['1', 'Read/Write'],['2', 'Read Only'],['3', 'Write Only']],
+						{ title: 'FTP 端口', indent: 2, name: 'ftp_port', type: 'text', maxlen: 5, size: 7, value: fixPort(nvram.ftp_port, 21) },
+						{ title: '允许远程<br>地址(例子)', indent: 2, name: 'f_ftp_sip', type: 'text', maxlen: 512, size: 64, value: nvram.ftp_sip,
+							suffix: '<br><small>(可选; 例如: "1.1.1.1", "1.1.1.0/24", "1.1.1.1 - 2.2.2.2" or "me.example.com")</small>' },
+						{ title: '匿名用户访问', name: 'ftp_anonymous', type: 'select',
+							options: [['0', '禁用'],['1', '读/写'],['2', '只读'],['3', '只写']],
 							value: nvram.ftp_anonymous },
-						{ title: 'Allow Admin Login*', name: 'f_ftp_super', type: 'checkbox',
-							suffix: ' <small>Allows users to connect with admin account.</small>',
+						{ title: '允许超级用户访问*', name: 'f_ftp_super', type: 'checkbox',
+							suffix: ' <small>允许用户使用 admin 账户连接 FTP 服务器.</small>',
 							value: nvram.ftp_super == 1 },
-						{ title: 'Log FTP requests and responses', name: 'f_log_ftp', type: 'checkbox',
+						{ title: '记录 FTP 请求和响应', name: 'f_log_ftp', type: 'checkbox',
 							value: nvram.log_ftp == 1 }
 					]);
 				</script>
@@ -228,29 +228,29 @@ No part of this file may be used without permission.
 		</div>
 
 		<div class="box" data-box="ftp-dirs">
-			<div class="heading">Directories</div>
+			<div class="heading">目录</div>
 			<div class="content">
 
 				<div id="ftpdirs"></div><hr>
 				<small>
-					*&nbsp;&nbsp;When no directory is specified, /mnt is used as a root directory.
-					<br>**&nbsp;In private mode, the root directory is the directory under the "Private Root Directory" with the name matching the name of the user.
+					*&nbsp;&nbsp;如果没有指定用户目录,/mnt 将会被作为根目录.
+					<br>**&nbsp;如用户的访问权限为个人目录模式,该用户的个人目录为"个人根目录"下跟用户名同名的目录.
 				</small>
 
 				<script type="text/javascript">
 					$('#ftpdirs').forms([
-						{ title: 'Anonymous Root Directory*', name: 'ftp_anonroot', type: 'text', maxlen: 256, size: 32,
-							suffix: ' <small>(for anonymous connections)</small>',
+						{ title: '匿名用户根目录*', name: 'ftp_anonroot', type: 'text', maxlen: 256, size: 32,
+							suffix: ' <small>(所有用户都能访问)</small>',
 							value: nvram.ftp_anonroot },
-						{ title: 'Public Root Directory*', name: 'ftp_pubroot', type: 'text', maxlen: 256, size: 32,
-							suffix: ' <small>(for authenticated users access, if not specified for the user)</small>',
+						{ title: '公共根目录*', name: 'ftp_pubroot', type: 'text', maxlen: 256, size: 32,
+							suffix: ' <small>(如果不是特殊用户，已验证身份的用户都可以访问)</small>',
 							value: nvram.ftp_pubroot },
-						{ title: 'Private Root Directory**', name: 'ftp_pvtroot', type: 'text', maxlen: 256, size: 32,
-							suffix: ' <small>(for authenticated users access in private mode)</small>',
+						{ title: '个人根目录*', name: 'ftp_pvtroot', type: 'text', maxlen: 256, size: 32,
+							suffix: ' <small>(只允许所属用户访问)</small>',
 							value: nvram.ftp_pvtroot },
-						{ title: 'Directory Listings', name: 'ftp_dirlist', type: 'select',
-							options: [['0', 'Enabled'],['1', 'Disabled'],['2', 'Disabled for Anonymous']],
-							suffix: ' <small>(always enabled for Admin)</small>',
+						{ title: '目录列表', name: 'ftp_dirlist', type: 'select',
+							options: [['0', '启用'],['1', '禁用'],['2', '禁用匿名']],
+							suffix: ' <small>(总对管理员启用)</small>',
 							value: nvram.ftp_dirlist }
 					]);
 				</script>
@@ -258,58 +258,58 @@ No part of this file may be used without permission.
 		</div>
 
 		<div class="box" data-box="ftp-limits">
-			<div class="heading">Limits</div>
+			<div class="heading">访问限制</div>
 			<div class="content" id="ftp-limits"></div>
 			<script type="text/javascript">
 				$('#ftp-limits').forms([
-					{ title: 'Maximum Users Allowed to Log in', name: 'ftp_max', type: 'text', maxlen: 5, size: 7,
-						suffix: ' <small>(0 - unlimited)</small>',
+					{ title: '最大登录用户数', name: 'ftp_max', type: 'text', maxlen: 5, size: 7,
+						suffix: ' <small>(0 - 无限制)</small>',
 						value: nvram.ftp_max },
-					{ title: 'Maximum Connections from the same IP', name: 'ftp_ipmax', type: 'text', maxlen: 5, size: 7,
-						suffix: ' <small>(0 - unlimited)</small>',
+					{ title: '相同 IP 最大连接数', name: 'ftp_ipmax', type: 'text', maxlen: 5, size: 7,
+						suffix: ' <small>(0 - 无限制)</small>',
 						value: nvram.ftp_ipmax },
-					{ title: 'Maximum Bandwidth for Anonymous Users', name: 'ftp_anonrate', type: 'text', maxlen: 5, size: 7,
-						suffix: ' <small>KBytes/sec (0 - unlimited)</small>',
+					{ title: '匿名用户宽带限制', name: 'ftp_anonrate', type: 'text', maxlen: 5, size: 7,
+						suffix: ' <small>KBytes/sec (0 - 无限制)</small>',
 						value: nvram.ftp_anonrate },
-					{ title: 'Maximum Bandwidth for Authenticated Users', name: 'ftp_rate', type: 'text', maxlen: 5, size: 7,
-						suffix: ' <small>KBytes/sec (0 - unlimited)</small>',
+					{ title: '认证用户宽带限制', name: 'ftp_rate', type: 'text', maxlen: 5, size: 7,
+						suffix: ' <small>KBytes/sec (0 - 无限制)</small>',
 						value: nvram.ftp_rate },
-					{ title: 'Idle Timeout', name: 'ftp_staytimeout', type: 'text', maxlen: 5, size: 7,
-						suffix: ' <small>seconds (0 - no timeout)</small>',
+					{ title: '连接空闲超时设置', name: 'ftp_staytimeout', type: 'text', maxlen: 5, size: 7,
+						suffix: ' <small>seconds (0 - 永不超时)</small>',
 						value: nvram.ftp_staytimeout },
-					{ title: 'Limit Connection Attempts', name: 'f_limit', type: 'checkbox',
+					{ title: '最大尝试连接次数', name: 'f_limit', type: 'checkbox',
 						value: ftplimit[0] != 0 },
 					{ title: '', indent: 2, multi: [
-						{ name: 'f_limit_hit', type: 'text', maxlen: 4, size: 6, suffix: '&nbsp; <small>every</small> &nbsp;', value: ftplimit[1] },
-						{ name: 'f_limit_sec', type: 'text', maxlen: 4, size: 6, suffix: '&nbsp; <small>seconds</small>', value: ftplimit[2] }
+						{ name: 'f_limit_hit', type: 'text', maxlen: 4, size: 6, suffix: '&nbsp; <small>每</small> &nbsp;', value: ftplimit[1] },
+						{ name: 'f_limit_sec', type: 'text', maxlen: 4, size: 6, suffix: '&nbsp; <small>秒</small>', value: ftplimit[2] }
 					] }
 				]);
 			</script>
 		</div>
 
 		<div class="box" data-box="ftp-cust">
-			<div class="heading">Custom Configuration</div>
+			<div class="heading">自定义配置</div>
 			<div class="content" id="ftpcustom"></div>
 			<script type="text/javascript">
 				$('#ftpcustom').forms([
-					{ title: 'Vsftpd Custom Configuration (<a href="http://vsftpd.beasts.org/vsftpd_conf.html" target="_new"><i class="icon-info"></i></a>)', name: 'ftp_custom', type: 'textarea', value: nvram.ftp_custom,
+					{ title: 'Vsftpd 自定义配置 (<a href="http://vsftpd.beasts.org/vsftpd_conf.html" target="_new"><i class="icon-info"></i></a>)', name: 'ftp_custom', type: 'textarea', value: nvram.ftp_custom,
 						style: 'width: 100%; height: 80px;' }
 				]);
 			</script>
 		</div>
 
 		<div class="box" data-box="ftp-usr-acc">
-			<div class="heading">User Accounts</div>
+			<div class="heading">用户帐户</div>
 			<div class="content">
 				<table class="line-table" id="aft-grid"></table><br /><hr>
 				<small>
-					*&nbsp;&nbsp;When no Root Directory is specified for the user, the default "Public Root Directory" is used.
+					*&nbsp;&nbsp;如果没有为用户设置根目录, 则使用公共根目录.
 				</small>
 			</div>
 		</div>
 
-		<button type="button" value="Save" id="save-button" onclick="save()" class="btn btn-primary">Save <i class="icon-check"></i></button>
-		<button type="button" value="Cancel" id="cancel-button" onclick="javascript:reloadPage();" class="btn">Cancel <i class="icon-cancel"></i></button>
+		<button type="button" value="保存设置" id="save-button" onclick="save()" class="btn btn-primary">保存设置 <i class="icon-check"></i></button>
+		<button type="button" value="取消设置" id="cancel-button" onclick="javascript:reloadPage();" class="btn">取消设置 <i class="icon-cancel"></i></button>
 		<span id="footer-msg" class="alert alert-warning" style="visibility: hidden;"></span>
 
 	</form>

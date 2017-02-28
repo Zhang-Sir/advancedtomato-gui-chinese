@@ -12,7 +12,7 @@ No part of this file may be used without permission.
 		<meta http-equiv="content-type" content="text/html;charset=utf-8">
 		<meta name="robots" content="noindex,nofollow">
 
-		<title>[<% ident(); %>] Restarting...</title>
+		<title>[<% ident(); %>] 重新启动...</title>
 		<style>
 			body {
 				font-family: Verdana;
@@ -87,10 +87,10 @@ No part of this file may be used without permission.
 
 		<div id="loader">
 			<div class="spinner"></div>
-			The router's new IP address is <% nv("lan_ipaddr"); %>.<br /> You may need to release then renew your computer's DHCP lease before continuing.
+			路由器的新IP地址是 <% nv("lan_ipaddr"); %>.<br /> 您可能需要先释放，然后续订计算机的DHCP租用，然后才能继续.
 			<br /><br />
-			Please wait while the router restarts... &nbsp;
-			<button class="btn" id="continue" onclick="go()" disabled>Continue</button>
+			请稍候，路由器重新启动中... &nbsp;
+			<button class="btn" id="continue" onclick="go()" disabled>继续</button>
 		</div>
 
 	</body>

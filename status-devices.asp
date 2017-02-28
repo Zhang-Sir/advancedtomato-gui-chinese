@@ -1,4 +1,4 @@
-<title>Device List</title>
+<title>设备列表</title>
 <content>
 	<script type="text/javascript" src="js/wireless.jsx?_http_id=<% nv(http_id); %>"></script>
 	<script type="text/javascript">
@@ -66,7 +66,7 @@
 			}
 
 			a = E(a);
-			a.innerHTML = 'deleting...';
+			a.innerHTML = '删除中';
 
 			xob.onCompleted = function(text, xml) {
 				a.innerHTML = '...';
@@ -163,7 +163,7 @@
 			for (i = dhcpd_lease.length - 1; i >= 0; --i) {
 				a = dhcpd_lease[i];
 				e = get(a[2], a[1]);
-				e.lease = '<a href="javascript:deleteLease(\'L' + i + '\',\'' + a[1] + '\')" title="Delete Lease" id="L' + i + '">' + a[3] + ' <i class="icon-cancel icon-red"></i></a>';
+				e.lease = '<a href="javascript:deleteLease(\'L' + i + '\',\'' + a[1] + '\')" title="删除固定 DHCP" id="L' + i + '">' + a[3] + ' <i class="icon-cancel icon-red"></i></a>';
 				e.name = a[0];
 				/* NOVLAN-BEGIN */
 				e.ifname = nvram.lan_ifname;
@@ -231,12 +231,12 @@
 
 				b = e.mac;
 				if (e.mac.match(/^(..):(..):(..)/)) {
-					b += '<br /><a class="btn btn-small" href="http://standards.ieee.org/cgi-bin/ouisearch?' + RegExp.$1 + '-' + RegExp.$2 + '-' + RegExp.$3 + '" target="_new" title="OUI Search">OUI</a> ' +
-					'<a class="btn btn-small" href="javascript:addStatic(' + i + ')" title="Static Lease...">Static</a> ' +
-					'<a class="btn btn-small" href="javascript:addqoslimit(' + i + ')" title="QoS BW Limiter">BW Limit</a>';
+					b += '<br /><a class="btn btn-small" href="http://standards.ieee.org/cgi-bin/ouisearch?' + RegExp.$1 + '-' + RegExp.$2 + '-' + RegExp.$3 + '" target="_new" title="OUI 检索">OUI</a> ' +
+					'<a class="btn btn-small" href="javascript:addStatic(' + i + ')" title="绑定静态 IP...">静态 IP</a> ' +
+					'<a class="btn btn-small" href="javascript:addqoslimit(' + i + ')" title="QoS 带宽限制">带宽限制</a>';
 
 					if (e.rssi != '') {
-						b += ' <a class="btn btn-small" href="javascript:addWF(' + i + ')" title="Wireless Filter...">Wifi Filter</a>';
+						b += ' <a class="btn btn-small" href="javascript:addWF(' + i + ')" title="无线客户端过滤...">Wifi 客户端过滤</a>';
 					}
 				}
 				else {
@@ -279,7 +279,7 @@
 		dg.setup = function()
 		{
 			this.init('dev-grid', 'sort');
-			this.headerSet(['Interface', 'MAC Address', 'IP (Hostname)', 'RSSI', 'Quality (%)', 'TX/RX Rate', 'Lease']);
+			this.headerSet(['接口', 'MAC 地址', 'IP (主机名)', '信号强度', '信号质量 (%)', 'TX/RX 速率', '剩余租约 ']);
 			this.populate();
 			this.sort(2);
 		}
@@ -303,7 +303,7 @@
 	</style>
 
 	<div class="box">
-		<div class="heading">Devices List</div>
+		<div class="heading">设备列表</div>
 		<div class="content">
 			<table id="dev-grid" class="line-table"></table><br />
 			<div class="devicedata"></div>
@@ -315,9 +315,9 @@
 						if (wl_sunit(uidx)<0) {
 							var a = '';
 							if ((nvram['wl'+u+'_mode'] == 'ap') || (nvram['wl'+u+'_mode'] == 'wds'))
-								a = '&nbsp; &nbsp; <button type="button" class="btn btn-primary" value="Measure" onclick="javascript:window.location=\'wlmnoise.cgi?_http_id=' + nvram.http_id + '&_wl_unit=' + u +'\'">\
-								Measure <i class="icon-signal"></i></button>';
-							f.push( { title: '<b>Noise Floor (' + wl_ifaces[uidx][0] + ')</b>',
+								a = '&nbsp; &nbsp; <button type="button" class="btn btn-primary" value="测量" onclick="javascript:window.location=\'wlmnoise.cgi?_http_id=' + nvram.http_id + '&_wl_unit=' + u +'\'">\
+								测量 <i class="icon-signal"></i></button>';
+							f.push( { title: '<b>本底噪声 (' + wl_ifaces[uidx][0] + ')</b>',
 								prefix: '<span id="noise'+uidx+'">',
 								custom: wlnoise[uidx],
 								suffix: '</span></span> <small>dBm</small>' + a } );

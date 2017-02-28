@@ -1,4 +1,4 @@
-<title>Router Logs</title>
+<title>日志查看</title>
 <content>
 <script type="text/javascript">
 	//<% nvram("at_update,tomatoanon_answer,log_file"); %>
@@ -19,21 +19,21 @@
 </script>
 
 <div class="box">
-	<div class="heading">View Router Logs 
-		<a class="ajaxload pull-right" data-toggle="tooltip" title="Configure Logging" href="#admin-log.asp"><i class="icon-system"></i></a>
+	<div class="heading">查看路由器日志 
+		<a class="ajaxload pull-right" data-toggle="tooltip" title="配置日志记录" href="#admin-log.asp"><i class="icon-system"></i></a>
 	</div>
 	<div class="content">
 
 		<div id="logging">
 			<div class="section">
-				<a href="logs/view.cgi?which=25&_http_id=<% nv(http_id) %>">View Last 25 Lines</a><br />
-				<a href="logs/view.cgi?which=50&_http_id=<% nv(http_id) %>">View Last 50 Lines</a><br />
-				<a href="logs/view.cgi?which=100&_http_id=<% nv(http_id) %>">View Last 100 Lines</a><br />
-				<a href="logs/view.cgi?which=all&_http_id=<% nv(http_id) %>">View All</a><br /><br />
-				<div class="input-append"><input class="span3" type="text" maxsize="32" id="find-text"> <button value="Find" onclick="find()" class="btn">Find <i class="icon-search"></i></button></div>
-				<i>Search through available log files for specific text and display matched rows</i>
+				<a href="logs/view.cgi?which=25&_http_id=<% nv(http_id) %>">查看最后  25 行</a><br />
+				<a href="logs/view.cgi?which=50&_http_id=<% nv(http_id) %>">查看最后  50 行</a><br />
+				<a href="logs/view.cgi?which=100&_http_id=<% nv(http_id) %>">查看最后  100 行</a><br />
+				<a href="logs/view.cgi?which=all&_http_id=<% nv(http_id) %>">显示全部</a><br /><br />
+				<div class="input-append"><input class="span3" type="text" maxsize="32" id="find-text"> <button value="搜索" onclick="find()" class="btn">搜索 <i class="icon-search"></i></button></div>
+				<i>搜索并显示可用日志文件中匹配的内容</i>
 				<br><br /><hr>
-				<a class="btn btn-primary" href="logs/syslog.txt?_http_id=<% nv(http_id) %>">Download Log File <i class="icon-download"></i></a>
+				<a class="btn btn-primary" href="logs/syslog.txt?_http_id=<% nv(http_id) %>">下载日志记录文件 <i class="icon-download"></i></a>
 			</div>
 		</div>
 
@@ -42,7 +42,7 @@
 
 <script type="text/javascript">
 	if (nvram.log_file != '1') {
-		$('#logging').before('<div class="alert alert-info">Internal logging disabled.</b><br><br><a href="admin-log.asp">Enable &raquo;</a></div>');
+		$('#logging').before('<div class="alert alert-info">内部日志已禁用。</b><br><br><a href="admin-log.asp">启用 &raquo;</a></div>');
 		E('logging').style.display = 'none';
 	}
 </script>

@@ -5,7 +5,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<meta http-equiv="content-type" content="text/html; charset=utf-8">
 		<meta name="robots" content="noindex,nofollow">
-		<title>[<% ident(); %>]: Home</title>
+		<title>[<% ident(); %>]: 首页</title>
 
 		<!-- Interface Design -->
 		<link href="css/interface.css" rel="stylesheet">
@@ -45,7 +45,7 @@
 				// Check matches
 				if ( match_regex == null || match_regex[ 1 ] == null ) {
 
-					gui.version = 'More Info'
+					gui.version = '更多信息'
 
 				} else {
 
@@ -82,30 +82,30 @@
 						</svg>
 
 						<h1 class="nav-collapse-hide">Advanced<span>Tomato</span></h1>
-						<h2 class="currentpage nav-collapse-hide">Loading...</h2>
+						<h2 class="currentpage nav-collapse-hide">加载中...</h2>
 
 					</div>
 				</a>
 
 				<div class="left-container">
-					<a title="Toggle Collapsed Navigation" href="#" class="toggle-nav"><i class="icon-toggle-nav"></i></a>
+					<a title="切换折叠导航" href="#" class="toggle-nav"><i class="icon-toggle-nav"></i></a>
 				</div>
 
 				<div class="pull-right links">
 					<ul>
-						<li><a title="Tools" href="#tools-ping.asp">Tools <i class="icon-tools"></i></a></li>
-						<li><a title="Bandwidth" href="#bwm-realtime.asp">Bandwidth <i class="icon-graphs"></i></a></li>
-						<li><a title="IP Traffic" href="#bwm-ipt-realtime.asp">IP Traffic <i class="icon-traffic"></i></a></li>
-						<li><a title="System" id="system-ui" href="#system">System <i class="icon-system"></i></a></li>
+						<li><a title="工具" href="#tools-ping.asp">工具集合 <i class="icon-tools"></i></a></li>
+						<li><a title="宽带" href="#bwm-realtime.asp">带宽图表 <i class="icon-graphs"></i></a></li>
+						<li><a title="流量" href="#bwm-ipt-realtime.asp">流量图表 <i class="icon-traffic"></i></a></li>
+						<li><a title="系统" id="system-ui" href="#system">系统管理 <i class="icon-system"></i></a></li>
 					</ul>
 					<div class="system-ui">
 
 						<div class="datasystem align center"></div>
 
 						<div class="router-control">
-							<a href="#" class="btn btn-primary" onclick="reboot();">Reboot <i class="icon-reboot"></i></a>
-							<a href="#" class="btn btn-danger" onclick="shutdown();">Shutdown <i class="icon-power"></i></a>
-							<a href="#" onclick="logout();" class="btn">Logout <i class="icon-logout"></i></a>
+							<a href="#" class="btn btn-primary" onclick="reboot();">重启 <i class="icon-reboot"></i></a>
+							<a href="#" class="btn btn-danger" onclick="shutdown();">关机 <i class="icon-power"></i></a>
+							<a href="#" onclick="logout();" class="btn">注销 <i class="icon-logout"></i></a>
 						</div>
 					</div>
 				</div>

@@ -3,7 +3,7 @@ Tomato GUI
 
 For use with Tomato Firmware only.
 No part of this file may be used without permission.
---><title>System Commands</title>
+--><title>系统命令</title>
 <content>
 	<style>
 		.sectionshell { margin-top: 10px; }
@@ -63,7 +63,7 @@ No part of this file may be used without permission.
 				updateResult();
 			}
 			cmd.onError = function(x) {
-				cmdresult = 'ERROR: ' + x;
+				cmdresult = '错误: ' + x;
 				updateResult();
 			}
 
@@ -100,30 +100,30 @@ No part of this file may be used without permission.
 
 	<ul class="nav-tabs">
 		<li><a class="ajaxload" href="tools-ping.asp"><i class="icon-ping"></i> Ping</a></li>
-		<li><a class="ajaxload" href="tools-trace.asp"><i class="icon-gauge"></i> Trace</a></li>
-		<li><a class="active"><i class="icon-cmd"></i> System Commands</a></li>
-		<li><a class="ajaxload" href="tools-survey.asp"><i class="icon-signal"></i> Wireless Survey</a></li>
-		<li><a class="ajaxload" href="tools-wol.asp"><i class="icon-wake"></i> WOL</a></li>
+		<li><a class="ajaxload" href="tools-trace.asp"><i class="icon-gauge"></i> 路由追踪</a></li>
+		<li><a class="active"><i class="icon-cmd"></i> 系统命令</a></li>
+		<li><a class="ajaxload" href="tools-survey.asp"><i class="icon-signal"></i> 无线勘查</a></li>
+		<li><a class="ajaxload" href="tools-wol.asp"><i class="icon-wake"></i> 网络唤醒</a></li>
 	</ul>
 
 	<div class="box">
-		<div class="heading">System Shell</div>
+		<div class="heading">执行系统命令</div>
 		<div class="content">
 			<div id="command-form"></div><hr>
 
-			<div style="visibility:hidden;" id="wait">Please wait... <span class="spinner"></span></div>
+			<div style="visibility:hidden;" id="wait">请稍等... <span class="spinner"></span></div>
 			<pre id="result"></pre>
 
 			<script type="text/javascript">
 				$('#command-form').forms([
-					{ title: 'Command', help:'Use the command &quot;nvram export --set&quot; or &quot;nvram export --set | grep qos&quot; to cut and paste configuration',
+					{ title: '命令', help:'使用命令 &quot;nvram export --set&quot; or &quot;nvram export --set | grep qos&quot; 查看配置信息',
 						name: 'f_cmd', type: 'textarea', wrap: 'off', value: '', style: 'width: 100%; height: 80px;' }
 					], { grid: ['col-sm-2', 'col-sm-10'] });
 			</script>
 		</div>
 	</div>
 
-	<div id="refresh"></div><button type="button" value="Execute" onclick="execute()" id="execb" class="btn">Execute <i class="icon-cmd"></i></button>
+	<div id="refresh"></div><button type="button" value="执行" onclick="execute()" id="execb" class="btn">执行 <i class="icon-cmd"></i></button>
 
 	<script type="text/javascript">init();</script>
 </content>

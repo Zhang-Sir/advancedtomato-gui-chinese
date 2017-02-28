@@ -5,7 +5,7 @@ http://www.polarcloud.com/tomato/
 
 For use with Tomato Firmware only.
 No part of this file may be used without permission.
---><title>Ping Tool</title>
+--><title>Ping 工具</title>
 <content>
 	<style type="text/css">
 		#tp-grid .co1 {
@@ -33,7 +33,7 @@ No part of this file may be used without permission.
 		var pg = new TomatoGrid();
 		pg.setup = function() {
 			this.init('tp-grid');
-			this.headerSet(['Seq', 'Address', 'RX Bytes', 'TTL', 'RTT (ms)', '+/- (ms)']);
+			this.headerSet(['序号', '地址', '接收字节', '生存期限TTL', '响应时间RTT(ms)', '+/- (ms)']);
 		}
 		pg.populate = function()
 		{
@@ -89,10 +89,10 @@ No part of this file may be used without permission.
 					resolv[RegExp.$2] = RegExp.$1;
 				}
 				else if (buf[i].match(/^(\d+) packets.+, (\d+) packets.+, (\d+%)/)) {
-					stats = 'Packets: ' + RegExp.$1 + ' transmitted, ' + RegExp.$2 + ' received, ' + RegExp.$3 + ' lost<br>';
+					stats = '数据包丢失率: ' + RegExp.$1 + ' 发送, ' + RegExp.$2 + ' 接收, ' + RegExp.$3 + ' 丢失率<br>';
 				}
 				else if (buf[i].match(/^round.+ (\d+\.\d+)\/(\d+\.\d+)\/(\d+\.\d+)/)) {
-					stats = 'Round-Trip: ' + RegExp.$1 + ' min, ' + RegExp.$2 + ' avg, ' + RegExp.$3 + ' max (ms)<br>' + stats;
+					stats = '平均变化量: ' + RegExp.$1 + ' 最小, ' + RegExp.$2 + ' 平均, ' + RegExp.$3 + ' 最大 (ms)<br>' + stats;
 				}
 			}
 
@@ -110,7 +110,7 @@ No part of this file may be used without permission.
 			e = E('_f_addr');
 			s = e.value.trim();
 			if (!s.match(/^[\w\-\.\:]+$/)) {
-				ferror.set(e, 'Invalid hostname/address', quiet);
+				ferror.set(e, '主机名/地址 无效', quiet);
 				return 0;
 			}
 			ferror.clear(e);
@@ -174,10 +174,10 @@ No part of this file may be used without permission.
 
 	<ul class="nav-tabs">
 		<li><a class="active"><i class="icon-ping"></i> Ping</a></li>
-		<li><a class="ajaxload" href="tools-trace.asp"><i class="icon-gauge"></i> Trace</a></li>
-		<li><a class="ajaxload" href="tools-shell.asp"><i class="icon-cmd"></i> System Commands</a></li>
-		<li><a class="ajaxload" href="tools-survey.asp"><i class="icon-signal"></i> Wireless Survey</a></li>
-		<li><a class="ajaxload" href="tools-wol.asp"><i class="icon-wake"></i> WOL</a></li>
+		<li><a class="ajaxload" href="tools-trace.asp"><i class="icon-gauge"></i> 路由追踪</a></li>
+		<li><a class="ajaxload" href="tools-shell.asp"><i class="icon-cmd"></i> 系统命令</a></li>
+		<li><a class="ajaxload" href="tools-survey.asp"><i class="icon-signal"></i> 无线勘查</a></li>
+		<li><a class="ajaxload" href="tools-wol.asp"><i class="icon-wake"></i> 网络唤醒</a></li>
 	</ul>
 
 	<div class="box">
@@ -187,14 +187,14 @@ No part of this file may be used without permission.
 			<div id="ping-forms"></div><hr>
 			<script type='text/javascript'>
 				$('#ping-forms').forms([
-					{ title: 'Address', name: 'f_addr', type: 'text', maxlen: 64, size: 32, value: '',
+					{ title: '地址', name: 'f_addr', type: 'text', maxlen: 64, size: 32, value: '',
 						suffix: ' <button type="submit" value="Ping" onclick="ping()" id="pingb" class="btn">Ping <i class="icon-ping"></i></button>' },
-					{ title: 'Ping Count', name: 'f_count', type: 'text', maxlen: 2, size: 7, value: '5' },
-					{ title: 'Packet Size', name: 'f_size', type: 'text', maxlen: 5, size: 7, value: '56', suffix: ' <small>(bytes)</small>' }
+					{ title: 'Ping 次数', name: 'f_count', type: 'text', maxlen: 2, size: 7, value: '5' },
+					{ title: '数据包大小', name: 'f_size', type: 'text', maxlen: 5, size: 7, value: '56', suffix: ' <small>(bytes)</small>' }
 				]);
 			</script>
 
-			<div style="visibility:hidden; text-align: right;" id="wait">Please wait... <div class="spinner"></div></div>
+			<div style="visibility:hidden; text-align: right;" id="wait">请稍候... <div class="spinner"></div></div>
 
 			<table id="tp-grid" class="line-table"></table>
 			<pre id="stats"></pre>

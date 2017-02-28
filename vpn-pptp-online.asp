@@ -8,7 +8,7 @@ Copyright (C) 2006-2007 Jonathan Zarate
 http://www.polarcloud.com/tomato/
 For use with Tomato Firmware only.
 No part of this file may be used without permission.
---><title>PPTP Online</title>
+--><title>PPTP 在线信息</title>
 <content>
 	<style type="text/css">
 		#dev-grid .co1 {
@@ -80,7 +80,7 @@ No part of this file may be used without permission.
 				return;
 			}
 			a = E(a);
-			a.innerHTML = 'Disconnecting...';
+			a.innerHTML = '断开中...';
 
 			xob.onCompleted = function(text, xml) {
 				a.innerHTML = '';
@@ -163,7 +163,7 @@ No part of this file may be used without permission.
 
 			for (i = list.length - 1; i >= 0; --i) {
 				e = list[i];
-				hangup = '<div id="div_'+e.pid+'"><a href="javascript:disconnect(\'div_'+e.pid + '\',' + e.pid + ')" title="Disconnect" id="pid_' + e.pid + '">Disconnect</a></div>';
+				hangup = '<div id="div_'+e.pid+'"><a href="javascript:disconnect(\'div_'+e.pid + '\',' + e.pid + ')" title="断开" id="pid_' + e.pid + '">断开</a></div>';
 				/* REMOVE-BEGIN */
 				//		this.insert(-1, e, [
 				//			e.ifname, e.username, e.uptime, e.ip, e.sourceip, hangup], false);
@@ -174,7 +174,7 @@ No part of this file may be used without permission.
 
 		dg.setup = function() {
 			this.init('dev-grid', 'sort');
-			this.headerSet(['Interface', '<b>Username', 'Online Since', 'VPN IP Address', 'Source IP Address', 'Action']);
+			this.headerSet(['接口', '用户名', '上线时间', 'VPN IP 地址', '源 IP 地址', '操作']);
 			this.populate();
 			this.sort(1);
 		}
@@ -191,7 +191,7 @@ No part of this file may be used without permission.
 		dg.dataToView = function(data) {
 			var l;
 			if (data[2] < 946684800) {
-				l = 'Not Available';
+				l = '不可用';
 			} else {
 				/* REMOVE-BEGIN */
 				//		l = new Date(data[2] *1000);
@@ -219,7 +219,7 @@ No part of this file may be used without permission.
 	</script>
 
 	<div class="box">
-		<div class="heading">PPTP Users Online</div>
+		<div class="heading">PPTP 在线用户</div>
 		<div class="content">
 			<table id="dev-grid" class="line-table"></table><br />
 		</div>

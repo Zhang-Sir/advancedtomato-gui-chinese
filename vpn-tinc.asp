@@ -1,4 +1,4 @@
-<title>Tinc Configuration</title>
+<title>Tinc 配置</title>
 <content>
 	<style type='text/css'>
 
@@ -35,12 +35,12 @@
 
 		//	<% nvram("tinc_wanup,tinc_name,tinc_devicetype,tinc_mode,tinc_vpn_netmask,tinc_private_rsa,tinc_private_ed25519,tinc_custom,tinc_hosts,tinc_firewall,tinc_manual_firewall,tinc_manual_tinc_up,tinc_tinc_up,tinc_tinc_down,tinc_host_up,tinc_host_down,tinc_subnet_up,tinc_subnet_down"); %>
 
-		var tinc_compression = [['0','0 - None'],['1','1 - Fast zlib'],['2','2'],['3','3'],['4','4'],['5','5'],['6','6'],['7','7'],['8','8'],['9','9 - Best zlib'],['10','10 - Fast lzo'],['11','11 - Best lzo']];
+		var tinc_compression = [['0','0 - 无'],['1','1 - Fast zlib'],['2','2'],['3','3'],['4','4'],['5','5'],['6','6'],['7','7'],['8','8'],['9','9 - Best zlib'],['10','10 - Fast lzo'],['11','11 - Best lzo']];
 		var th = new TomatoGrid();
 		var cmd = null;
 		var cmdresult = '';
 
-		tabs = [['config', '<i class="icon-system"></i> Config'],['hosts', '<i class="icon-globe"></i> Hosts'],['scripts', '<i class="icon-hammer"></i> Scripts'],['keys', '<i class="icon-lock"></i> Generate Keys'],['status', '<i class="icon-info"></i> Status']];
+		tabs = [['config', '<i class="icon-system"></i> 基本设置'],['hosts', '<i class="icon-globe"></i> 主机设置'],['scripts', '<i class="icon-hammer"></i> 脚本设置'],['keys', '<i class="icon-lock"></i> 秘钥设置'],['status', '<i class="icon-info"></i> 运行状态']];
 		changed = 0;
 		tincup = parseInt ('<% psup("tincd"); %>');
 
@@ -56,7 +56,7 @@
 				{ type: 'textarea', proxy: "_host_ed25519_key" },
 				{ type: 'textarea', proxy: "_host_custom" }
 			]);
-			this.headerSet(['ConnectTo', 'Name', 'Address', 'Port', 'Compression', 'Subnet']);
+			this.headerSet(['连接', '名称', '地址', '端口', '压缩', '子网']);
 			var nv = nvram.tinc_hosts.split('>');
 			for (var i = 0; i < nv.length; ++i) {
 				var t = nv[i].split('<');
@@ -98,11 +98,11 @@
 			var f = fields.getAll(row);
 
 			if (f[1].value == "") {
-				ferror.set(f[1], "Host Name is required.", quiet); return 0 ; }
+				ferror.set(f[1], "主机名不能为空.", quiet); return 0 ; }
 			else {  ferror.clear(f[1]) }
 
 			if (f[0].checked && f[2].value == "") {
-				ferror.set(f[2], "Address must be supplied when ConnectTo is checked.", quiet); return 0 ; }
+				ferror.set(f[2], "选中 连接 时必须提供地址.", quiet); return 0 ; }
 			else {  ferror.clear(f[2]) }
 
 			if (!f[3].value == "" ) {
@@ -111,17 +111,17 @@
 
 			if(E('_tinc_devicetype').value == 'tun'){
 				if ((!v_subnet(f[5], 1)) && (!v_ip(f[5], 1))) {
-					ferror.set(f[5], "Invalid Subnet or IP address.", quiet); return 0 ; }
+					ferror.set(f[5], "子网或 IP 地址无效.", quiet); return 0 ; }
 				else {  ferror.clear(f[5]) }
 			}
 			else if (E('_tinc_devicetype').value == 'tap'){
 				if (f[5].value != '') {
-					ferror.set(f[5], "Subnet is left blank when using the TAP Interface Type.", quiet); return 0 ; }
+					ferror.set(f[5], "子网使用 TAP 接口类型时留空.", quiet); return 0 ; }
 				else {  ferror.clear(f[5]) }
 			}
 
 			if (E('_host_ed25519_key').value == "") {
-				ferror.set(E('_host_ed25519_key'), "Ed25519 Public Key is required.", quiet); return 0 ; }
+				ferror.set(E('_host_ed25519_key'), "Ed25519 公钥不能为空.", quiet); return 0 ; }
 			else {  ferror.clear(E('_host_ed25519_key')) }
 
 			return 1;
@@ -185,11 +185,11 @@
 
 			// Element Verification
 			if (E('_tinc_name').value == "" && E('_f_tinc_wanup').checked) {
-				ferror.set(E('_tinc_name'), "Host Name is required when 'Start With WAN' is checked.", quiet); return 0 ; }
+				ferror.set(E('_tinc_name'), "选中“同 WAN 一起启动”时需要使用主机名.", quiet); return 0 ; }
 			else {  ferror.clear(E('_tinc_name')) }
 
 			if (E('_tinc_private_ed25519').value == "" && E('_tinc_custom').value == "" && E('_f_tinc_wanup').checked) {
-				ferror.set(E('_tinc_private_ed25519'), "Ed25519 Private Key is required when 'Start With WAN' is checked.", quiet); return 0 ; }
+				ferror.set(E('_tinc_private_ed25519'), "Ed25519 选中“同 WAN 一起启动”时需要私钥.", quiet); return 0 ; }
 			else {  ferror.clear(E('_tinc_private_ed25519')) }
 
 			if (!v_netmask('_tinc_vpn_netmask', quiet)) return 0;
@@ -207,7 +207,7 @@
 			}
 
 			if (!hostdefined && E('_f_tinc_wanup').checked) {
-				ferror.set(E('_tinc_name'), "Host Name \"" + E('_tinc_name').value + "\" must be defined in the hosts area when 'Start With WAN' is checked.", quiet); return 0 ; }
+				ferror.set(E('_tinc_name'), "主机名称 \"" + E('_tinc_name').value + "\" 主机区域被定义时，“同 WAN 一起启动”必须被选中.", quiet); return 0 ; }
 			else {  ferror.clear(E('_tinc_name')) };
 
 			return 1;
@@ -277,7 +277,7 @@
 				displayKeys();
 			}
 			cmd.onError = function(x) {
-				cmdresult = 'ERROR: ' + x;
+				cmdresult = '错误: ' + x;
 				displayKeys();
 			}
 
@@ -311,7 +311,7 @@
 				displayStatus();
 			}
 			cmd.onError = function(x) {
-				cmdresult = 'ERROR: ' + x;
+				cmdresult = '错误: ' + x;
 				displayStatus();
 			}
 
@@ -364,7 +364,7 @@
 					displayNodes();
 				}
 				cmd.onError = function(x) {
-					cmdresult = 'ERROR: ' + x;
+					cmdresult = '错误: ' + x;
 					displayNodes();
 				}
 
@@ -387,7 +387,7 @@
 				displayVersion();
 			}
 			cmd.onError = function(x) {
-				cmdresult = 'ERROR: ' + x;
+				cmdresult = '错误: ' + x;
 				displayVersion();
 			}
 
@@ -422,7 +422,7 @@
 				changed = 1;
 
 			if (changed) {
-				if (!confirm("Unsaved changes will be lost. Continue anyway?")) return;
+				if (!confirm("未保存的更改将丢失，仍然继续吗?")) return;
 			}
 
 			E('_' + service + '_button').disabled = true;
@@ -502,12 +502,12 @@
 					html += '<li><a href="javascript:tabSelect(\''+tabs[j][0]+'\')" id="'+tabs[j][0]+'">'+tabs[j][1]+'</a></li>';
 				}
 
-				var action = ((tincup) ? 'title="Stop now"><i class="icon-stop"></i>' : 'title="Start now"><i class="icon-play"></i>');
-				var status = ((!tincup) ? '<small style="color: red">(Stopped)</small>' : '<small style="color: green;">(Running)</small>');
+				var action = ((tincup) ? 'title="立即停止"><i class="icon-stop"></i>' : 'title="立即启动"><i class="icon-play"></i>');
+				var status = ((!tincup) ? '<small style="color: red">(停止)</small>' : '<small style="color: green;">(运行中)</small>');
 
 				html += '</ul>\
 				<div class="box">\
-				<div class="heading">Tinc Configuration <span id="version"></span> ' + status + '\
+				<div class="heading">Tinc 配置 <span id="version"></span> ' + status + '\
 				<a id="_tinc_button" class="pull-right" href="#" data-toggle="tooltip" onclick="toggle(\'tinc\', tincup); return false;"' + action + '</a></div>\
 				<div class="content">'
 
@@ -516,14 +516,14 @@
 				html +='<input type="hidden" name="tinc_wanup">';
 
 				html += createFormFields([
-					{ title: 'Start With WAN ', name: 'f_tinc_wanup', type: 'checkbox', value: (nvram.tinc_wanup == 1) },
-					{ title: 'Interface Type', name: 'tinc_devicetype', type: 'select', options: [['tun','TUN'],['tap','TAP']], value: nvram.tinc_devicetype },
-					{ title: 'Mode', name: 'tinc_mode', type: 'select', options: [['switch','Switch'],['hub','Hub']], value: nvram.tinc_mode },
-					{ title: 'VPN Netmask', name: 'tinc_vpn_netmask', type: 'text', maxlen: 15, size: 25, value: nvram.tinc_vpn_netmask,  suffix: ' <small>The netmask for the entire VPN network.</small>' },
-					{ title: 'Host Name', name: 'tinc_name', type: 'text', maxlen: 30, size: 25, value: nvram.tinc_name, suffix: ' <small>Must also be defined in the \'Hosts\' area.</small>' },
-					{ title: 'Ed25519 Private Key', name: 'tinc_private_ed25519', type: 'textarea', value: nvram.tinc_private_ed25519 },
-					{ title: 'RSA Private Key *', name: 'tinc_private_rsa', type: 'textarea', value: nvram.tinc_private_rsa },
-					{ title: 'Custom', name: 'tinc_custom', type: 'textarea', value: nvram.tinc_custom }
+					{ title: '同 WAN 一起启动 ', name: 'f_tinc_wanup', type: 'checkbox', value: (nvram.tinc_wanup == 1) },
+					{ title: '接口类型', name: 'tinc_devicetype', type: 'select', options: [['tun','TUN'],['tap','TAP']], value: nvram.tinc_devicetype },
+					{ title: '模式', name: 'tinc_mode', type: 'select', options: [['switch','Switch'],['hub','Hub']], value: nvram.tinc_mode },
+					{ title: 'VPN 网络掩码', name: 'tinc_vpn_netmask', type: 'text', maxlen: 15, size: 25, value: nvram.tinc_vpn_netmask,  suffix: ' <small>整个VPN网络的网络掩码.</small>' },
+					{ title: '主机名称', name: 'tinc_name', type: 'text', maxlen: 30, size: 25, value: nvram.tinc_name, suffix: ' <small>还必须在 \'主机设置\' 区域中定义.</small>' },
+					{ title: 'Ed25519 私钥', name: 'tinc_private_ed25519', type: 'textarea', value: nvram.tinc_private_ed25519 },
+					{ title: 'RSA 私钥 *', name: 'tinc_private_rsa', type: 'textarea', value: nvram.tinc_private_rsa },
+					{ title: '自定义', name: 'tinc_custom', type: 'textarea', value: nvram.tinc_custom }
 				]);
 
 				html +='</div>';
@@ -537,21 +537,21 @@
 				html +='<table class="line-table" id="th-grid"></table>';
 
 				html += createFormFields([
-					{ title: 'Ed25519 Public Key', name: 'host_ed25519_key', type: 'textarea' },
-					{ title: 'RSA Public Key *', name: 'host_rsa_key', type: 'textarea' },
-					{ title: 'Custom', name: 'host_custom', type: 'textarea' }
+					{ title: 'Ed25519 公钥', name: 'host_ed25519_key', type: 'textarea' },
+					{ title: 'RSA 公钥 *', name: 'host_rsa_key', type: 'textarea' },
+					{ title: '自定义', name: 'host_custom', type: 'textarea' }
 				]);
 
-				html +='<br /><h4>Notes <a href="javascript:toggleVisibility(\'hosts\');"><span id="sesdiv_hosts_showhide"><i class="icon-chevron-up"></i></span></a></h4>';
+				html +='<br /><h4>说明 <a href="javascript:toggleVisibility(\'hosts\');"><span id="sesdiv_hosts_showhide"><i class="icon-chevron-up"></i></span></a></h4>';
 				html +='<div class="section" id="sesdiv_hosts" style="display:none">';
 				html +='<ul>';
-				html +='<li><b>ConnectTo</b> - Tinc will try to establish a meta-connection to the host. Requires the Address field';
-				html +='<li><b>Name</b> - Name of the host. There must be an entry for this host.';
-				html +='<li><b>Address</b> <i>(optional)</i> - Must resolve to the external IP address where the host can be reached.';
-				html +='<li><b>Port</b> <i>(optional)</i> - The port the host listens on. If empty the default value (655) is used.';
-				html +='<li><b>Compression</b> - The level of compression used for UDP packets. Possible values are ';
-				html +='0 (off), 1 (fast zlib) and any integer up to 9 (best zlib), 10 (fast lzo) and 11 (best lzo).';
-				html +='<li><b>Subnet</b> - The subnet which the host will serve.';
+				html +='<li><b>连接</b> - Tinc 将尝试建立到主机的元连接. 需要填写地址字段';
+				html +='<li><b>名称</b> - 主机名称. 此主机必须填的一个条目.';
+				html +='<li><b>地址</b> <i>(可选)</i> - 必须解析到可以访问主机的外部IP地址.';
+				html +='<li><b>端口</b> <i>(可选)</i> - 主机监听的端口. 如果为空，则使用默认值（655）.';
+				html +='<li><b>压缩</b> - 用于UDP数据包的压缩级别，可选值 ';
+				html +='0 (关闭), 1 (fast zlib) 和任意整数到 9 (best zlib), 10 (fast lzo) and 11 (best lzo).';
+				html +='<li><b>子网</b> - 主机将服务的子网.';
 				html +='</ul>';
 				html +='</div>';
 
@@ -565,9 +565,9 @@
 				html +='<div id="'+t+'-tab">';
 
 				html += createFormFields([
-					{ title: 'Firewall Rules', name: 'tinc_manual_firewall', type: 'select', options: [['0','Automatic'],['1','Additional'],['2','Manual']], value: nvram.tinc_manual_firewall },
-					{ title: 'Firewall', name: 'tinc_firewall', type: 'textarea', value: nvram.tinc_firewall },
-					{ title: 'tinc-up creation', name: 'tinc_manual_tinc_up', type: 'select', options: [['0','Automatic'],['1','Manual']], value: nvram.tinc_manual_tinc_up },
+					{ title: '防火墙规则', name: 'tinc_manual_firewall', type: 'select', options: [['0','自动 '],['1','附加'],['2','手动']], value: nvram.tinc_manual_firewall },
+					{ title: '防火墙', name: 'tinc_firewall', type: 'textarea', value: nvram.tinc_firewall },
+					{ title: 'tinc-up 建立', name: 'tinc_manual_tinc_up', type: 'select', options: [['0','自动'],['1','手动']], value: nvram.tinc_manual_tinc_up },
 					{ title: 'tinc-up', name: 'tinc_tinc_up', type: 'textarea', value: nvram.tinc_tinc_up },
 					{ title: 'tinc-down', name: 'tinc_tinc_down', type: 'textarea', value: nvram.tinc_tinc_down },
 					{ title: 'host-up', name: 'tinc_host_up', type: 'textarea', value: nvram.tinc_host_up },
@@ -584,14 +584,14 @@
 				html +='<div id="'+t+'-tab">';
 
 				html += createFormFields([
-					{ title: 'Ed25519 Private Key', name: 'ed25519_private_key', type: 'textarea', value: "" },
-					{ title: 'Ed25519 Public Key', name: 'ed25519_public_key', type: 'textarea', value: "" },
-					{ title: 'RSA Private Key', name: 'rsa_private_key', type: 'textarea', value: "" },
-					{ title: 'RSA Public Key', name: 'rsa_public_key', type: 'textarea', value: "" }
+					{ title: 'Ed25519 私钥', name: 'ed25519_private_key', type: 'textarea', value: "" },
+					{ title: 'Ed25519 公钥', name: 'ed25519_public_key', type: 'textarea', value: "" },
+					{ title: 'RSA 私钥', name: 'rsa_private_key', type: 'textarea', value: "" },
+					{ title: 'RSA 公钥', name: 'rsa_public_key', type: 'textarea', value: "" }
 				]);
 
-				html +='<button class="btn btn-primary" type="button" value="gen" onclick="generateKeys()" id="execb"><i class="icon-lock"></i> Generate Keys</button>';
-				html +='<div style="visibility:hidden;text-align:right" id="generateWait">Please wait... <div class="spinner"></div></div>';
+				html +='<button class="btn btn-primary" type="button" value="gen" onclick="generateKeys()" id="execb"><i class="icon-lock"></i> 生成密钥</button>';
+				html +='<div style="visibility:hidden;text-align:right" id="generateWait">请稍等... <div class="spinner"></div></div>';
 				html +='</div>';
 
 				// -------- END KEY TAB -----------
@@ -602,14 +602,14 @@
 				html +='<div id="'+t+'-tab">';
 
 				html += '<div class="btn-group">';
-				html += '<a class="btn btn-success" onclick="updateStatus(\'edges\')" id="edges">Edges</a>';
-				html += '<a class="btn" onclick="updateStatus(\'subnets\')" id="subnets">Subnets</a>';
-				html += '<a class="btn" onclick="updateStatus(\'connections\')" id="connections">Connections</a>';
-				html += '<a class="btn" onclick="updateStatus(\'nodes\')" id="nodes">Nodes</a>';
+				html += '<a class="btn btn-success" onclick="updateStatus(\'edges\')" id="edges">边缘</a>';
+				html += '<a class="btn" onclick="updateStatus(\'subnets\')" id="subnets">子网</a>';
+				html += '<a class="btn" onclick="updateStatus(\'connections\')" id="connections">连接</a>';
+				html += '<a class="btn" onclick="updateStatus(\'nodes\')" id="nodes">节点</a>';
 				html += '</div>'
-				html += '<div style="visibility:hidden;text-align:right" id="statusWait">Please wait... <div class="spinner"></div></div>';
+				html += '<div style="visibility:hidden;text-align:right" id="statusWait">请稍等... <div class="spinner"></div></div>';
 
-				html +='<input class="btn btn-primary" type="button" value="Info" onclick="updateStatus(\'info\')" id="info">';
+				html +='<input class="btn btn-primary" type="button" value="信息" onclick="updateStatus(\'info\')" id="info">';
 				html +='<select id="hostselect" style="width:170px"></select>';
 
 				html +='<pre id="result"></pre>';
@@ -623,8 +623,8 @@
 			</script>
 		</div>
 
-		<button type="button" value="Save" id="save-button" onclick="save()" class="btn btn-primary">Save <i class="icon-check"></i></button>
-		<button type="button" value="Cancel" id="cancel-button" onclick="javascript:reloadPage();" class="btn">Cancel <i class="icon-cancel"></i></button>
+		<button type="button" value="保存设置" id="save-button" onclick="save()" class="btn btn-primary">保存设置 <i class="icon-check"></i></button>
+		<button type="button" value="取消设置" id="cancel-button" onclick="javascript:reloadPage();" class="btn">取消设置 <i class="icon-cancel"></i></button>
 		<span id="footer-msg" class="alert alert-warning" style="visibility: hidden;"></span>
 
 	</form>

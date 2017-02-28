@@ -6,7 +6,7 @@ http://www.polarcloud.com/tomato/
 
 For use with Tomato Firmware only.
 No part of this file may be used without permission.
---><title>Wireless Survey</title>
+--><title>无线勘查</title>
 <content>
 	<style type="text/css">
 		#survey-grid .brate {
@@ -37,7 +37,7 @@ No part of this file may be used without permission.
 	<script type="text/javascript">
 		var wlscandata = [];
 		var entries = [];
-		var dayOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+		var dayOfWeek = ['星期日','星期一','星期二','星期三','星期四','星期五','星期六'];
 
 		Date.prototype.toWHMS = function() {
 			return dayOfWeek[this.getDay()] + ' ' + this.getHours() + ':' + this.getMinutes().pad(2)+ ':' + this.getSeconds().pad(2);
@@ -225,12 +225,12 @@ No part of this file may be used without permission.
 				seen = e.lastSeen.toWHMS();
 				if (useAjax()) {
 					m = Math.floor(((new Date()).getTime() - e.firstSeen.getTime()) / 60000);
-					if (m <= 10) seen += '<br> <small>NEW (' + -m + 'm)</small>';
+					if (m <= 10) seen += '<br> <small>新增 (' + -m + 'm)</small>';
 				}
 
 				mac = e.bssid;
 				if (mac.match(/^(..):(..):(..)/))
-					mac = '<a href="http://standards.ieee.org/cgi-bin/ouisearch?' + RegExp.$1 + '-' + RegExp.$2 + '-' + RegExp.$3 + '" target="_new" title="OUI search">' + mac + '</a>';
+					mac = '<a href="http://standards.ieee.org/cgi-bin/ouisearch?' + RegExp.$1 + '-' + RegExp.$2 + '-' + RegExp.$3 + '" target="_new" title="OUI 扫描">' + mac + '</a>';
 
 				sg.insert(-1, e, [
 					'<small>' + seen + '</small>',
@@ -245,10 +245,10 @@ No part of this file may be used without permission.
 			}
 
 			s = '';
-			if (useAjax()) s = added + ' added, ' + removed + ' removed, ';
-			s += entries.length + ' total.';
+			if (useAjax()) s = added + ' 个新增, ' + removed + ' 个移除, ';
+			s += entries.length + ' 个AP可用.';
 
-			s += '<br><small>Last updated: ' + (new Date()).toWHMS() + '</small>';
+			s += '<br><small>更新于: ' + (new Date()).toWHMS() + '</small>';
 			setMsg(s);
 
 			wlscandata = [];
@@ -256,7 +256,7 @@ No part of this file may be used without permission.
 
 		sg.setup = function() {
 			this.init('survey-grid', 'sort');
-			this.headerSet(['Last Seen', 'SSID', 'BSSID', 'RSSI &nbsp; &nbsp; ', 'Noise &nbsp; &nbsp; ', 'Quality', 'Ch', 'Capabilities', 'Rates']);
+			this.headerSet(['最近可见', '无线名称', 'MAC 地址', '信号强度', '噪声强度; ', '信号质量', '所选信道', '加密方式', '传输速率']);
 			this.populate();
 			this.sort(0);
 		}
@@ -286,7 +286,7 @@ No part of this file may be used without permission.
 			if (!useAjax()) E('expire-time').style.visibility = 'hidden';
 			sg.setup();
 			sg.recolor();
-			$('#survey-controls .spinner').after('&nbsp; ' + genStdTimeList('expire-time', 'Auto Expire', 1) + genStdTimeList('refresh-time', 'Auto Refresh', 1));
+			$('#survey-controls .spinner').after('&nbsp; ' + genStdTimeList('expire-time', '自动停止', 1) + genStdTimeList('refresh-time', '自动刷新', 1));
 			ref.initPage();
 
 			// After every thing, first time refresh data
@@ -297,14 +297,14 @@ No part of this file may be used without permission.
 
 	<ul class="nav-tabs">
 		<li><a class="ajaxload" href="tools-ping.asp"><i class="icon-ping"></i> Ping</a></li>
-		<li><a class="ajaxload" href="tools-trace.asp"><i class="icon-gauge"></i> Trace</a></li>
-		<li><a class="ajaxload" href="tools-shell.asp"><i class="icon-cmd"></i> System Commands</a></li>
-		<li><a class="active"><i class="icon-signal"></i> Wireless Survey</a></li>
-		<li><a class="ajaxload" href="tools-wol.asp"><i class="icon-wake"></i> WOL</a></li>
+		<li><a class="ajaxload" href="tools-trace.asp"><i class="icon-gauge"></i> 路由追踪</a></li>
+		<li><a class="ajaxload" href="tools-shell.asp"><i class="icon-cmd"></i> 系统命令</a></li>
+		<li><a class="active"><i class="icon-signal"></i> 无线勘查</a></li>
+		<li><a class="ajaxload" href="tools-wol.asp"><i class="icon-wake"></i> 网络唤醒</a></li>
 	</ul>
 
 	<div class="box">
-		<div class="heading">Wireless Survey</div>
+		<div class="heading">无线勘查</div>
 		<div class="content">
 
 			<br /><table id="survey-grid" class="line-table"></table><br />
@@ -316,14 +316,14 @@ No part of this file may be used without permission.
 
 	<div id="survey-controls">
 		<div class="spinner"></div>
-		<button type="button" value="Refresh" onclick="ref.toggle();" id="refresh-button" class="btn">Refresh <i class="icon-refresh"></i></button>
+		<button type="button" value="刷新" onclick="ref.toggle();" id="refresh-button" class="btn">刷新 <i class="icon-refresh"></i></button>
 	</div>
 
 	<div class="clearfix"></div><br />
 
 	<script type="text/javascript">
 		if ('<% wlclient(); %>' == '0') {
-			$('#tabs').after('<div class="alert alert-warning icon"><h5>Warning!</h5> Wireless connections to this router may be disrupted while using this tool. <a class="close"><i class="icon-cancel"></i></a></div>');
+			$('#tabs').after('<div class="alert alert-warning icon"><h5>警告!</h5> 使用此工具,无线客户端连接到此路由器可能会中断. <a class="close"><i class="icon-cancel"></i></a></div>');
 		}
 
 		earlyInit();

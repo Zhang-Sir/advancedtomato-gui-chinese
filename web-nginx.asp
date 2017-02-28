@@ -9,7 +9,7 @@ http://code.google.com/p/tomato-sdhc-vlan/
 
 For use with Tomato Firmware only.
 No part of this file may be used without permission.
---><title>NGINX Web Server</title>
+--><title>Nginx Web 服务</title>
 <content>
 	<script type='text/javascript'>
 
@@ -21,7 +21,7 @@ No part of this file may be used without permission.
 		function toggle(service, isup)
 		{
 			if (changed) {
-				if (!confirm("Unsaved changes will be lost. Continue anyway?")) return;
+				if (!confirm("未保存的更改将丢失，仍然继续吗?")) return;
 			}
 
 			$('.nginx-control').html('<div class="spinner spinner-small"></div>');
@@ -77,9 +77,9 @@ No part of this file may be used without permission.
 		function init()
 		{
 			verifyFields(null, 1);
-			$('.nginx-status').html((!nginxup ? '<small style="color: red;">(Stopped)</small>' : '<small style="color: green;">(Running)</small>'));
+			$('.nginx-status').html((!nginxup ? '<small style="color: red;">(停止)</small>' : '<small style="color: green;">(运行中)</small>'));
 			$('.nginx-status').after('<a href="#" data-toggle="tooltip" class="pull-right nginx-control" title="' +
-				(nginxup ? 'Stop NGINX Server' : 'Start NGINX Server') + '" onclick="toggle(\'nginxfp\', nginxup); return false;" id="_nginxfp_button">' + (nginxup ? '<i class="icon-stop"></i>' : '<i class="icon-play"></i>') + '</a>');
+				(nginxup ? '停止 NGINX 服务' : '启动 NGINX 服务') + '" onclick="toggle(\'nginxfp\', nginxup); return false;" id="_nginxfp_button">' + (nginxup ? '<i class="icon-stop"></i>' : '<i class="icon-play"></i>') + '</a>');
 		}
 	</script>
 
@@ -96,66 +96,66 @@ No part of this file may be used without permission.
 		<input type="hidden" name="nginx_override">
 
 		<div class="box" data-box="nginx-webserver">
-			<div class="heading">NGINX Web Server <span class="nginx-status"></span></div>
+			<div class="heading">NGINX Web 服务 <span class="nginx-status"></span></div>
 			<div class="content config-section"></div>
 		</div>
 
 		<div class="box" data-box="nginx-advset">
-			<div class="heading">Advanced Settings</div>
+			<div class="heading">高级设置</div>
 			<div class="content config-adv"></div>
 		</div>
 
 		<div class="box" data-box="nginx-usermanual">
-			<div class="heading">User Manual</div>
+			<div class="heading">用户手册</div>
 			<div class="content">
 				<ul>
-					<li><b> Status Button:</b> Quick Start-Stop Service. Enable Web Server must be checked to modify settings.<br>
-					<li><b> Enable Server on Start:</b> To activate the Web Server tick and save this screen.<br>
-					<li><b> Keep Config Files:</b> Have you modified the configuration file manually? Tick this box and changes will be maintained.<br>
-					<li><b> Web Server Port:</b> The Port used by the Web Server to be accessed. Check conflict when the port is used by other services.<br>
-					<li><b> Web Server Name:</b> Name that will appear on top of your Internet Browser.<br>
-					<li><b> Document Root Path:</b> The path in your router where documents are stored.<br>
-					<li><b> Examples:<br></b>
-					/tmp/mnt/HDD/www/ as you can find in USB mount path.<br>
-					<li><b> NGINX Custom Configuration:</b> You can add other values to nginx.conf to suit your needs.</li>
+					<li><b> 状态按钮:</b> 快速启动 - 停止服务，必须选中启用 Web 服务才能修改设置.<br>
+					<li><b> 开机启动:</b> 激活 web 服务.<br>
+					<li><b> 保留配置文件:</b> 您是否手动修改了配置文件？ 勾选此框，将保留更改.<br>
+					<li><b> Web 服务器端口:</b> 要访问的 Web 服务器使用的端口。 当端口被其他服务使用时请检查冲突.<br>
+					<li><b> Web 服务器名称:</b> 将出现在 Internet 浏览器顶部的名称.<br>
+					<li><b> 文档根路径:</b> 路由器中存储 web 文档的路径.<br>
+					<li><b> 例如:<br></b>
+					/tmp/mnt/HDD/www/ 你可以在 USB mount 路径中找到的.<br>
+					<li><b> NGINX 自定义配置:</b> 您可以添加其他值到 nginx.conf 以满足您的需要.</li>
 					<li>
-						<b> Server Priority:</b> Sets the service priority over other processes running on the router.<br>
-						The operating system kernel has priority -5.<br>
-						Never select a lower value than the kernel uses. Do not use the service test page to adjust the<br>
-						server performance, it's performance is lower than the definitive media where files will be <br>
-						located, i.e; USB Stick, Hard Drive or SSD.<br>
+						<b> 服务器优先级:</b> 设置服务优先级高于在路由器上运行的其他进程.<br>
+						操作系统内核具有优先级 -5.<br>
+						不要选择比内核使用的值更低的值，不要使用服务测试页来调整<br>
+						服务器性能，它的性能低于文件将被定位的确定媒体 <br>
+						即：USB闪存盘，硬盘驱动器或SSD.<br>
 					</li>
 				</ul>
 			</div>
 		</div>
 
-		<button type="button" value="Save" id="save-button" onclick="save()" class="btn btn-primary">Save <i class="icon-check"></i></button>
-		<button type="button" value="Cancel" id="cancel-button" onclick="javascript:reloadPage();" class="btn">Cancel <i class="icon-cancel"></i></button>
+		<button type="button" value="保存设置" id="save-button" onclick="save()" class="btn btn-primary">保存设置 <i class="icon-check"></i></button>
+		<button type="button" value="取消设置" id="cancel-button" onclick="javascript:reloadPage();" class="btn">取消设置 <i class="icon-cancel"></i></button>
 		<span id="footer-msg" class="alert alert-warning" style="visibility: hidden;"></span>
 	</form>
 
 	<script type="text/javascript">
 		$('.content.config-section').forms([
-			{ title: 'Enable Server on Start', name: 'f_nginx_enable', type: 'checkbox', value: nvram.nginx_enable == '1'},
-			{ title: 'Enable PHP support', name: 'f_nginx_php', type: 'checkbox', value: nvram.nginx_php == '1' },
-			{ title: 'Run As', name: 'nginx_user', type: 'select',
+			{ title: '开机启动', name: 'f_nginx_enable', type: 'checkbox', value: nvram.nginx_enable == '1'},
+			{ title: '启用 PHP 支持', name: 'f_nginx_php', type: 'checkbox', value: nvram.nginx_php == '1' },
+			{ title: '进程用户', name: 'nginx_user', type: 'select',
 				options: [['root','Root'],['nobody','Nobody']], value: nvram.nginx_user },
-			{ title: 'Keep Config Files', name: 'f_nginx_keepconf', type: 'checkbox', value: nvram.nginx_keepconf == '1' },
-			{ title: 'Web Server Port', name: 'nginx_port', type: 'text', maxlen: 5, size: 7, value: fixPort(nvram.nginx_port, 85), suffix: '<small> default: 85</small>' },
-			{ title: 'Upload file size limit', name: 'nginx_upload', type: 'text', maxlen: 5, size: 7, value: nvram.nginx_upload, suffix: '<small> MB</small>'},
-			{ title: 'Allow Remote Access', name: 'f_nginx_remote', type: 'checkbox', value: nvram.nginx_remote == '1' },
-			{ title: 'Web Server Name', name: 'nginx_fqdn', type: 'text', maxlen: 255, size: 20, value: nvram.nginx_fqdn },
-			{ title: 'Server Root Path', name: 'nginx_docroot', type: 'text', maxlen: 255, size: 40, value: nvram.nginx_docroot, suffix: '<small>&nbsp;/index.html / index.htm / index.php</small>' },
-			{ title: 'Server Priority', name: 'nginx_priority', type: 'text', maxlen: 8, size:3, value: nvram.nginx_priority, suffix:'<small> Max. Perfor: -20, Min.Perfor: 19, default: 10</small>' }
+			{ title: '保留配置文件', name: 'f_nginx_keepconf', type: 'checkbox', value: nvram.nginx_keepconf == '1' },
+			{ title: 'Web 服务器端口', name: 'nginx_port', type: 'text', maxlen: 5, size: 7, value: fixPort(nvram.nginx_port, 85), suffix: '<small> 默认: 85</small>' },
+			{ title: '上传文件大小限制', name: 'nginx_upload', type: 'text', maxlen: 5, size: 7, value: nvram.nginx_upload, suffix: '<small> MB</small>'},
+			{ title: '允许远程访问', name: 'f_nginx_remote', type: 'checkbox', value: nvram.nginx_remote == '1' },
+			{ title: 'Web 服务器名称', name: 'nginx_fqdn', type: 'text', maxlen: 255, size: 20, value: nvram.nginx_fqdn },
+			{ title: '文档根路径', name: 'nginx_docroot', type: 'text', maxlen: 255, size: 40, value: nvram.nginx_docroot, suffix: '<small>&nbsp;/index.html / index.htm / index.php</small>' },
+			{ title: '服务器优先级', name: 'nginx_priority', type: 'text', maxlen: 8, size:3, value: nvram.nginx_priority, suffix:'<small> 最大: -20, 最小: 19, 默认: 10</small>' }
 		]);
 
 		$('.content.config-adv').forms([
-			{ title: 'HTTP Section - Custom configuration (<a href="http://wiki.nginx.org/Configuration" target="_new">NGINX<i class="icon-info"></i></a>)', name: 'nginx_httpcustom', type: 'textarea', value: nvram.nginx_httpcustom, style: 'width: 100%; height: 140px;' },
-			{ title: 'SERVER Section - Custom configuration (<a href="http://wiki.nginx.org/Configuration" target="_new">NGINX<i class="icon-info"></i></a>)', name: 'nginx_servercustom', type: 'textarea', value: nvram.nginx_servercustom, style: 'width: 100%; height: 140px;'},
-			{ title: 'Custom configuration (<a href="http://wiki.nginx.org/Configuration" target="_new">NGINX<i class="icon-info"></i></a>)', name: 'nginx_custom', type: 'textarea', value: nvram.nginx_custom, style: 'width: 100%; height: 140px;' },
-			{ title: 'Custom configuration (<a href="http://php.net/manual/en/ini.php" target="_new">PHP<i class="icon-info"></i></a>)', name: 'nginx_phpconf', type: 'textarea', value: nvram.nginx_phpconf, style: 'width: 100%; height: 140px;' },
-			{ title: 'Use user config file', name: 'f_nginx_override', type: 'checkbox', value: nvram.nginx_override == '1', suffix: '<small> User config file will be used, some of GUI settings will be ignored</small>' },
-			{ title: 'User config file path', name: 'nginx_overridefile', type: 'text', maxlen: 255, size: 40, value: nvram.nginx_overridefile }
+			{ title: 'HTTP 部分 - 自定义配置 (<a href="http://wiki.nginx.org/Configuration" target="_new">NGINX<i class="icon-info"></i></a>)', name: 'nginx_httpcustom', type: 'textarea', value: nvram.nginx_httpcustom, style: 'width: 100%; height: 140px;' },
+			{ title: 'SERVER 部分 - 自定义配置 (<a href="http://wiki.nginx.org/Configuration" target="_new">NGINX<i class="icon-info"></i></a>)', name: 'nginx_servercustom', type: 'textarea', value: nvram.nginx_servercustom, style: 'width: 100%; height: 140px;'},
+			{ title: 'Nginx 自定义配置 (<a href="http://wiki.nginx.org/Configuration" target="_new">NGINX<i class="icon-info"></i></a>)', name: 'nginx_custom', type: 'textarea', value: nvram.nginx_custom, style: 'width: 100%; height: 140px;' },
+			{ title: 'PHP 自定义配置 (<a href="http://php.net/manual/en/ini.php" target="_new">PHP<i class="icon-info"></i></a>)', name: 'nginx_phpconf', type: 'textarea', value: nvram.nginx_phpconf, style: 'width: 100%; height: 140px;' },
+			{ title: '使用用户配置文件', name: 'f_nginx_override', type: 'checkbox', value: nvram.nginx_override == '1', suffix: '<small> 将使用用户配置文件，一些 GUI 中的设置将被忽略</small>' },
+			{ title: '用户配置文件路径', name: 'nginx_overridefile', type: 'text', maxlen: 255, size: 40, value: nvram.nginx_overridefile }
 		]);
 	</script>
 	<script type='text/javascript'>init(); verifyFields(null, 1);</script>

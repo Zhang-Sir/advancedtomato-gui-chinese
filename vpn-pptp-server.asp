@@ -8,7 +8,7 @@ Copyright (C) 2006-2007 Jonathan Zarate
 http://www.polarcloud.com/tomato/
 For use with Tomato Firmware only.
 No part of this file may be used without permission.
---><title>PPTP Server Configuration</title>
+--><title>PPTP 服务端</title>
 <content>
 	<script type="text/javascript">
 		//    <% nvram("at_update,tomatoanon_answer,lan_ipaddr,lan_netmask,pptpd_enable,pptpd_remoteip,pptpd_forcemppe,pptpd_broadcast,pptpd_users,pptpd_dns1,pptpd_dns2,pptpd_wins1,pptpd_wins2,pptpd_mtu,pptpd_mru,pptpd_custom,pptpd_ipup_script,pptpd_ipdown_script"); %>
@@ -20,7 +20,7 @@ No part of this file may be used without permission.
 			this.init('ul-grid', 'sort', 6, [
 				{ type: 'text', maxlen: 32, size: 32 },
 				{ type: 'text', maxlen: 32, size: 32 } ]);
-			this.headerSet(['Username', 'Password']);
+			this.headerSet(['用户名', '密码']);
 			var r = nvram.pptpd_users.split('>');
 			for (var i = 0; i < r.length; ++i) {
 				var l = r[i].split('<');
@@ -49,15 +49,15 @@ No part of this file may be used without permission.
 			if ((e = E(e)) == null) return 0;
 			s = e.value.trim().replace(/\s+/g, '');
 			if (s.length < 1) {
-				ferror.set(e, "Username and password can not be empty.", quiet);
+				ferror.set(e, "用户名和密码不能为空.", quiet);
 				return 0;
 			}
 			if (s.length > 32) {
-				ferror.set(e, "Invalid entry: max 32 characters are allowed.", quiet);
+				ferror.set(e, "输入错误：最多32个字符.", quiet);
 				return 0;
 			}
 			if (s.search(/^[.a-zA-Z0-9_\- ]+$/) == -1) {
-				ferror.set(e, "Invalid entry. Only characters \"A-Z 0-9 . - _\" are allowed.", quiet);
+				ferror.set(e, "输入错误.  仅支持\"A-Z 0-9 . - _\"等字符.", quiet);
 				return 0;
 			}
 			e.value = s;
@@ -69,21 +69,21 @@ No part of this file may be used without permission.
 			f = fields.getAll(row);
 			if (!v_pptpd_secret(f[0], quiet)) return 0;
 			if (this.existUser(f[0].value)) {
-				ferror.set(f[0], 'Duplicate User', quiet);
+				ferror.set(f[0], '重复的用户名', quiet);
 				return 0;
 			}
 			if (!v_pptpd_secret(f[1], quiet)) return 0;
 			return 1;
 		}
 		ul.dataToView = function(data) {
-			return [data[0], '<small><i>Secret</i></small>'];
+			return [data[0], '<small><i>******</i></small>'];
 		}
 		function save() {
 			if (ul.isEditing()) return;
 			if ((E('_f_pptpd_enable').checked) && (!verifyFields(null, 0))) return;
 			if ((E('_f_pptpd_enable').checked) && (ul.getDataCount() < 1)) {
 				var e = E('footer-msg');
-				e.innerHTML = 'Cannot proceed: at least one user must be defined.';
+				e.innerHTML = '无法保存: 至少需要添加一个用户.';
 				e.style.visibility = 'visible';
 				setTimeout(
 					function() {
@@ -134,8 +134,8 @@ No part of this file may be used without permission.
 			var a = E('_f_pptpd_startip');
 			var b = E('_f_pptpd_endip');
 			if (Math.abs((aton(a.value) - (aton(b.value)))) > 5) {
-				ferror.set(a, 'Invalid range (max 6 IPs)', quiet);
-				ferror.set(b, 'Invalid range (max 6 IPs)', quiet);
+				ferror.set(a, '错误的IP地址范围 (最多6个IP)', quiet);
+				ferror.set(b, '错误的IP地址范围 (最多6个IP)', quiet);
 				elem.setInnerHTML('pptpd_count', '(?)');
 				return 0;
 			} else {
@@ -192,51 +192,51 @@ No part of this file may be used without permission.
 		<input type="hidden" name="pptpd_remoteip">
 
 		<div class="box" data-box="pptp-server">
-			<div class="heading">PPTP Server</div>
+			<div class="heading">PPTP 服务设置</div>
 			<div class="content">
 
 				<div id="pptp-server-settings"></div><hr>
 				<script type="text/javascript">
 					$('#pptp-server-settings').forms([
-						{ title: 'Enable', name: 'f_pptpd_enable', type: 'checkbox', value: nvram.pptpd_enable == '1' },
-						{ title: 'Local IP Address/Netmask', text: (nvram.lan_ipaddr + ' / ' + nvram.lan_netmask) },
-						{ title: 'Remote IP Address Range', multi: [
+						{ title: '启用', name: 'f_pptpd_enable', type: 'checkbox', value: nvram.pptpd_enable == '1' },
+						{ title: '本地 IP地址/子网掩码', text: (nvram.lan_ipaddr + ' / ' + nvram.lan_netmask) },
+						{ title: '远程 IP 地址池', multi: [
 							{ name: 'f_pptpd_startip', type: 'text', maxlen: 15, size: 17, value: nvram.dhcpd_startip, suffix: '&nbsp;-&nbsp;' },
 							{ name: 'f_pptpd_endip', type: 'text', maxlen: 15, size: 17, value: nvram.dhcpd_endip, suffix: ' <i id="pptpd_count"></i>' }
 						] },
-						{ title: 'Broadcast Relay Mode', name: 'pptpd_broadcast', type: 'select',
-							options: [['disable','Disabled'], ['br0','LAN to VPN Clients'], ['ppp','VPN Clients to LAN'], ['br0ppp','Both']],
-							value: nvram.pptpd_broadcast, suffix: ' <span style="color: red; font-size: 80%">Enabling this may cause HIGH CPU usage</span>' },
-						{ title: 'Encryption', name: 'pptpd_forcemppe', type: 'select', options: [[0, 'None'], [1, 'MPPE-128']], value: nvram.pptpd_forcemppe },
-						{ title: 'DNS Servers', name: 'pptpd_dns1', type: 'text', maxlen: 15, size: 17, value: nvram.pptpd_dns1 },
+						{ title: '广播中继模式', name: 'pptpd_broadcast', type: 'select',
+							options: [['disable','禁用'], ['br0','LAN至VPN客户端'], ['ppp','VPN客户端至LAN'], ['br0ppp','全部']],
+							value: nvram.pptpd_broadcast, suffix: ' <span style="color: red; font-size: 80%">启用此功能可能会导致 CPU 使用率过高</span>' },
+						{ title: '加密方式', name: 'pptpd_forcemppe', type: 'select', options: [[0, 'None'], [1, 'MPPE-128']], value: nvram.pptpd_forcemppe },
+						{ title: 'DNS 服务', name: 'pptpd_dns1', type: 'text', maxlen: 15, size: 17, value: nvram.pptpd_dns1 },
 						{ title: '', name: 'pptpd_dns2', type: 'text', maxlen: 15, size: 17, value: nvram.pptpd_dns2 },
-						{ title: 'WINS Servers', name: 'pptpd_wins1', type: 'text', maxlen: 15, size: 17, value: nvram.pptpd_wins1 },
+						{ title: 'WINS 服务', name: 'pptpd_wins1', type: 'text', maxlen: 15, size: 17, value: nvram.pptpd_wins1 },
 						{ title: '', name: 'pptpd_wins2', type: 'text', maxlen: 15, size: 17, value: nvram.pptpd_wins2 },
 						{ title: 'MTU', name: 'pptpd_mtu', type: 'text', maxlen: 4, size: 6, value: (nvram.pptpd_mtu ? nvram.pptpd_mtu : 1450)},
 						{ title: 'MRU', name: 'pptpd_mru', type: 'text', maxlen: 4, size: 6, value: (nvram.pptpd_mru ? nvram.pptpd_mru : 1450)},
-						{ title: '<a href="http://poptop.sourceforge.net/" target="_new">Poptop</a><br>Custom configuration', name: 'pptpd_custom', type: 'textarea', value: nvram.pptpd_custom, style: 'width: 100%; height: 80px;' },
-						{ title: 'Custom iptables if-up rules', name: 'pptpd_ipup_script', type: 'textarea', value: nvram.pptpd_ipup_script, style: 'width: 100%; height: 80px;' },
-						{ title: 'Custom iptables if-down rules', name: 'pptpd_ipdown_script', type: 'textarea', value: nvram.pptpd_ipdown_script, style: 'width: 100%; height: 80px;' }
+						{ title: '<a href="http://poptop.sourceforge.net/" target="_new">Poptop</a><br>自定义配置', name: 'pptpd_custom', type: 'textarea', value: nvram.pptpd_custom, style: 'width: 100%; height: 80px;' },
+						{ title: '自定义防火墙启动加载规则', name: 'pptpd_ipup_script', type: 'textarea', value: nvram.pptpd_ipup_script, style: 'width: 100%; height: 80px;' },
+						{ title: '自定义防火墙关闭加载规则', name: 'pptpd_ipdown_script', type: 'textarea', value: nvram.pptpd_ipdown_script, style: 'width: 100%; height: 80px;' }
 					]);
 				</script>
 
-				<h4>Notes <a href="javascript:toggleVisibility('notes');"><span id="sesdiv_notes_showhide"><i class="icon-chevron-up"></i></span></a></h4>
+				<h4>说明 <a href="javascript:toggleVisibility('notes');"><span id="sesdiv_notes_showhide"><i class="icon-chevron-up"></i></span></a></h4>
 				<div class="section" id="sesdiv_notes" style="display:none">
 					<ul>
-						<li><b>Local IP Address/Netmask</b> - Address to be used at the local end of the tunnelled PPP links between the server and the VPN clients.</li>
-						<li><b>Remote IP Address Range</b> - Remote IP addresses to be used on the tunnelled PPP links (max 6).</li>
-						<li><b>Broadcast Relay Mode</b> - Turns on broadcast relay between VPN clients and LAN interface.</li>
-						<li><b>Enable Encryption</b> - Enabling this option will turn on VPN channel encryption, but it might lead to reduced channel bandwidth.</li>
-						<li><b>DNS Servers</b> - Allows defining DNS servers manually (if none are set, the router/local IP address should be used by VPN clients).</li>
-						<li><b>WINS Servers</b> - Allows configuring extra WINS servers for VPN clients, in addition to the WINS server defined on <a href=basic-network.asp>Basic/Network</a>.</li>
-						<li><b>MTU</b> - Maximum Transmission Unit. Max packet size the PPTP interface will be able to send without packet fragmentation.</li>
-						<li><b>MRU</b> - Maximum Receive Unit. Max packet size the PPTP interface will be able to receive without packet fragmentation.</li>
+						<li><b>本地 IP地址/子网掩码</b> - 用于在服务器和VPN客户机之间建立PPTP隧道连接.</li>
+						<li><b>远程 IP 地址池</b> - 用于为 VPN客户机分配 IP. (最多允许6个IP).</li>
+						<li><b>广播中继模式</b> - 允许 VPN客户端 和 本地 LAN 之间通讯.</li>
+						<li><b>启用加密</b> - 启用该选项后将对VPN通道进行加密以提升安全性，但是会导致VPN通道宽带减少.</li>
+						<li><b>DNS 服务</b> - 使用自定义 DNS服务器 (如果未设置，VPN客户端将使用路由器的本地IP地址).</li>
+						<li><b>WINS 服务</b> - 设置 WINS服务器IP, 也可以在 <a href=basic-network.asp>基本网络设置</a>中进行设置.</li>
+						<li><b>MTU</b> - 最大传输单元. 超过限制的包将会被拆分..</li>
+						<li><b>MRU</b> - 最大接收单元. 超过限制的包将会被拆分.</li>
 					</ul>
 
 					<ul>
-						<li><b>Other relevant notes/hints:</b>
+						<li><b>其他相关说明:</b>
 							<ul>
-								<li>Try to avoid any conflicts and/or overlaps between the address ranges configured/available for DHCP and VPN clients on your local networks.</li>
+								<li>尝试避免在本地网络上为DHCP和VPN客户端 配置/分配 的可用地址范围之间有任何的冲突或重叠。</li>
 							</ul>
 						</li>
 					</ul>
@@ -246,7 +246,7 @@ No part of this file may be used without permission.
 		</div>
 
 		<div class="box" data-box="pptp-userlist">
-			<div class="heading">PPTP User List </div>
+			<div class="heading">PPTP 用户列表</div>
 			<div class="content" id="sesdiv_userlist">
 				<table class="line-table" id="ul-grid"></table>
 			</div>
@@ -254,10 +254,10 @@ No part of this file may be used without permission.
 
 		</div>
 
-		<a class="pull-right btn" href="/#vpn-pptp-online.asp">&raquo; PPTP Online</a>
+		<a class="pull-right btn" href="/#vpn-pptp-online.asp">&raquo; PPTP 在线</a>
 
-		<button type="button" value="Save" id="save-button" onclick="save()" class="btn btn-primary">Save <i class="icon-check"></i></button>
-		<button type="button" value="Cancel" id="cancel-button" onclick="javascript:reloadPage();" class="btn">Cancel <i class="icon-cancel"></i></button>
+		<button type="button" value="保存设置" id="save-button" onclick="save()" class="btn btn-primary">保存设置 <i class="icon-check"></i></button>
+		<button type="button" value="取消设置" id="cancel-button" onclick="javascript:reloadPage();" class="btn">取消设置 <i class="icon-cancel"></i></button>
 		<span id="footer-msg" class="alert alert-warning" style="visibility: hidden;"></span>
 
 	</form>

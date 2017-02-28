@@ -5,7 +5,7 @@ http://www.polarcloud.com/tomato/
 
 For use with Tomato Firmware only.
 No part of this file may be used without permission.
---><title>Web Usage</title>
+--><title>访问记录</title>
 <content><style type="text/css">
 
 		#webmon-controls {
@@ -49,7 +49,7 @@ No part of this file may be used without permission.
 			xob = new XmlHttp();
 			xob.onCompleted = function(text, xml) {
 				xob = null;
-				E('clear' + clear).innerHTML = '<a class="btn btn-primary btn-small" href="javascript:clearLog(' + clear + ')">Clear Log <i class="icon-cancel"></i></a>';
+				E('clear' + clear).innerHTML = '<a class="btn btn-primary btn-small" href="javascript:clearLog(' + clear + ')">清除记录 <i class="icon-cancel"></i></a>';
 				if (!ref.running) ref.once = 1;
 				ref.start();
 			}
@@ -58,7 +58,7 @@ No part of this file may be used without permission.
 			}
 
 			xob.post('/webmon.cgi', 'clear=' + clear);
-			E('clear' + clear).innerHTML = 'Please wait... <div class="spinner"></div>';
+			E('clear' + clear).innerHTML = '请稍等... <div class="spinner"></div>';
 		}
 
 		function resolve()
@@ -283,7 +283,7 @@ No part of this file may be used without permission.
 
 		dg.setup = function() {
 			this.init('dom-grid', 'sort');
-			this.headerSet(['Last Access Time', 'IP Address', 'Domain Name']);
+			this.headerSet(['最后访问时间', 'IP 地址', '目标域名']);
 			this.sort(0);
 		}
 
@@ -295,7 +295,7 @@ No part of this file may be used without permission.
 
 		sg.setup = function() {
 			this.init('srh-grid', 'sort');
-			this.headerSet(['Search Time', 'IP Address', 'Search Criteria']);
+			this.headerSet(['搜索时间', 'IP 地址', '关键字']);
 			this.sort(0);
 		}
 
@@ -344,12 +344,12 @@ No part of this file may be used without permission.
 	<div class="row" id="webmon" style="display:none">
 		<div class="col-lg-12">
 			<div id="webmon-domains" class="box">
-				<div class="heading">Recently Visited Web Sites</div>
+				<div class="heading">最近访问过的网站</div>
 				<div class="content">
 					<table id="dom-grid" class="line-table"></table>
 					<br /><div id="clear1">
-						<a class="btn btn-primary btn-small" href="javascript:clearLog(1)">Clear Log <i class="icon-cancel"></i></a>
-						<a class="btn btn-small" href="webmon_recent_domains?_http_id=<% nv(http_id) %>">Download <i class="icon-download"></i></a>
+						<a class="btn btn-primary btn-small" href="javascript:clearLog(1)">清除日志 <i class="icon-cancel"></i></a>
+						<a class="btn btn-small" href="webmon_recent_domains?_http_id=<% nv(http_id) %>">下载 <i class="icon-download"></i></a>
 					</div>
 				</div>
 			</div>
@@ -357,12 +357,12 @@ No part of this file may be used without permission.
 
 		<div class="col-lg-12">
 			<div id="webmon-searches" class="box">
-				<div class="heading">Recent Web Searches</div>
+				<div class="heading">最近网络搜索</div>
 				<div class="content">
 					<table id="srh-grid" class="line-table"></table>
 					<br /><div id="clear2">
-						<a class="btn btn-primary btn-small" href="javascript:clearLog(2)">Clear Log <i class="icon-cancel"></i></a>
-						<a class="btn btn-small" href="webmon_recent_searches?_http_id=<% nv(http_id) %>">Download <i class="icon-download"></i></a>
+						<a class="btn btn-primary btn-small" href="javascript:clearLog(2)">清除日志 <i class="icon-cancel"></i></a>
+						<a class="btn btn-small" href="webmon_recent_searches?_http_id=<% nv(http_id) %>">下载 <i class="icon-download"></i></a>
 					</div>
 				</div>
 			</div>
@@ -370,7 +370,7 @@ No part of this file may be used without permission.
 
 		<div id="webmon-controls">
 			<div id="webmon-mc">
-				Show up to&nbsp;
+				最多显示&nbsp;
 				<a href="javascript:switchMaxCount(10);" id="mc10">10,</a>
 				<a href="javascript:switchMaxCount(20);" id="mc20">20,</a>
 				<a href="javascript:switchMaxCount(50);" id="mc50">50,</a>
@@ -380,17 +380,17 @@ No part of this file may be used without permission.
 				<a href="javascript:switchMaxCount(1000);" id="mc1000">1000,</a>
 				<a href="javascript:switchMaxCount(2000);" id="mc2000">2000,</a>
 				<a href="javascript:switchMaxCount(5000);" id="mc5000">5000,</a>
-				<a href="javascript:switchMaxCount(0);" id="mc0">All</a>&nbsp;
-				<small>available entries</small>
+				<a href="javascript:switchMaxCount(0);" id="mc0">所有</a>&nbsp;
+				<small>记录</small>
 			</div>
-			&raquo; <a class="ajaxload" href="admin-log.asp">Web Monitor Configuration</a>
+			&raquo; <a class="ajaxload" href="admin-log.asp">访问记录设置</a>
 			<br><br>
 		</div>
 	</div>
 
 	<div id="wm-disabled" class="alert alert-info icon">
-		<h5>Web Monitoring disabled</h5>
-		Please <a class="ajaxload" href="/#admin-log.asp">enable</a> web monitoring in order to view information on this page.
+		<h5>网页访问记录已禁用</h5>
+		请 <a class="ajaxload" href="/#admin-log.asp">启用</a> 网站访问记录才可查看此页面上的记录信息。
 	</div>
 
 	<script type="text/javascript">earlyInit();</script>

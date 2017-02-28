@@ -264,7 +264,7 @@ var form = {
 		}
 
 		if ((msg = E('footer-msg')) != null) {
-			msg.innerHTML = 'Saving...';
+			msg.innerHTML = '正在保存...';
 			msg.style.visibility = 'visible';
 		}
 
@@ -272,7 +272,7 @@ var form = {
 		this.xhttp.onCompleted = function(text, xml) {
 			if (msg) {
 				if (text.match(/@msg:(.+)/)) msg.innerHTML = escapeHTML(RegExp.$1);
-				else msg.innerHTML = 'Saved';
+				else msg.innerHTML = '已保存';
 			}
 			setTimeout(
 				function() {
@@ -370,7 +370,7 @@ function _v_range(e, quiet, min, max, name)
 	if ((e = E(e)) == null) return 0;
 	var v = e.value;
 	if ((!v.match(/^ *[-\+]?\d+ *$/)) || (v < min) || (v > max)) {
-		ferror.set(e, 'Invalid ' + name + '. Valid range: ' + min + '-' + max, quiet);
+		ferror.set(e, '不正确的 ' + name + '. 有效范围: ' + min + '-' + max, quiet);
 		return 0;
 	}
 	e.value = v * 1;
@@ -408,7 +408,7 @@ function v_mins(e, quiet, min, max)
 			return _v_range(e, quiet, min, max, 'minutes');
 		}
 	}
-	ferror.set(e, 'Invalid number of minutes.', quiet);
+	ferror.set(e, '输入的分钟数不正确.', quiet);
 	return 0;
 }
 
@@ -429,7 +429,7 @@ function v_macip(e, quiet, bok, lan_ipaddr, lan_netmask)
 				e.value = '';
 			}
 			else {
-				ferror.set(e, 'Invalid MAC or IP address');
+				ferror.set(e, '不正确的 MAC 或 IP 地址');
 				return false;
 			}
 		}
@@ -441,7 +441,7 @@ function v_macip(e, quiet, bok, lan_ipaddr, lan_netmask)
 	a = s.split('-');
 
 	if (a.length > 2) {
-		ferror.set(e, 'Invalid IP address range', quiet);
+		ferror.set(e, '不正确的 IP 范围', quiet);
 		return false;
 	}
 
@@ -460,18 +460,18 @@ function v_macip(e, quiet, bok, lan_ipaddr, lan_netmask)
 		b = a[i];
 		b = fixIP(b);
 		if (!b) {
-			ferror.set(e, 'Invalid IP address', quiet);
+			ferror.set(e, '不正确的 IP 地址', quiet);
 			return false;
 		}
 
 		if ((aton(b) & aton(lan_netmask))!=(aton(lan_ipaddr) & aton(lan_netmask))) {
-			ferror.set(e, 'IP address outside of LAN', quiet);
+			ferror.set(e, '局域网以外的 IP 地址', quiet);
 			return false;
 		}
 
 		d = (b.split('.'))[3];
 		if (parseInt(d) <= parseInt(c)) {
-			ferror.set(e, 'Invalid IP address range', quiet);
+			ferror.set(e, 'IP 地址范围无效', quiet);
 			return false;
 		}
 
@@ -507,7 +507,7 @@ function v_ip(e, quiet, x)
 	if ((e = E(e)) == null) return 0;
 	ip = fixIP(e.value, x);
 	if (!ip) {
-		ferror.set(e, 'Invalid IP address', quiet);
+		ferror.set(e, 'IP 地址无效', quiet);
 		return false;
 	}
 	e.value = ip;
@@ -534,17 +534,17 @@ function v_dns(e, quiet)
 			s.push(53);
 		}
 		else if (s.length != 2) {
-			ferror.set(e, 'Invalid IP address or port', quiet);
+			ferror.set(e, 'IP 地址或端口无效', quiet);
 			return false;
 		}
 
 		if ((s[0] = fixIP(s[0])) == null) {
-			ferror.set(e, 'Invalid IP address', quiet);
+			ferror.set(e, 'IP 地址无效', quiet);
 			return false;
 		}
 
 		if ((s[1] = fixPort(s[1], -1)) == -1) {
-			ferror.set(e, 'Invalid port', quiet);
+			ferror.set(e, '端口无效', quiet);
 			return false;
 		}
 
@@ -590,7 +590,7 @@ function _v_iptip(e, ip, quiet)
 		a = fixIP(RegExp.$1);
 		b = fixIP(RegExp.$2);
 		if ((a == null) || (b == null)) {
-			ferror.set(e, oip + ' - invalid IP address range', quiet);
+			ferror.set(e, oip + ' - IP 地址范围无效', quiet);
 			return null;
 		}
 		ferror.clear(e);
@@ -611,13 +611,13 @@ function _v_iptip(e, ip, quiet)
 		if (isNaN(ma)) {
 			ma = fixIP(b);
 			if ((ma == null) || (!_v_netmask(ma))) {
-				ferror.set(e, oip + ' - invalid netmask', quiet);
+				ferror.set(e, oip + ' - 无效的网络掩码', quiet);
 				return null;
 			}
 		}
 		else {
 			if ((ma < 0) || (ma > 32)) {
-				ferror.set(e, oip + ' - invalid netmask', quiet);
+				ferror.set(e, oip + ' - 无效的网络掩码', quiet);
 				return null;
 			}
 		}
@@ -625,7 +625,7 @@ function _v_iptip(e, ip, quiet)
 
 	ip = fixIP(ip);
 	if (!ip) {
-		ferror.set(e, oip + ' - invalid IP address', quiet);
+		ferror.set(e, oip + ' - 无效的 IP 地址', quiet);
 		return null;
 	}
 
@@ -641,13 +641,13 @@ function v_iptip(e, quiet, multi)
 	v = e.value.split(',');
 	if (multi) {
 		if (v.length > multi) {
-			ferror.set(e, 'Too many IP addresses', quiet);
+			ferror.set(e, 'IP 地址过多', quiet);
 			return 0;
 		}
 	}
 	else {
 		if (v.length > 1) {
-			ferror.set(e, 'Invalid IP address', quiet);
+			ferror.set(e, 'IP 地址无效', quiet);
 			return 0;
 		}
 	}
@@ -666,12 +666,12 @@ function _v_subnet(e, ip, quiet) {
 		ip = RegExp.$1;
 		ma = RegExp.$2;
 		if ((ma < 0) || (ma > 32)) {
-			ferror.set(e, oip + ' - invalid subnet', quiet);
+			ferror.set(e, oip + ' - 无效的子网', quiet);
 			return null;
 		}
 	}
 	else {
-		ferror.set(e, oip + ' - invalid subnet', quiet);
+		ferror.set(e, oip + ' - 无效的子网', quiet);
 		return null;
 	}
 	ferror.clear(e);
@@ -691,7 +691,7 @@ function _v_domain(e, dom, quiet)
 	if (s.length > 0) {
 		s = _v_hostname(e, s, 1, 1, 7, '.', true);
 		if (s == null) {
-			ferror.set(e, "Invalid name. Only characters \"A-Z 0-9 . -\" are allowed.", quiet);
+			ferror.set(e, "无效的名称. 只有字符 \"A-Z 0-9 . -\" 被允许.", quiet);
 			return null;
 		}
 	}
@@ -810,7 +810,7 @@ function _v_ipv6_addr(e, ip, ipt, quiet)
 		a = CompressIPv6Address(a);
 		b = CompressIPv6Address(b);
 		if ((a == null) || (b == null)) {
-			ferror.set(e, oip + ' - invalid IPv6 address range', quiet);
+			ferror.set(e, oip + ' - 无效的 IPv6 地址范围', quiet);
 			return null;
 		}
 		ferror.clear(e);
@@ -824,11 +824,11 @@ function _v_ipv6_addr(e, ip, ipt, quiet)
 		b = parseInt(RegExp.$2, 10);
 		a = ExpandIPv6Address(a);
 		if ((a == null) || (b == null)) {
-			ferror.set(e, oip + ' - invalid IPv6 address', quiet);
+			ferror.set(e, oip + ' - 无效的 IPv6 地址', quiet);
 			return null;
 		}
 		if (b < 0 || b > 128) {
-			ferror.set(e, oip + ' - invalid CIDR notation on IPv6 address', quiet);
+			ferror.set(e, oip + ' - IPv6 地址上的 CIDR 符号无效', quiet);
 			return null;
 		}
 		ferror.clear(e);
@@ -839,7 +839,7 @@ function _v_ipv6_addr(e, ip, ipt, quiet)
 
 	ip = CompressIPv6Address(oip);
 	if (!ip) {
-		ferror.set(e, oip + ' - invalid IPv6 address', quiet);
+		ferror.set(e, oip + ' - 无效的 IPv6 地址', quiet);
 		return null;
 	}
 
@@ -875,7 +875,7 @@ function _v_portrange(e, quiet, v)
 		x = fixPort(x, -1);
 		y = fixPort(y, -1);
 		if ((x == -1) || (y == -1)) {
-			ferror.set(e, 'Invalid port range: ' + v, quiet);
+			ferror.set(e, '端口范围无效: ' + v, quiet);
 			return null;
 		}
 		if (x > y) {
@@ -890,7 +890,7 @@ function _v_portrange(e, quiet, v)
 
 	v = fixPort(v, -1);
 	if (v == -1) {
-		ferror.set(e, 'Invalid port', quiet);
+		ferror.set(e, '端口无效', quiet);
 		return null;
 	}
 
@@ -918,11 +918,11 @@ function v_iptport(e, quiet)
 	a = e.value.split(/[,\.]/);
 
 	if (a.length == 0) {
-		ferror.set(e, 'Expecting a list of ports or port range.', quiet);
+		ferror.set(e, '期望端口或端口范围的列表.', quiet);
 		return 0;
 	}
 	if (a.length > 10) {
-		ferror.set(e, 'Only 10 ports/range sets are allowed.', quiet);
+		ferror.set(e, '只允许10个 端口/范围 集.', quiet);
 		return 0;
 	}
 
@@ -967,7 +967,7 @@ function v_netmask(e, quiet)
 			return 1;
 		}
 	}
-	ferror.set(e, 'Invalid netmask', quiet);
+	ferror.set(e, '网络掩码无效', quiet);
 	return 0;
 }
 
@@ -1002,7 +1002,7 @@ function v_mac(e, quiet)
 	if ((e = E(e)) == null) return 0;
 	mac = fixMAC(e.value);
 	if ((!mac) || (isMAC0(mac))) {
-		ferror.set(e, 'Invalid MAC address', quiet);
+		ferror.set(e, 'MAC 地址无效', quiet);
 		return 0;
 	}
 	e.value = mac;
@@ -1017,7 +1017,7 @@ function v_macz(e, quiet)
 	if ((e = E(e)) == null) return 0;
 	mac = fixMAC(e.value);
 	if (!mac) {
-		ferror.set(e, 'Invalid MAC address', quiet);
+		ferror.set(e, 'MAC 地址无效', quiet);
 		return false;
 	}
 	e.value = mac;
@@ -1034,12 +1034,12 @@ function v_length(e, quiet, min, max)
 	n = s.length;
 	if (min == undefined) min = 1;
 	if (n < min) {
-		ferror.set(e, 'Invalid length. Please enter at least ' + min + ' character' + (min == 1 ? '.' : 's.'), quiet);
+		ferror.set(e, '长度无效. 请至少输入 ' + min + ' 个字符' + (min == 1 ? '.' : 's.'), quiet);
 		return 0;
 	}
 	max = max || e.maxlength;
 	if (n > max) {
-		ferror.set(e, 'Invalid length. Please reduce the length to ' + max + ' characters or less.', quiet);
+		ferror.set(e, '长度无效. 请缩短长度至 ' + max + ' 个字符或更少.', quiet);
 		return 0;
 	}
 	e.value = s;
@@ -1055,13 +1055,13 @@ function _v_iptaddr(e, quiet, multi, ipv4, ipv6)
 	v = e.value.split(',');
 	if (multi) {
 		if (v.length > multi) {
-			ferror.set(e, 'Too many addresses', quiet);
+			ferror.set(e, '地址过多', quiet);
 			return 0;
 		}
 	}
 	else {
 		if (v.length > 1) {
-			ferror.set(e, 'Invalid domain name or IP address', quiet);
+			ferror.set(e, '域名或 IP 地址无效', quiet);
 			return 0;
 		}
 	}
@@ -1080,7 +1080,7 @@ function _v_iptaddr(e, quiet, multi, ipv4, ipv6)
 					return 0;
 				}
 				if ((t = _v_iptip(e, v[i], 1)) == null) {
-					ferror.set(e, e._error_msg + ', or invalid domain name', quiet);
+					ferror.set(e, e._error_msg + ', 或无效的域名', quiet);
 					return 0;
 				}
 				/* IPV6-BEGIN */
@@ -1110,13 +1110,13 @@ function _v_hostname(e, h, quiet, required, multi, delim, cidr)
 
 	if (multi) {
 		if (v.length > multi) {
-			ferror.set(e, 'Too many hostnames.', quiet);
+			ferror.set(e, '主机名过多.', quiet);
 			return null;
 		}
 	}
 	else {
 		if (v.length > 1) {
-			ferror.set(e, 'Invalid hostname.', quiet);
+			ferror.set(e, '主机名无效.', quiet);
 			return null;
 		}
 	}
@@ -1129,11 +1129,11 @@ function _v_hostname(e, h, quiet, required, multi, delim, cidr)
 			if (cidr && i == v.length-1)
 				re = /^[a-zA-Z0-9](([a-zA-Z0-9\-]{0,61})[a-zA-Z0-9]){0,1}(\/\d{1,3})?$/;
 			if (s.search(re) == -1 || s.search(/^\d+$/) != -1) {
-				ferror.set(e, 'Invalid hostname. Only "A-Z 0-9" and "-" in the middle are allowed (up to 63 characters).', quiet);
+				ferror.set(e, '主机名无效. 仅 "A-Z 0-9" 和 "-" 之间是允许的（最多63个字符）.', quiet);
 				return null;
 			}
 		} else if (required) {
-			ferror.set(e, 'Invalid hostname.', quiet);
+			ferror.set(e, '主机名无效.', quiet);
 			return null;
 		}
 		v[i] = s;
@@ -1164,7 +1164,7 @@ function v_nodelim(e, quiet, name, checklist)
 	e.value = e.value.trim();
 	if (e.value.indexOf('<') != -1 ||
 		(checklist && e.value.indexOf('>') != -1)) {
-		ferror.set(e, 'Invalid ' + name + ': \"<\" ' + (checklist ? 'or \">\" are' : 'is') + ' not allowed.', quiet);
+		ferror.set(e, '无效的 ' + name + ': \"<\" ' + (checklist ? '或 \">\" 是' : '是') + ' 不允许的.', quiet);
 		return 0;
 	}
 	ferror.clear(e);
@@ -1181,7 +1181,7 @@ function v_path(e, quiet, required)
 		return 1;
 	}
 	if (e.value.substr(0, 1) != '/') {
-		ferror.set(e, 'Please start at the / root directory.', quiet);
+		ferror.set(e, '请从 / 根目录开始.', quiet);
 		return 0;
 	}
 	ferror.clear(e);
@@ -1415,13 +1415,13 @@ TomatoGrid.prototype = {
 		n = 0;
 		s = '';
 		if (me.canMove) {
-			s = '<a class="move-up-row" href="#" onclick="this.parentNode.tgo.rpUp(this.parentNode.ref); return false;" title="Move Up"><i class="icon-chevron-up"></i></a> \
-			<a class="move-down-row" href="#" onclick="this.parentNode.tgo.rpDn(this.parentNode.ref); return false;" title="Move Down"><i class="icon-chevron-down"></i></a> \
-			<a class="move-row" href="#" onclick="this.parentNode.tgo.rpMo(this,this.parentNode.ref); return false;" title="Move"><i class="icon-move"></i></a> ';
+			s = '<a class="move-up-row" href="#" onclick="this.parentNode.tgo.rpUp(this.parentNode.ref); return false;" title="向上移动"><i class="icon-chevron-up"></i></a> \
+			<a class="move-down-row" href="#" onclick="this.parentNode.tgo.rpDn(this.parentNode.ref); return false;" title="向下移动"><i class="icon-chevron-down"></i></a> \
+			<a class="move-row" href="#" onclick="this.parentNode.tgo.rpMo(this,this.parentNode.ref); return false;" title="移动"><i class="icon-move"></i></a> ';
 			n += 3;
 		}
 		if (me.canDelete) {
-			s += '<a class="delete-row" href="#" onclick="this.parentNode.tgo.rpDel(this.parentNode.ref); return false;" title="Delete"><i class="icon-cancel"></i></a>';
+			s += '<a class="delete-row" href="#" onclick="this.parentNode.tgo.rpDel(this.parentNode.ref); return false;" title="删除"><i class="icon-cancel"></i></a>';
 			++n;
 		}
 		x = PR(evt.target);
@@ -1476,7 +1476,7 @@ TomatoGrid.prototype = {
 		if ((this.canMove) || (this.canEdit) || (this.canDelete)) {
 			e.onmouseover = this.rpMouIn;
 			e.onmouseout = this.rpMouOut;
-			if (this.canEdit) e.title = 'Click to edit'; $(e).css('cursor', 'text');
+			if (this.canEdit) e.title = '点击编辑'; $(e).css('cursor', 'text');
 		}
 
 		return e;
@@ -1643,13 +1643,13 @@ TomatoGrid.prototype = {
 		c = r.insertCell(0);
 		c.colSpan = this.header.cells.length;
 		if (which == 'edit') {
-			c.innerHTML = '<button type="button" class="btn btn-danger" value="Delete" onclick="TGO(this).onDelete()">Delete <i class="icon-cancel"></i></button> ' +
-			'<button type="button" class="btn" value="Cancel" onclick="TGO(this).onCancel()">Cancel <i class="icon-disable"></i></button> ' +
-			'<button type="button" class="btn btn-primary" value="OK" onclick="TGO(this).onOK()">OK <i class="icon-check"></i></button>';
+			c.innerHTML = '<button type="button" class="btn btn-danger" value="删除" onclick="TGO(this).onDelete()">删除 <i class="icon-cancel"></i></button> ' +
+			'<button type="button" class="btn" value="取消" onclick="TGO(this).onCancel()">取消 <i class="icon-disable"></i></button> ' +
+			'<button type="button" class="btn btn-primary" value="确认" onclick="TGO(this).onOK()">确认 <i class="icon-check"></i></button>';
 		}
 		else {
 			c.innerHTML =
-			'<button type="button" class="btn btn-danger" value="Add" onclick="TGO(this).onAdd()">Add <i class="icon-plus"></i></button>';
+			'<button type="button" class="btn btn-danger" value="添加" onclick="TGO(this).onAdd()">添加 <i class="icon-plus"></i></button>';
 		}
 		return r;
 	},
@@ -2152,7 +2152,7 @@ TomatoRefresh.prototype = {
 
 		b = (mode != 'stop') && (this.refreshTime > 0);
 		if ((e = E('refresh-button')) != null) {
-			e.innerHTML = b ? 'Stop <i class="icon-cancel"></i>' : 'Refresh <i class="icon-refresh"></i>';
+			e.innerHTML = b ? '停止 <i class="icon-cancel"></i>' : '刷新 <i class="icon-refresh"></i>';
 			e.disabled = ((mode == 'start') && (!b));
 		}
 		if ((e = E('refresh-time')) != null) e.disabled = b;
@@ -2223,8 +2223,8 @@ function genStdRefresh(spin, min, exec)
 {
 	var html = '<div class="tomato-refresh form-inline input-append">';
 	if (spin) html += '<div class="spinner spinner-small"></div>';
-	html += genStdTimeList('refresh-time', 'Auto Refresh', min);
-	html += '<button value="Refresh" onclick="' + (exec ? exec : 'refreshClick()') + '; return false;" id="refresh-button" class="btn">Refresh <i class="icon-refresh"></i></button></div>';
+	html += genStdTimeList('refresh-time', '自动刷新', min);
+	html += '<button value="刷新" onclick="' + (exec ? exec : 'refreshClick()') + '; return false;" id="refresh-button" class="btn">刷新 <i class="icon-refresh"></i></button></div>';
 	return html;
 }
 
@@ -2436,16 +2436,16 @@ function myName() {
 
 function navi_icons ($name) {
 	switch ($name) {
-		case 'Status': 				return 'home'; break;
-		case 'Basic Settings': 		return 'hammer'; break;
-		case 'Advanced Settings': 	return 'shield'; break;
-		case 'Port Forwarding': 	return 'forward'; break;
-		case 'Quality of Service': 	return 'gauge'; break;
-		case 'USB & NAS': 			return 'drive'; break;
-		case 'Web Services': 		return 'cloud'; break;
-		case 'VPN': 				return 'globe'; break;
-		case 'Administration': 		return 'wrench'; break;
-		default: 					return 'plus'; break;
+		case '系统状态': 				return 'home'; break;
+		case '基本设置': 				return 'hammer'; break;
+		case '高级设置': 				return 'shield'; break;
+		case '端口转发': 				return 'forward'; break;
+		case 'QOS 设置': 				return 'gauge'; break;
+		case 'USB & NAS': 				return 'drive'; break;
+		case 'Web 服务': 				return 'cloud'; break;
+		case 'VPN 服务': 				return 'globe'; break;
+		case '系统管理': 				return 'wrench'; break;
+		default: 						return 'plus'; break;
 	}
 }
 
@@ -2455,132 +2455,132 @@ function navi() {
 	var htmlmenu  = '';
 	var activeURL = window.location.hash || location.hash;
 	var menu      = {
-		'Status': {
-			'Overview':				'status-home.asp',
-			'Device List':			'status-devices.asp',
-			'Web Usage':			'status-webmon.asp',
-			'Logs':					'status-log.asp'
+		'系统状态': {
+			'状态概览':				'status-home.asp',
+			'设备列表':				'status-devices.asp',
+			'访问记录':				'status-webmon.asp',
+			'日志查看':				'status-log.asp'
 		},
-		'Basic Settings': {
-			'Network':				'basic-network.asp',
+		'基本设置': {
+			'网络设置':				'basic-network.asp',
 			/* IPV6-BEGIN */
-			'IPv6':					'basic-ipv6.asp',
+			'IPv6 设置':			'basic-ipv6.asp',
 			/* IPV6-END */
-			'Identification':		'basic-ident.asp',
-			'Time':					'basic-time.asp',
-			'DDNS': 				'basic-ddns.asp',
+			'名称管理':				'basic-ident.asp',
+			'时间设置':				'basic-time.asp',
+			'动态 DNS': 			'basic-ddns.asp',
 			'DHCP/ARP/BW': 			'basic-static.asp',
-			'Wireless Filter':		'basic-wfilter.asp'
+			'无线过滤':				'basic-wfilter.asp'
 		},
-		'Advanced Settings': {
-			'Access Restriction':   'advanced-restrict.asp',
-			'Conntrack/Netfilter':  'advanced-ctnf.asp',
+		'高级设置': {
+			'访问限制': 			'advanced-restrict.asp',
+			'连接追踪':  			'advanced-ctnf.asp',
 			'DHCP/DNS':             'advanced-dhcpdns.asp',
-			'Firewall':             'advanced-firewall.asp',
+			'防火墙': 				'advanced-firewall.asp',
 			'Adblock':              'advanced-adblock.asp',
 			/* NOCAT-BEGIN */
-			'Captive Portal':       'advanced-splashd.asp',
+			'网络通告':       		'advanced-splashd.asp',
 			/* NOCAT-END */
-			'MAC Address':          'advanced-mac.asp',
-			'Miscellaneous':        'advanced-misc.asp',
-			'Routing':              'advanced-routing.asp',
-			'MultiWAN Routing':     'advanced-pbr.asp',
+			'MAC 地址': 			'advanced-mac.asp',
+			'其他设置': 			'advanced-misc.asp',
+			'路由表': 				'advanced-routing.asp',
+			'MultiWAN 路由策略': 	'advanced-pbr.asp',
 			/* TOR-BEGIN */
-			'Tor Project':          'advanced-tor.asp',
+			'Tor Project': 			'advanced-tor.asp',
 			/* TOR-END */
-			'Wireless':             'advanced-wireless.asp',
-			'VLAN':                 'advanced-vlan.asp',
-			'LAN Access':           'advanced-access.asp',
-			'Virtual Wireless':     'advanced-wlanvifs.asp'
+			'无线设置': 			'advanced-wireless.asp',
+			'VLAN 管理': 			'advanced-vlan.asp',
+			'LAN 控制': 			'advanced-access.asp',
+			'虚拟无线': 			'advanced-wlanvifs.asp'
 		},
-		'Port Forwarding': {
-			'Basic':                'forward-basic.asp',
+		'端口转发': {
+			'IPv4 转发': 			'forward-basic.asp',
 			/* IPV6-BEGIN */
-			'Basic IPv6':           'forward-basic-ipv6.asp',
+			'IPv6 转发': 			'forward-basic-ipv6.asp',
 			/* IPV6-END */
-			'DMZ':                  'forward-dmz.asp',
-			'Triggered':            'forward-triggered.asp',
-			'UPnP/NAT-PMP':         'forward-upnp.asp'
+			'DMZ 设置': 			'forward-dmz.asp',
+			'端口触发': 			'forward-triggered.asp',
+			'UPnP/NAT-PMP': 		'forward-upnp.asp'
 		},
-		'Quality of Service': {
-			'Basic Settings':       'qos-settings.asp',
-			'Classification':       'qos-classify.asp',
-			'View Graphs':          'qos-graphs.asp',
-			'View Details':         'qos-detailed.asp',
-			'Transfer Rates':       'qos-ctrate.asp',
-			'B/W Limiter':          'qos-qoslimit.asp'
+		'QOS 设置': {
+			'基本设置': 			'qos-settings.asp',
+			'分类规则': 			'qos-classify.asp',
+			'图形分析': 			'qos-graphs.asp',
+			'详细内容': 			'qos-detailed.asp',
+			'连接速率': 			'qos-ctrate.asp',
+			'带宽限制': 			'qos-qoslimit.asp'
 		},
 		/* USB-BEGIN */
 		// ---- !!TB - USB, FTP, Samba, Media Server
 		'USB & NAS': {
-			'USB Support':          'nas-usb.asp'
+			'USB 基本设置': 		'nas-usb.asp'
 			/* SAMBA-BEGIN */
-			,'File Sharing':        'nas-samba.asp'
+			,'Samba 文件共享': 		'nas-samba.asp'
 			/* SAMBA-END */
 			/* FTP-BEGIN */
-			,'FTP Server':          'web-ftp.asp'
+			,'FTP 文件共享': 		'web-ftp.asp'
 			/* FTP-END */
 			/* MEDIA-SRV-BEGIN */
-			,'Media Server':        'nas-media.asp'
+			,'媒体服务': 			'nas-media.asp'
 			/* MEDIA-SRV-END */
 			/* UPS-BEGIN */
-			,'UPS Monitor':         'nas-ups.asp'
+			,'UPS 管理': 			'nas-ups.asp'
 			/* UPS-END */
 			/* BT-BEGIN */
-			,'BitTorrent Client':   'nas-bittorrent.asp'
+			,'BitTorrent 客户端': 	'nas-bittorrent.asp'
 			/* BT-END */
 		},
 
 		/* NGINX-BEGIN */
-		'Web Services': {
-			'Web Server': 			'web-nginx.asp',
-			'MySQL Server': 		'web-mysql.asp'
+		'Web 服务': {
+			'Nginx Web 服务': 		'web-nginx.asp',
+			'MySQL 服务': 			'web-mysql.asp'
 		},
 		/* NGINX-END */
 		/* USB-END */
 		/* VPN-BEGIN */
-		'VPN': {
+		'VPN 服务': {
 			/* OPENVPN-BEGIN */
-			'OpenVPN Server':       'vpn-server.asp',
-			'OpenVPN Client':       'vpn-client.asp',
+			'OpenVPN 服务端': 		'vpn-server.asp',
+			'OpenVPN 客户端': 		'vpn-client.asp',
 			/* OPENVPN-END */
 			/* PPTPD-BEGIN */
-			'PPTP Server':			'vpn-pptp-server.asp',
-			'PPTP Online':          'vpn-pptp-online.asp',
-			'PPTP Client':          'vpn-pptp.asp',
+			'PPTP 服务端': 			'vpn-pptp-server.asp',
+			'PPTP 在线信息': 		'vpn-pptp-online.asp',
+			'PPTP 客户端': 			'vpn-pptp.asp',
 			/* PPTPD-END */
 			/* TINC-BEGIN */
-			'Tinc Daemon':			'vpn-tinc.asp'
+			'Tinc 配置': 			'vpn-tinc.asp'
 			/* TINC-END */
 		},
 		/* VPN-END */
-		'Administration': {
-			'Admin Access':         'admin-access.asp',
+		'系统管理': {
+			'访问设置': 			'admin-access.asp',
 			'TomatoAnon': 			'admin-tomatoanon.asp',
-			'Bandwidth Monitoring': 'admin-bwm.asp',
-			'IP Traffic Monitoring':'admin-iptraffic.asp',
-			'Buttons/LED':          'admin-buttons.asp',
+			'带宽监控': 			'admin-bwm.asp',
+			'IP 流量监控': 			'admin-iptraffic.asp',
+			'按钮/指示灯': 			'admin-buttons.asp',
 			/* CIFS-BEGIN */
-			'CIFS Client':          'admin-cifs.asp',
+			'CIFS 客户端': 			'admin-cifs.asp',
 			/* CIFS-END */
 			/* SDHC-BEGIN */
-			'SDHC/MMC':				'admin-sdhc.asp',
+			'SDHC/MMC':  			'admin-sdhc.asp',
 			/* SDHC-END */
-			'Configuration':        'admin-config.asp',
-			'Debugging':            'admin-debug.asp',
+			'配置管理': 			'admin-config.asp',
+			'调试模式': 			'admin-debug.asp',
 			/* JFFS2-BEGIN */
-			'JFFS':                 'admin-jffs2.asp',
+			'JFFS 设置': 			'admin-jffs2.asp',
 			/* JFFS2-END */
 			/* NFS-BEGIN */
-			'NFS Server':           'admin-nfs.asp',
+			'NFS 服务': 			'admin-nfs.asp',
 			/* NFS-END */
-			'Logging':              'admin-log.asp',
-			'Scheduler':            'admin-sched.asp',
-			'Scripts':              'admin-scripts.asp',
+			'日志管理': 			'admin-log.asp',
+			'定时任务': 			'admin-sched.asp',
+			'脚本管理': 			'admin-scripts.asp',
 			/* SNMP-BEGIN */
-			'SNMP':                 'admin-snmp.asp',
+			'SNMP 设置': 			'admin-snmp.asp',
 			/* SNMP-END */
-			'Upgrade':              'admin-upgrade.asp'
+			'固件升级': 			'admin-upgrade.asp'
 		}
 	};
 
@@ -2784,11 +2784,11 @@ function reloadPage() {
 }
 
 function reboot() {
-	if (confirm("Reboot?")) { form.submitHidden('tomato.cgi', { _reboot: 1, _commit: 0, _nvset: 0 }); } else { return false; }
+	if (confirm("确认重启?")) { form.submitHidden('tomato.cgi', { _reboot: 1, _commit: 0, _nvset: 0 }); } else { return false; }
 }
 
 function shutdown() {
-	if (confirm("Shutdown?")) { form.submitHidden('shutdown.cgi', { }); } else { return false; }
+	if (confirm("确认关机?")) { form.submitHidden('shutdown.cgi', { }); } else { return false; }
 }
 
 function logout(){

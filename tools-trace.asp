@@ -5,7 +5,7 @@ http://www.polarcloud.com/tomato/
 
 For use with Tomato Firmware only.
 No part of this file may be used without permission.
---><title>Trace Tool</title>
+--><title>路由追踪</title>
 <content>
 	<style type="text/css">
 		#ttr-grid .co1, #ttr-grid .co3 {
@@ -31,7 +31,7 @@ No part of this file may be used without permission.
 		var tg = new TomatoGrid();
 		tg.setup = function() {
 			this.init('ttr-grid');
-			this.headerSet(['Hop', 'Address', 'Min (ms)', 'Max (ms)', 'Avg (ms)', '+/- (ms)']);
+			this.headerSet(['跃点', '地址', '最小 (ms)', '最大 (ms)', '平均 (ms)', '+/- (ms)']);
 		}
 		tg.populate = function() {
 			var seq = 1;
@@ -107,7 +107,7 @@ No part of this file may be used without permission.
 			e = E('_f_addr');
 			s = e.value.trim();
 			if (!s.match(/^[\w\-\.\:]+$/)) {
-				ferror.set(e, 'Invalid hostname/address', quiet);
+				ferror.set(e, '主机名/地址 无效', quiet);
 				return 0;
 			}
 			ferror.clear(e);
@@ -143,7 +143,7 @@ No part of this file may be used without permission.
 			}
 			tracer.onError = function(x) {
 				spin(0);
-				E('trace-error').innerHTML = 'ERROR: ' + E('_f_addr').value + ' - ' + x;
+				E('trace-error').innerHTML = '错误: ' + E('_f_addr').value + ' - ' + x;
 				E('trace-error').style.visibility = 'visible';
 			}
 
@@ -171,28 +171,28 @@ No part of this file may be used without permission.
 
 	<ul class="nav-tabs">
 		<li><a class="ajaxload" href="tools-ping.asp"><i class="icon-ping"></i> Ping</a></li>
-		<li><a class="active"><i class="icon-gauge"></i> Trace</a></li>
-		<li><a class="ajaxload" href="tools-shell.asp"><i class="icon-cmd"></i> System Commands</a></li>
-		<li><a class="ajaxload" href="tools-survey.asp"><i class="icon-signal"></i> Wireless Survey</a></li>
-		<li><a class="ajaxload" href="tools-wol.asp"><i class="icon-wake"></i> WOL</a></li>
+		<li><a class="active"><i class="icon-gauge"></i> 路由追踪</a></li>
+		<li><a class="ajaxload" href="tools-shell.asp"><i class="icon-cmd"></i> 系统命令</a></li>
+		<li><a class="ajaxload" href="tools-survey.asp"><i class="icon-signal"></i> 无线勘查</a></li>
+		<li><a class="ajaxload" href="tools-wol.asp"><i class="icon-wake"></i> 网络唤醒</a></li>
 	</ul>
 
 	<div class="box">
-		<div class="heading">Trace Route</div>
+		<div class="heading">路由追踪</div>
 		<div class="content">
 
 			<div id="tracert-form"></div><hr>
 			<script type="text/javascript">
 				$('#tracert-form').forms([
-					{ title: 'Address', name: 'f_addr', type: 'text', maxlen: 64, size: 32, value: '',
-						suffix: ' <button type="submit" value="Trace" onclick="trace()" id="traceb" class="btn">Trace <i class="icon-gauge"></i></button>' },
-					{ title: 'Maximum Hops', name: 'f_hops', type: 'text', maxlen: 2, size: 4, value: '20' },
-					{ title: 'Maximum Wait Time', name: 'f_wait', type: 'text', maxlen: 2, size: 4, value: '3', suffix: ' <small>(seconds per hop)</small>' }
+					{ title: '地址', name: 'f_addr', type: 'text', maxlen: 64, size: 32, value: '',
+						suffix: ' <button type="submit" value="追踪" onclick="trace()" id="traceb" class="btn">追踪 <i class="icon-gauge"></i></button>' },
+					{ title: '最大跃点数', name: 'f_hops', type: 'text', maxlen: 2, size: 4, value: '20' },
+					{ title: '最大等待时间', name: 'f_wait', type: 'text', maxlen: 2, size: 4, value: '3', suffix: ' <small>(每跳秒数)</small>' }
 				]);
 			</script>
 
 			<div style="visibility:hidden" id="trace-error"></div>
-			<div style="visibility:hidden;text-align:right" id="wait">Please wait... <div class="spinner"></div></div>
+			<div style="visibility:hidden;text-align:right" id="wait">请稍等... <div class="spinner"></div></div>
 			<table id="ttr-grid" class="line-table"></table>
 
 			<div style="height:10px;" onclick="javascript:E('debug').style.display=''"></div>
