@@ -5,7 +5,7 @@ http://www.polarcloud.com/tomato/
 
 For use with Tomato Firmware only.
 No part of this file may be used without permission.
---><title>Edit Access Restrictions</title>
+--><title>编辑访问限制</title>
 <content>
 	<script type="text/javascript" src="js/protocols.js"></script>
 	<style type="text/css">
@@ -30,7 +30,7 @@ No part of this file may be used without permission.
 		// {enable}|{begin_mins}|{end_mins}|{dow}|{comp[<comp]}|{rules<rules[...]>}|{http[ ...]}|{http_file}|{desc}
 		//	<% rrule(); %>
 		if ((rule = rrule.match(/^(\d+)\|(-?\d+)\|(-?\d+)\|(\d+)\|(.*?)\|(.*?)\|([^|]*?)\|(\d+)\|(.*)$/m)) == null) {
-			rule = ['', 1, 1380, 240, 31, '', '', '', 0, 'New Rule ' + (rruleN + 1)];
+			rule = ['', 1, 1380, 240, 31, '', '', '', 0, '新规则 ' + (rruleN + 1)];
 		}
 		rule[2] *= 1;
 		rule[3] *= 1;
@@ -41,17 +41,17 @@ No part of this file may be used without permission.
 		layer7.sort();
 		for (i = 0; i < layer7.length; ++i)
 			layer7[i] = [layer7[i],layer7[i]];
-		layer7.unshift(['', 'Layer 7 (disabled)']);
+		layer7.unshift(['', '7层 (禁用)']);
 
 		var ipp2p = [
-			[0,'IPP2P (disabled)'],[0xFFFF,'All IPP2P Filters'],[1,'AppleJuice'],[2,'Ares'],[4,'BitTorrent'],[8,'Direct Connect'],
+			[0,'IPP2P (禁用)'],[0xFFFF,'All IPP2P Filters'],[1,'AppleJuice'],[2,'Ares'],[4,'BitTorrent'],[8,'Direct Connect'],
 			[16,'eDonkey'],[32,'Gnutella'],[64,'Kazaa'],[128,'Mute'],[4096,'PPLive/UUSee'],[256,'SoulSeek'],[512,'Waste'],[1024,'WinMX']
 			/* LINUX26-BEGIN */
 			,[2048,'XDCC'],[8192,'Xunlei/QQCyclone']
 			/* LINUX26-END */
 		];
 
-		var dowNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+		var dowNames = ['星期日', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六'];
 
 		//
 
@@ -62,7 +62,7 @@ No part of this file may be used without permission.
 			if (v_mac(f, true)) return true;
 			if (_v_iptaddr(f, true, false, true, true)) return true;
 
-			ferror.set(f, 'Invalid MAC address or IP address/range', quiet);
+			ferror.set(f, '无效的 MAC 或 IP 地址/范围', quiet);
 			return false;
 		}
 
@@ -70,7 +70,7 @@ No part of this file may be used without permission.
 			var a, i, count, ex;
 
 			this.init('res-comp-grid', 'sort', 500, [ { type: 'text', maxlen: 32 } ] );
-			this.headerSet(['MAC / IP Address']);
+			this.headerSet(['MAC / IP 地址']);
 			this.showNewEditor();
 			this.resetNewEditor();
 
@@ -111,7 +111,7 @@ No part of this file may be used without permission.
 			if ((f[1].selectedIndex != 0) && (!v_iptport(f[2], quiet))) return 0;
 
 			if ((f[1].selectedIndex == 0) && (f[3].selectedIndex == 0) && (f[4].selectedIndex == 0) && (f[5].selectedIndex == 0)) {
-				var m = 'Please enter a specific address or port, or select an application match';
+				var m = '请输入一个特定的地址或端口，或选择一个应用程序匹配';
 				ferror.set(f[3], m, 1);
 				ferror.set(f[4], m, 1);
 				ferror.set(f[5], m, 1);
@@ -131,17 +131,17 @@ No part of this file may be used without permission.
 			var s, i;
 
 			s = '';
-			if (data[5] != 0) s = ((data[5] == 1) ? 'To ' : 'From ') + data[6] + ', ';
+			if (data[5] != 0) s = ((data[5] == 1) ? '到 ' : '从 ') + data[6] + ', ';
 
 			if (data[0] <= -2) s += (s.length ? 'a' : 'A') + 'ny protocol';
 			else if (data[0] == -1) s += 'TCP/UDP';
 				else if (data[0] >= 0) s += protocols[data[0]] || data[0];
 
 			if (data[0] >= -1) {
-				if (data[1] == 'd') s += ', dst port ';
-				else if (data[1] == 's') s += ', src port ';
-					else if (data[1] == 'x') s += ', port ';
-						else s += ', all ports';
+				if (data[1] == 'd') s += ', 目标端口 ';
+				else if (data[1] == 's') s += ', 源端口 ';
+					else if (data[1] == 'x') s += ', 端口 ';
+						else s += ', 所有端口';
 				if (data[1] != 'a') s += data[2].replace(/:/g, '-');
 			}
 
@@ -202,7 +202,7 @@ No part of this file may be used without permission.
 		bpg.setup = function() {
 			var a, i, r, count, protos;
 
-			protos = [[-2, 'Any Protocol'],[-1,'TCP/UDP'],[6,'TCP'],[17,'UDP']];
+			protos = [[-2, '所有协议'],[-1,'TCP/UDP'],[6,'TCP'],[17,'UDP']];
 			for (i = 0; i < 256; ++i) {
 				if ((i != 6) && (i != 17)) protos.push([i, protocols[i] || i]);
 			}
@@ -210,15 +210,15 @@ No part of this file may be used without permission.
 			this.init('res-bp-grid', 'sort', 500, [ { multi: [
 				{ type: 'select', options: protos },
 				{ type: 'select',
-					options: [['a','Any Port'],['d','Dst Port'],['s','Src Port'],['x','Src or Dst']] },
+					options: [['a','所有端口'],['d','目标端口'],['s','源端口'],['x','源 或 目标']] },
 				{ type: 'text', maxlen: 32 },
 				{ type: 'select', options: ipp2p },
 				{ type: 'select', options: layer7 },
 				{ type: 'select',
-					options: [[0,'Any Address'],[1,'Dst IP'],[2,'Src IP']] },
+					options: [[0,'所有地址'],[1,'目标 IP'],[2,'源 IP']] },
 				{ type: 'text', maxlen: 64 }
 			] } ] );
-			this.headerSet(['Rules']);
+			this.headerSet(['策略']);
 			this.showNewEditor();
 			this.resetNewEditor();
 			count = 0;
@@ -280,7 +280,7 @@ No part of this file may be used without permission.
 		function delRULE()
 		{
 
-			if (!confirm('Delete this rule?')) return;
+			if (!confirm('确认删除此策略吗?')) return;
 
 			E('delete-button').disabled = 1;
 
@@ -319,7 +319,7 @@ No part of this file may be used without permission.
 				if (e.value != 0) {
 					a = cg.getAllData();
 					if (a.length == 0) {
-						ferror.set(e, 'No MAC or IP address was specified', 0);
+						ferror.set(e, 'MAC 错误或 IP 地址已被指定', 0);
 						return;
 					}
 					if (e.value == 2) a.unshift('!');
@@ -354,7 +354,7 @@ No part of this file may be used without permission.
 					data.push(n);
 
 					if (((check + n) == 0) && (data[0] == 1)) {
-						alert('Please specify what items should be blocked.');
+						alert('请具体指明哪些项目应该被阻止.');
 						return;
 					}
 				}
@@ -368,7 +368,7 @@ No part of this file may be used without permission.
 			data = data.join('|');
 
 			if (data.length >= 8192) {
-				alert('This rule is too big. Please reduce by ' + (data.length - 8192) + ' characters.');
+				alert('此规则过大，请减小 ' + (data.length - 8192) + ' 个字符.');
 				return;
 			}
 
@@ -405,7 +405,7 @@ No part of this file may be used without permission.
 		<input type="hidden" name="rruleNN" id="_rrule" value="">
 
 		<div class="box">
-			<div class="heading">Access Restriction &nbsp; (<span class="restrict-id"></span>)</div>
+			<div class="heading">访问限制 &nbsp; (<span class="restrict-id"></span>)</div>
 			<div class="content">
 				<div id="restriction"></div><br />
 				<script type="text/javascript">
@@ -414,39 +414,39 @@ No part of this file may be used without permission.
 					for (i = 0; i < 1440; i += 15) tm.push([i, timeString(i)]);
 
 					$('#restriction').forms([
-						{ title: 'Enabled', name: 'f_enabled', type: 'checkbox', value: rule[1] == '1' },
-						{ title: 'Description', name: 'f_desc', type: 'text', maxlen: 32, size: 35, value: rule[9] },
-						{ title: 'Schedule', multi: [
-							{ name: 'f_sched_allday', type: 'checkbox', suffix: ' All Day &nbsp; ', value: (rule[2] < 0) || (rule[3] < 0) },
-							{ name: 'f_sched_everyday', type: 'checkbox', suffix: ' Everyday', value: (rule[4] & 0x7F) == 0x7F } ] },
-						{ title: 'Time', indent: 2, multi: [
+						{ title: '启用', name: 'f_enabled', type: 'checkbox', value: rule[1] == '1' },
+						{ title: '描述', name: 'f_desc', type: 'text', maxlen: 32, size: 35, value: rule[9] },
+						{ title: '时间表', multi: [
+							{ name: 'f_sched_allday', type: 'checkbox', suffix: ' 全天 &nbsp; ', value: (rule[2] < 0) || (rule[3] < 0) },
+							{ name: 'f_sched_everyday', type: 'checkbox', suffix: ' 每天', value: (rule[4] & 0x7F) == 0x7F } ] },
+						{ title: '时间', indent: 2, multi: [
 							{ name: 'f_sched_begin', type: 'select', options: tm, value: (rule[2] < 0) ? 0 : rule[2], suffix: ' - ' },
 							{ name: 'f_sched_end', type: 'select', options: tm, value: (rule[3] < 0) ? 0 : rule[3] } ] },
-						{ title: 'Days', indent: 2, multi: [
-							{ name: 'f_sched_sun', type: 'checkbox', suffix: ' Sun &nbsp; ', value: (rule[4] & 1) },
-							{ name: 'f_sched_mon', type: 'checkbox', suffix: ' Mon &nbsp; ', value: (rule[4] & (1 << 1)) },
-							{ name: 'f_sched_tue', type: 'checkbox', suffix: ' Tue &nbsp; ', value: (rule[4] & (1 << 2)) },
-							{ name: 'f_sched_wed', type: 'checkbox', suffix: ' Wed &nbsp; ', value: (rule[4] & (1 << 3)) },
-							{ name: 'f_sched_thu', type: 'checkbox', suffix: ' Thu &nbsp; ', value: (rule[4] & (1 << 4)) },
-							{ name: 'f_sched_fri', type: 'checkbox', suffix: ' Fri &nbsp; ', value: (rule[4] & (1 << 5)) },
-							{ name: 'f_sched_sat', type: 'checkbox', suffix: ' Sat', value: (rule[4] & (1 << 6)) } ] },
-						{ title: 'Type', name: 'f_type', id: 'rt_norm', type: 'radio', suffix: ' Normal Access Restriction', value: (rule[5] != '~') },
-						{ title: '', name: 'f_type', id: 'rt_wl', type: 'radio', suffix: ' Disable Wireless', value: (rule[5] == '~') },
-						{ title: 'Applies To', name: 'f_comp_all', type: 'select', options: [[0,'All Computers / Devices'],[1,'The Following...'],[2,'All Except...']], value: 0 },
+						{ title: '天', indent: 2, multi: [
+							{ name: 'f_sched_sun', type: 'checkbox', suffix: ' 星期日 &nbsp; ', value: (rule[4] & 1) },
+							{ name: 'f_sched_mon', type: 'checkbox', suffix: ' 星期一 &nbsp; ', value: (rule[4] & (1 << 1)) },
+							{ name: 'f_sched_tue', type: 'checkbox', suffix: ' 星期二 &nbsp; ', value: (rule[4] & (1 << 2)) },
+							{ name: 'f_sched_wed', type: 'checkbox', suffix: ' 星期三 &nbsp; ', value: (rule[4] & (1 << 3)) },
+							{ name: 'f_sched_thu', type: 'checkbox', suffix: ' 星期四 &nbsp; ', value: (rule[4] & (1 << 4)) },
+							{ name: 'f_sched_fri', type: 'checkbox', suffix: ' 星期五 &nbsp; ', value: (rule[4] & (1 << 5)) },
+							{ name: 'f_sched_sat', type: 'checkbox', suffix: ' 星期六', value: (rule[4] & (1 << 6)) } ] },
+						{ title: '类型', name: 'f_type', id: 'rt_norm', type: 'radio', suffix: ' 正常的访问限制', value: (rule[5] != '~') },
+						{ title: '', name: 'f_type', id: 'rt_wl', type: 'radio', suffix: ' 禁用无线', value: (rule[5] == '~') },
+						{ title: '适用于', name: 'f_comp_all', type: 'select', options: [[0,'所有 计算机/设备'],[1,'以下...'],[2,'除了...']], value: 0 },
 						{ title: '&nbsp;', text: '<table class="line-table col-sm-9" id="res-comp-grid"></table>' },
-						{ title: 'Blocked Resources', name: 'f_block_all', type: 'checkbox', suffix: ' Block All Internet Access', value: 0 },
-						{ title: 'Port / Application', indent: 2, text: '<table class="line-table col-sm-9" id="res-bp-grid"></table>' },
-						{ title: 'HTTP Request', indent: 2, name: 'f_block_http', type: 'textarea', value: rule[7] },
-						{ title: 'HTTP Requested Files', indent: 2, multi: [
+						{ title: '封锁网络', name: 'f_block_all', type: 'checkbox', suffix: ' 阻止所有互联网接入', value: 0 },
+						{ title: '端口/应用', indent: 2, text: '<table class="line-table col-sm-9" id="res-bp-grid"></table>' },
+						{ title: 'HTTP 请求', indent: 2, name: 'f_block_http', type: 'textarea', value: rule[7] },
+						{ title: '限制 HTTP 请求的文件', indent: 2, multi: [
 							{ name: 'f_activex', type: 'checkbox', suffix: ' ActiveX (ocx, cab) &nbsp;&nbsp;', value: (rule[8] & 1) },
 							{ name: 'f_flash', type: 'checkbox', suffix: ' Flash (swf) &nbsp;&nbsp;', value: (rule[8] & 2) },
 							{ name: 'f_java', type: 'checkbox', suffix: ' Java (class, jar) &nbsp;&nbsp;', value: (rule[8] & 4) } ] }
 					]);
 				</script>
 
-				<button type="button" value="Delete..." id="delete-button" onclick="delRULE();" class="btn btn-danger"><i class="icon-cancel"></i> Delete</button> &nbsp;
-				<button type="button" value="Save" id="save-button" onclick="save();" class="btn btn-primary">Save <i class="icon-check"></i></button>
-				<button type="button" value="Cancel" id="cancel-button" onclick="cancel();" class="btn">Cancel <i class="icon-disable"></i></button>
+				<button type="button" value="删除..." id="delete-button" onclick="delRULE();" class="btn btn-danger"><i class="icon-cancel"></i> 删除</button> &nbsp;
+				<button type="button" value="保存设置" id="save-button" onclick="save();" class="btn btn-primary">保存设置
+				<button type="button" value="取消设置" id="cancel-button" onclick="cancel();" class="btn">取消设置 <i class="icon-disable"></i></button>
 				<span id="footer-msg"></span>
 			</div>
 		</div>

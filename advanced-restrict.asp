@@ -5,7 +5,7 @@ http://www.polarcloud.com/tomato/
 
 For use with Tomato Firmware only.
 No part of this file may be used without permission.
---><title>Access Restrictions</title>
+--><title>访问限制</title>
 <content>
 	<style type="text/css">
 		#res-over-grid .co1 {
@@ -25,13 +25,13 @@ No part of this file may be used without permission.
 		//	<% nvram('at_update,tomatoanon_answer'); %>	// http_id
 		//	<% nvramseq("rrules", "rrule%d", 0, 99); %>
 
-		var dowNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+		var dowNames = ['星期日', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六'];
 
 		var og = new TomatoGrid();
 		og.setup = function() {
 			this.init('res-over-grid', 'sort');
-			this.headerSet(['Description', 'Schedule']);
-			var r = this.footerSet(['<button type="button" value="Add" onclick="TGO(this).addEntry()" id="res-over-add" class="btn btn-danger">Add <i class="icon-plus"></i></button>']);
+			this.headerSet(['描述', '时间表']);
+			var r = this.footerSet(['<button type="button" value="添加" onclick="TGO(this).addEntry()" id="res-over-add" class="btn btn-danger">添加 <i class="icon-plus"></i></button>']);
 			r.cells[0].colSpan = 2;
 		}
 		og.populate = function() {
@@ -49,7 +49,7 @@ No part of this file may be used without permission.
 
 				var s = '';
 				if (v[3] == 0x7F) {
-					s += 'Everyday';
+					s += '每天';
 				}
 				else {
 					for (var j = 0; j < 7; ++j) {
@@ -61,10 +61,10 @@ No part of this file may be used without permission.
 				}
 
 				if ((v[1] >= 0) && (v[2] >= 0)) {
-					s += '<br>' + timeString(v[1]) + ' to ' + timeString(v[2]);
-					if (v[2] <= v[1]) s += ' <small>(the following day)</small>';
+					s += '<br>' + timeString(v[1]) + ' 至 ' + timeString(v[2]);
+					if (v[2] <= v[1]) s += ' <small>(以下日期)</small>';
 				}
-				if (v[0] != '1') s += '<br><i><b>Disabled</b></i>';
+				if (v[0] != '1') s += '<br><i><b>禁用</b></i>';
 				this.insertData(-1, [i, v[8], s]);
 			}
 			og.sort(0);
@@ -98,7 +98,7 @@ No part of this file may be used without permission.
 		<input type="hidden" name="rruleN" id="_rruleN" value="">
 
 		<div class="box">
-			<div class="heading">Access Restriction Overview</div>
+			<div class="heading">访问限制列表</div>
 			<div class="content">
 				<table class="line-table" id="res-over-grid"></table>
 

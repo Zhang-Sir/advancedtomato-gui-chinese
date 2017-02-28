@@ -5,7 +5,7 @@ http://www.polarcloud.com/tomato/
 
 For use with Tomato Firmware only.
 No part of this file may be used without permission.
---><title>Conntrack / Netfilter</title>
+--><title>连接追踪</title>
 <content>
 	<script type="text/javascript">
 		//	<% nvram("at_update,tomatoanon_answer,ct_tcp_timeout,ct_udp_timeout,ct_timeout,ct_max,ct_hashsize,nf_l7in,nf_ttl,nf_sip,nf_rtsp,nf_pptp,nf_h323,nf_ftp"); %>
@@ -31,9 +31,9 @@ No part of this file may be used without permission.
 					conntrack = [];
 				}
 				for (i = 1; i < 13; ++i) {
-					E('count' + i).innerHTML = '&nbsp; <small>('+ ((conntrack[i] || 0) * 1) + ' in this state)</small>';
+					E('count' + i).innerHTML = '&nbsp; <small>('+ ((conntrack[i] || 0) * 1) + ' 个连接处于在该状态)</small>';
 				}
-				E('count0').innerHTML = '(' + ((conntrack[0] || 0) * 1) + ' connections currently tracked)';
+				E('count0').innerHTML = '(' + ((conntrack[0] || 0) * 1) + ' 个连接数目前使用中)';
 				checker = null;
 				timer.start(3000);
 			}
@@ -67,7 +67,7 @@ No part of this file may be used without permission.
 			}
 			else {
 				setTimeout(expireTimer, 1000);
-				e.value = 'Expire Scheduled... ' + expireTime;
+				e.value = '正在清除... ' + expireTime;
 			}
 		}
 
@@ -168,32 +168,32 @@ No part of this file may be used without permission.
 	<input type="hidden" name="nf_sip">
 
 	<div class="box" data-box="ctnf-cons">
-		<div class="heading">Connections</div>
+		<div class="heading">连接数</div>
 		<div class="content">
 			<div class="conectionsfirst"></div>
 			<script type="text/javascript">
 				$('.conectionsfirst').forms([
-					{ title: 'Maximum Connections', name: 'ct_max', type: 'text', maxlen: 6, size: 8,
-						suffix: '&nbsp; <a href="javascript:clicked()" id="count0">[ count current... ]</a> <div class="spinner" style="visibility:hidden" id="spin" onclick="clicked()"></div>',
+					{ title: '最大连接数', name: 'ct_max', type: 'text', maxlen: 6, size: 8,
+						suffix: '&nbsp; <a href="javascript:clicked()" id="count0">[ 查看当前连接数... ]</a> <div class="spinner" style="visibility:hidden" id="spin" onclick="clicked()"></div>',
 						value: fixInt(nvram.ct_max || 4096, 128, 300000, 4096) }
 					/* LINUX26-BEGIN */
-					,{ title: 'Hash Table Size', name: 'ct_hashsize', type: 'text', maxlen: 6, size: 8, value: nvram.ct_hashsize || 1023 }
+					,{ title: '哈希表大小', name: 'ct_hashsize', type: 'text', maxlen: 6, size: 8, value: nvram.ct_hashsize || 1023 }
 					/* LINUX26-END */
 				], { grid: ['col-sm-2', 'col-sm-10'] });
 			</script>
-			<button type="button" value="Drop Idle" onclick="expireClicked()" id="expire" class="btn">Drop Idle <i class="icon-disable"></i></button>
+			<button type="button" value="断开空闲连接" onclick="expireClicked()" id="expire" class="btn">Drop Idle <i class="icon-disable"></i></button>
 		</div>
 	</div>
 
 	<div class="box" data-box="ctnf-tcp-time">
-		<div class="heading">TCP Timeout</div>
+		<div class="heading">TCP 超时设置 (单位：秒)</div>
 		<div class="section tcptimeout content"></div>
 		<script type="text/javascript">
 			if ((v = nvram.ct_tcp_timeout.match(/^(\d+)\s+(\d+)\s+(\d+)\s+(\d+)\s+(\d+)\s+(\d+)\s+(\d+)\s+(\d+)\s+(\d+)\s+(\d+)$/)) == null) {
 				v = [0,0,1200,120,60,120,120,10,60,30,0];
 			}
-			titles = ['-', 'None', 'Established', 'SYN Sent', 'SYN Received', 'FIN Wait', 'Time Wait', 'Close', 'Close Wait', 'Last ACK', 'Listen'];
-			f = [{ title: ' ', text: '<small>(seconds)</small>' }];
+			titles = ['-', '无', '已建立连接超时', 'SYN发送超时', 'SYN接收超时', 'FIN 等待超时', '时间等待超时', '关闭连接超时', '关闭等待超时', '最后响应超时', '侦听连接超时'];
+			f = [{ title: ' ', text: '<small>(秒)</small>' }];
 			for (i = 1; i < 11; ++i) {
 				f.push({ title: titles[i], name: ('f_tcp_' + (i - 1)),
 					type: 'text', maxlen: 6, size: 8, value: v[i],
@@ -206,22 +206,22 @@ No part of this file may be used without permission.
 	</div>
 
 	<div class="box" data-box="ctnf-udp-time">
-		<div class="heading">UDP Timeout</div>
+		<div class="heading">UDP超时设置 (单位：秒)</div>
 		<div class="udptimeout content"></div>
 		<script type="text/javascript">
 			if ((v = nvram.ct_udp_timeout.match(/^(\d+)\s+(\d+)$/)) == null) {
 				v = [0,30,180];
 			}
 			$('.content.udptimeout').forms([
-				{ title: ' ', text: '<small>(seconds)</small>' },
-				{ title: 'Unreplied', name: 'f_udp_0', type: 'text', maxlen: 6, size: 8, value: v[1], suffix: '<span id="count11"></span>' },
-				{ title: 'Assured', name: 'f_udp_1', type: 'text', maxlen: 6, size: 8, value: v[2], suffix: '<span id="count12"></span>' }
+				{ title: ' ', text: '<small>(秒)</small>' },
+				{ title: '未答复超时', name: 'f_udp_0', type: 'text', maxlen: 6, size: 8, value: v[1], suffix: '<span id="count11"></span>' },
+				{ title: '未确认超时', name: 'f_udp_1', type: 'text', maxlen: 6, size: 8, value: v[2], suffix: '<span id="count12"></span>' }
 			], { grid: ['col-sm-2', 'col-sm-10'] });
 		</script>
 	</div>
 
 	<div class="box" data-box="ctnf-timeout">
-		<div class="heading">Other Timeouts</div>
+		<div class="heading">其它超时设置 (单位：秒)</div>
 		<div class="otimeout content"></div>
 		<script type="text/javascript">
 			if ((v = nvram.ct_timeout.match(/^(\d+)\s+(\d+)$/)) == null) {
@@ -229,15 +229,15 @@ No part of this file may be used without permission.
 			}
 
 			$('.content.otimeout').forms([
-				{ title: ' ', text: '<small>(seconds)</small>' },
-				{ title: 'Generic', name: 'f_ct_0', type: 'text', maxlen: 6, size: 8, value: v[1] },
-				{ title: 'ICMP', name: 'f_ct_1', type: 'text', maxlen: 6, size: 8, value: v[2] }
+				{ title: ' ', text: '<small>(秒)</small>' },
+				{ title: '通用超时', name: 'f_ct_0', type: 'text', maxlen: 6, size: 8, value: v[1] },
+				{ title: 'ICMP 超时', name: 'f_ct_1', type: 'text', maxlen: 6, size: 8, value: v[2] }
 			], { grid: ['col-sm-2', 'col-sm-10'] });
 		</script>
 	</div>
 
 	<div class="box" data-box="ctnf-nat">
-		<div class="heading">Tracking / NAT Helpers</div>
+		<div class="heading">追踪/NAT 增强模块</div>
 		<div class="content helpers"></div>
 		<script type="text/javascript">
 			$('.content.helpers').forms([
@@ -253,28 +253,28 @@ No part of this file may be used without permission.
 	</div>
 
 	<div class="box" data-box="ctnf-misc"">
-		<div class="heading">Miscellaneous</div>
+		<div class="heading">其它设置</div>
 		<div class="content misc"></div>
 		<script type="text/javascript">
 			v = [];
 			for (i = -5; i <= 5; ++i) {
 				v.push([i + '', i ? ((i > 0) ? '+' : '') + i : 'None']);
 			}
-			v.push(['', 'Custom']);
+			v.push(['', '自定义']);
 
 			$('.content.misc').forms([
-				{ title: 'TTL Adjust', multi: [
+				{ title: 'TTL 调整', multi: [
 					{ name: 'f_nf_ttl', type: 'select', options: v, value: nvram.nf_ttl.substr(0, 2) == 'c:' ? '' : nvram.nf_ttl },
 					{ name: 'f_ttl_val', type: 'text', maxlen: 3, size: 6, value: nvram.nf_ttl.substr(0, 2) == 'c:' ?  nvram.nf_ttl.substr(2, 5) : '' }
 				] },
-				{ title: 'Inbound Layer 7', name: 'f_l7in', type: 'checkbox', value: nvram.nf_l7in != '0' }
+				{ title: '下行 Layer7 应用层过滤', name: 'f_l7in', type: 'checkbox', value: nvram.nf_l7in != '0' }
 			], { grid: ['col-sm-2', 'col-sm-10'] });
 		</script>
 
 	</div>
 
-	<button type="button" value="Save" id="save-button" onclick="save()" class="btn btn-primary">Save <i class="icon-check"></i></button>
-	<button type="button" value="Cancel" id="cancel-button" onclick="javascript:reloadPage();" class="btn">Cancel <i class="icon-cancel"></i></button>
+	<button type="button" value="保存设置" id="save-button" onclick="save()" class="btn btn-primary">保存设置 <i class="icon-check"></i></button>
+	<button type="button" value="取消设置" id="cancel-button" onclick="javascript:reloadPage();" class="btn">取消设置 <i class="icon-cancel"></i></button>
 	<span id="footer-msg" class="alert alert-warning" style="visibility: hidden;"></span>
 
 	<script type="text/javascript">verifyFields(null, 1);</script>

@@ -12,7 +12,7 @@ mailto:jean-yves@avenard.org
 For use with Tomato Firmware only.
 No part of this file may be used without permission.
 LAN Access admin module by Augusto Bott
---><title>Virtual Wireless Interfaces</title>
+--><title>虚拟无线</title>
 <content>
 	<style type="text/css">
 		#wlif-grid .co2,
@@ -42,9 +42,9 @@ LAN Access admin module by Augusto Bott
 
 		var wl_modes_available = [];
 
-		wmo = {'ap':'Access Point','apwds':'Access Point + WDS','sta':'Wireless Client','wet':'Wireless Ethernet Bridge','wds':'WDS'};
+		wmo = {'ap':'AP','apwds':'AP + WDS','sta':'无线客户端','wet':'无线桥接','wds':'WDS'};
 
-		tabs = [['overview', 'Overview']];
+		tabs = [['overview', '概览']];
 
 		var xob = null;
 		var refresher = [];
@@ -78,8 +78,8 @@ LAN Access admin module by Augusto Bott
 				E('_f_wl'+wl_unit(u)+'_scan').disabled = x;
 			}
 			var e = E('_f_wl'+unit+'_scan');
-			if (x) e.value = 'Scan ' + (wscan.tries + 1);
-			else e.value = 'Scan';
+			if (x) e.value = '扫描 ' + (wscan.tries + 1);
+			else e.value = '扫描';
 			E('spin'+unit).style.visibility = x ? 'visible' : 'hidden';
 		}
 
@@ -93,10 +93,10 @@ LAN Access admin module by Augusto Bott
 				{ type: 'checkbox', prefix: '<div class="centered">', suffix: '</div>' },
 				{ type: 'text', maxlen: 32, size: 34, prefix: '<div class="centered">', suffix: '</div>' },
 				{ type: 'select', options: wl_modes_available , prefix: '<div class="centered">', suffix: '</div>' },
-				{ type: 'select', options: [[0,'LAN (br0)'],[1,'LAN1  (br1)'],[2,'LAN2 (br2)'],[3,'LAN3 (br3)'],[4,'none']] }
+				{ type: 'select', options: [[0,'LAN (br0)'],[1,'LAN1  (br1)'],[2,'LAN2 (br2)'],[3,'LAN3 (br3)'],[4,'无']] }
 			]);
 
-			this.headerSet(['Interface', 'Enabled', 'SSID', 'Mode', 'Bridge']);
+			this.headerSet(['VIF', '启用', 'SSID', '工作模式', '桥接']);
 
 			wlg.populate();
 
@@ -221,9 +221,9 @@ LAN Access admin module by Augusto Bott
 
 			return ([ifname,
 				(data[1] == 1) ? 'Yes' : 'No',
-				ssid || '<small><i>(unset)</i></small>',
-				wmo[data[3]] || '<small><i>(unset)</i></small>',
-				['LAN (br0)', 'LAN1 (br1)', 'LAN2 (br2)', 'LAN3 (br3)', 'none' ][data[4]]
+				ssid || '<small><i>(未设置)</i></small>',
+				wmo[data[3]] || '<small><i>(未设置)</i></small>',
+				['LAN (br0)', 'LAN1 (br1)', 'LAN2 (br2)', 'LAN3 (br3)', '无' ][data[4]]
 			]);
 		}
 
@@ -316,7 +316,7 @@ LAN Access admin module by Augusto Bott
 			verifyFields(null,1);
 
 			var e = E('footer-msg');
-			e.innerHTML = 'After configuring this VIF, review and save your settings on the Overview tab.';
+			e.innerHTML = '配置 VIF 后, 请在接口状态选项卡中保存设置.';
 			e.style.visibility = 'visible';
 			/* REMOVE-BEGIN */
 			//	setTimeout(
@@ -485,7 +485,7 @@ LAN Access admin module by Augusto Bott
 
 			E('sesdiv').style.display = '';
 			if (uninit < 0) {
-				E('sesdiv').innerHTML = '<i>This feature is not supported on this router.</i>';
+				E('sesdiv').innerHTML = '<i>该设备不支持此功能.</i>';
 				return;
 			}
 
@@ -541,7 +541,7 @@ LAN Access admin module by Augusto Bott
 			}
 
 			elem.display('overview-tab', (name == 'overview'));
-			E('save-button').value = (name != 'overview') ? 'Overview' : 'Save';
+			E('save-button').value = (name != 'overview') ? '接口状态' : '保存设置';
 
 			for (var i = 1; i < tabs.length; ++i) {
 				if (name == tabs[i][0]) {
@@ -864,7 +864,7 @@ LAN Access admin module by Augusto Bott
 						case 'mixed':
 						case 'n-only':
 							if (nphy && (a.value == 'tkip') && (sm2.indexOf('wpa') != -1)) {
-								ferror.set(a, 'TKIP encryption is not supported with WPA / WPA2 in N mode.', quiet || !ok);
+								ferror.set(a, 'WPA/WPA2 在 N模式下不支持 TKIP 加密.', quiet || !ok);
 								ok = 0;
 							}
 							else ferror.clear(a);
@@ -881,11 +881,11 @@ LAN Access admin module by Augusto Bott
 				if ((wmode == 'sta') || (wmode == 'wet')) {
 					++wlclnt;
 					if (wlclnt > 1) {
-						ferror.set(b, 'Only one wireless interface can be configured in client mode.', quiet || !ok);
+						ferror.set(b, '仅一个无线接口可配置成客户端模式.', quiet || !ok);
 						ok = 0;
 					}
 					else if (a.value == 'n-only') {
-						ferror.set(a, 'N-only is not supported in wireless client modes, use Auto.', quiet || !ok);
+						ferror.set(a, '仅N方式不支持无线客户端模式，请用 自动 方式.', quiet || !ok);
 						ok = 0;
 					}
 				}
@@ -894,7 +894,7 @@ LAN Access admin module by Augusto Bott
 				ferror.clear(a);
 				if (wl_vis[vidx]._f_wl_wpa_psk == 1) {
 					if ((a.value.length < 8) || ((a.value.length == 64) && (a.value.search(/[^0-9A-Fa-f]/) != -1))) {
-						ferror.set('_wl'+u+'_wpa_psk', 'Invalid pre-shared key. Please enter at least 8 characters or 64 hexadecimal digits.', quiet || !ok);
+						ferror.set('_wl'+u+'_wpa_psk', '无效的预共享密钥. 请输入至少8个字符或64个16进制数.', quiet || !ok);
 						ok = 0;
 					}
 				}
@@ -902,7 +902,7 @@ LAN Access admin module by Augusto Bott
 				if (u.toString().indexOf('.') < 0) {
 					// wl channel
 					if (((wmode == 'wds') || (wmode == 'apwds')) && (wl_vis[vidx]._wl_channel == 1) && (E('_wl'+u+'_channel').value == '0')) {
-						ferror.set('_wl'+u+'_channel', 'Fixed wireless channel required in WDS mode.', quiet || !ok);
+						ferror.set('_wl'+u+'_channel', 'WDS模式需要固定的无线频道.', quiet || !ok);
 						ok = 0;
 					}
 					else ferror.clear('_wl'+u+'_channel');
@@ -964,7 +964,7 @@ LAN Access admin module by Augusto Bott
 						else if (!isMAC0(a.value)) b = 1;
 					}
 					if (!b) {
-						ferror.set('_f_wl'+u+'_wds_0', 'WDS MAC address required.', quiet || !ok);
+						ferror.set('_f_wl'+u+'_wds_0', 'WDS MAC地址需要设置.', quiet || !ok);
 						ok = 0;
 					}
 				}
@@ -994,7 +994,7 @@ LAN Access admin module by Augusto Bott
 		}
 
 		function save() {
-			if (E('save-button').value != 'Save') {
+			if (E('save-button').value != '保存设置') {
 				tabSelect('overview');
 				return;
 			}
@@ -1324,7 +1324,7 @@ LAN Access admin module by Augusto Bott
 	<input type="hidden" name="lan3_ifnames" value="">
 
 	<div class="box" id="sesdiv" style="display:none">
-		<div class="heading">Virtual Wireless Interfaces</div>
+		<div class="heading">虚拟无线接口</div>
 
 		<div class="content">
 
@@ -1334,15 +1334,15 @@ LAN Access admin module by Augusto Bott
 			<div id="overview-tab">
 				<table class="line-table" id="wlif-grid"></table><br />
 
-				<h3><a href="javascript:toggleVisibility('details');">Wireless Interfaces Details <span id="sesdivdetailsshowhide"><i class="icon-chevron-up"></i></span></a></h3>
+				<h3><a href="javascript:toggleVisibility('details');">无线接口详细信息 <span id="sesdivdetailsshowhide"><i class="icon-chevron-up"></i></span></a></h3>
 				<div class="section fixtables" id="sesdivdetails" style="display:none">
 
 					<script type="text/javascript">
 						var c = [];
 						for (var uidx = 0; uidx < wl_ifaces.length; ++uidx) {
 							if (wl_sunit(uidx)<0) {
-								c.push({ title: 'Interface', text: 'wl' + wl_fface(uidx) + ' <small>(' + wl_display_ifname(uidx) + ')</small>' });
-								c.push({ title: 'Virtual Interfaces', indent: 2, rid: 'wl' + wl_fface(uidx) + '_vifs',
+								c.push({ title: '接口', text: 'wl' + wl_fface(uidx) + ' <small>(' + wl_display_ifname(uidx) + ')</small>' });
+								c.push({ title: '虚拟接口', indent: 2, rid: 'wl' + wl_fface(uidx) + '_vifs',
 									text: 'wl' + wl_fface(uidx) + ' ' +  nvram['wl' + wl_fface(uidx) + '_vifs'] + ' <small>(max ' + wl_ifaces[uidx][7] + ')</small>' });
 
 							}
@@ -1353,39 +1353,39 @@ LAN Access admin module by Augusto Bott
 				</div><br />
 
 				<!-- LINUX24-BEGIN -->
-				<h3><a href="javascript:toggleVisibility('options');">Options <span id="sesdivoptionsshowhide"><i class="icon-chevron-up"></i></span></a></h3>
+				<h3><a href="javascript:toggleVisibility('options');">可选 <span id="sesdivoptionsshowhide"><i class="icon-chevron-up"></i></span></a></h3>
 				<div class="section" id="sesdivoptions" style="display:none"></div><hr>
 				<script type="text/javascript">
 					$('#sesdivoptions').forms([
-						{ title: 'Use alternate NAS startup sequence', name: 'f_nas_alternate', type: 'checkbox', value: nvram.nas_alternate == '1' }
+						{ title: '使用备用 NAS 启动顺序', name: 'f_nas_alternate', type: 'checkbox', value: nvram.nas_alternate == '1' }
 					]);
 				</script>
 				<!-- LINUX24-END -->
 
-				<h4><a href="javascript:toggleVisibility('notes');">Notes <span id="sesdivnotesshowhide"><i class="icon-chevron-up"></i></span></a></h4>
+				<h4><a href="javascript:toggleVisibility('notes');">说明 <span id="sesdivnotesshowhide"><i class="icon-chevron-up"></i></span></a></h4>
 				<div class="section" id="sesdivnotes" style="display:none">
 
 					<ul>
-						<li><b>Interface</b> - Wireless VIF name.</li>
-						<li><b>Enabled</b> - If this VIF should be active and brought online.</li>
-						<li><b>SSID</b> - Wireless Service Set Identifier.</li>
-						<li><b>Mode</b> - Interface mode: Access Point, WDS, Wireless Client, etc...</li>
-						<li><b>Bridge</b> - Which LAN bridge this VIF should be assigned.</li>
+						<li><b>接口</b> - 无线 VIF 名称.</li>
+						<li><b>启用</b> - 此 VIF 是否处于活动状态并联机.</li>
+						<li><b>SSID</b> - 无线服务标识符.</li>
+						<li><b>模式</b> - 接口模式：AP，WDS，无线客户端等</li>
+						<li><b>桥接</b> - 选择要将 VIF 桥接到哪个网络.</li>
 					</ul>
 
 					<ul>
 						<!-- LINUX24-BEGIN -->
-						<li><b>Use alternate NAS startup(...)</b> - <i>Only meaningful for K24 builds</i> - Enable this option if you need more than one NAS process running (i.e. to handle WPAx encryption on more than one WLVIF).</li>
+						<li><b>使用备用 NAS 启动(...)</b> - <i>只适用于 K24 构建的固件</i> - 如果您需要运行多个NAS进程，请启用此选项 (即在多于个 WLVIF 上处理 WPAx 加密).</li>
 						<!-- LINUX24-END -->
 					</ul>
 
 					<ul>
-						<li><b>Other relevant notes/hints:</b>
+						<li><b>其它说明:</b>
 						<ul>
-							<li>When creating/defining a new wireless VIF, it's MAC address will be shown (incorrectly) as '00:00:00:00:00:00', as it's unknown at that moment (until network is restarted and this page is reloaded).</li>
-							<li>When saving changes, the MAC addresses of all defined non-primary wireless VIFs could sometimes be (already) <i>set</i> but might be <i>recreated</i> by the WL driver (so that previously defined/saved settings might need to be updated/changed accordingly on <a href=#advanced-mac.asp>Advanced/MAC Address</a> after saving settings and rebooting your router).</li>
-							<li>This web interface allows configuring a maximum of 4 VIFs for each physical wireless interface available - up to 3 extra VIFs can be defined in addition to the primary VIF (<i>on devices with multiple VIF capabilities</i>).</li>
-							<li>By definition, configuration settings for the <i>primary VIF</i> of any physical wireless interfaces shouldn't be touched here (use the <a class="ajaxload" href="basic-network.asp">Basic/Network</a> page instead).</li>
+							<li>当创建新的无线 VIF 时，它的 MAC 地址将被显示（不正确）为'00：00：00：00：00：00'，因为它在那一刻是未知的 (直到网络重新启动并重新加载此页面).</li>
+							<li>保存更改时，所有定义的非主要无线 VIF 的 MAC 地址有时可能（已经） <i>固定</i> 但也可能 <i>重新创建</i> 由 WL 驱动程序（以便先前 定义/保存 的设置可能需要据此更改 <a href=#advanced-mac.asp>MAC 地址</a> 保存设置并重新启动路由器后).</li>
+							<li>此 Web 界面允许为每个可用的物理无线接口配置最多4个 VIF，除主要 VIF 之外，最多可定义3个额外的 VIF(<i>在具有多个VIF功能的设备上</i>).</li>
+							<li>根据定义，配置设置为 <i>主 VIF</i> 的任何物理无线接口不应该在这里修改 (使用 <a class="ajaxload" href="basic-network.asp">基础网络设置</a> 页面修改).</li>
 						</ul>
 					</ul>
 				</div>
@@ -1402,7 +1402,7 @@ LAN Access admin module by Augusto Bott
 
 					htmlOut += '<div id="'+t+'-tab-disabled">';
 					htmlOut += '<br>';
-					htmlOut += 'VIF ' + tabs[i][1] + ' is not defined. <br /><br />';
+					htmlOut += 'VIF ' + tabs[i][1] + ' 没有定义. <br /><br />';
 					htmlOut += '</div>';
 
 					htmlOut += '<div id="'+t+'-tab">';
@@ -1439,22 +1439,22 @@ LAN Access admin module by Augusto Bott
 
 					var f = [];
 					f.push (
-						{ title: 'Enable Interface', name: 'f_wl'+u+'_radio', type: 'checkbox',
+						{ title: '启用接口', name: 'f_wl'+u+'_radio', type: 'checkbox',
 							value: (eval('nvram["wl'+u+'_radio"]') == '1') && (eval('nvram["wl'+u+'_net_mode"]') != 'disabled') },
-						{ title: 'MAC Address', text: '<a href="#advanced-mac.asp">' + (eval('nvram["wl'+u+'_hwaddr"]') || '00:00:00:00:00:00') + '</a>' +
-							' &nbsp; <b id="wl'+u+'_hwaddr_msg" style="visibility:hidden"><small>(warning: WL driver reports BSSID <a href=#advanced-mac.asp>' + ((typeof(wl_ifaces[wl_ifidxx(u)]) != 'undefined')? wl_ifaces[wl_ifidxx(u)][9] : '') + '</a>)</small></b>' },
-						{ title: 'Wireless Mode', name: 'f_wl'+u+'_mode', type: 'select',
+						{ title: 'MAC 地址', text: '<a href="#advanced-mac.asp">' + (eval('nvram["wl'+u+'_hwaddr"]') || '00:00:00:00:00:00') + '</a>' +
+							' &nbsp; <b id="wl'+u+'_hwaddr_msg" style="visibility:hidden"><small>(注意: 无线网卡驱动提供的 BSSID <a href=#advanced-mac.asp>' + ((typeof(wl_ifaces[wl_ifidxx(u)]) != 'undefined')? wl_ifaces[wl_ifidxx(u)][9] : '') + '</a>)</small></b>' },
+						{ title: '无线模式', name: 'f_wl'+u+'_mode', type: 'select',
 							options: wl_modes_available,
 							value: ((eval('nvram["wl'+u+'_mode"]') == 'ap') && (eval('nvram["wl'+u+'_wds_enable"]') == '1')) ? 'apwds' : eval('nvram["wl'+u+'_mode"]'),
-							suffix: ' &nbsp; <b id="wl'+u+'_mode_msg" style="visibility:hidden"><small>(note: you might wish to cross-check settings later on <a href=basic-network.asp>Basic/Network</a>)</small></b>' }
+							suffix: ' &nbsp; <b id="wl'+u+'_mode_msg" style="visibility:hidden"><small>(注意: 设置后请至 <a href=basic-network.asp>基本网络设置</a>中查看)</small></b>' }
 					);
 
 					// only if primary VIF
 					if (u.toString().indexOf('.') < 0) {
 						f.push (
-							{ title: 'Radio Band', name: 'f_wl'+u+'_nband', type: 'select', options: bands[uidx],
+							{ title: '无线频段', name: 'f_wl'+u+'_nband', type: 'select', options: bands[uidx],
 								value: eval('nvram["wl'+u+'_nband"]') || '0' == '0' ? bands[uidx][0][0] : eval('nvram["wl'+u+'_nband"]') },
-							{ title: 'Wireless Network Mode', name: 'wl'+u+'_net_mode', type: 'select',
+							{ title: '工作模式', name: 'wl'+u+'_net_mode', type: 'select',
 								value: (eval('nvram["wl'+u+'_net_mode"]') == 'disabled') ? 'mixed' : eval('nvram["wl'+u+'_net_mode"]'),
 								options: [], prefix: '<span id="__wl'+u+'_net_mode">', suffix: '</span>' }
 						);
@@ -1465,18 +1465,18 @@ LAN Access admin module by Augusto Bott
 
 					f.push (
 						{ title: 'SSID', name: 'wl'+u+'_ssid', type: 'text', maxlen: 32, size: 34, value: eval('nvram["wl'+u+'_ssid"]') },
-						{ title: 'Broadcast', indent: 2, name: 'f_wl'+u+'_bcast', type: 'checkbox', value: (eval('nvram["wl'+u+'_closed"]') == '0') }
+						{ title: 'SSID 广播', indent: 2, name: 'f_wl'+u+'_bcast', type: 'checkbox', value: (eval('nvram["wl'+u+'_closed"]') == '0') }
 					);
 
 					// only if primary VIF
 					if (u.toString().indexOf('.') < 0) {
 						f.push (
-							{ title: 'Channel', name: 'wl'+u+'_channel', type: 'select', options: ghz[uidx], prefix: '<div style="display: inline-block; vertical-align: middle;" id="__wl'+u+'_channel">', 
-								suffix: '</div> <button class="btn" type="button" id="_f_wl'+u+'_scan" value="Scan" onclick="scanButton('+u+')">Scan <i class="icon-search"></i></button> <span class="spinner" id="spin'+u+'"></span>',
+							{ title: '频道', name: 'wl'+u+'_channel', type: 'select', options: ghz[uidx], prefix: '<div style="display: inline-block; vertical-align: middle;" id="__wl'+u+'_channel">', 
+								suffix: '</div> <button class="btn" type="button" id="_f_wl'+u+'_scan" value="扫描" onclick="scanButton('+u+')">Scan <i class="icon-search"></i></button> <span class="spinner" id="spin'+u+'"></span>',
 								value: eval('nvram["wl'+u+'_channel"]') },
-							{ title: 'Channel Width', name: 'wl'+u+'_nbw_cap', type: 'select', options: [['0','20 MHz'],['1','40 MHz']],
+							{ title: '频宽', name: 'wl'+u+'_nbw_cap', type: 'select', options: [['0','20 MHz'],['1','40 MHz']],
 								value: eval('nvram["wl'+u+'_nbw_cap"]') },
-							{ title: 'Control Sideband', name: 'f_wl'+u+'_nctrlsb', type: 'select', options: [['lower','Lower'],['upper','Upper']],
+							{ title: '控制边带', name: 'f_wl'+u+'_nctrlsb', type: 'select', options: [['lower','下部'],['upper','上部']],
 								value: eval('nvram["wl'+u+'_nctrlsb"]') == 'none' ? 'lower' : eval('nvram["wl'+u+'_nctrlsb"]') }
 						);
 					}
@@ -1485,26 +1485,26 @@ LAN Access admin module by Augusto Bott
 						nvram['wl'+u+'_crypto'] = 'aes';
 
 					f.push (
-						{ title: 'Security', name: 'wl'+u+'_security_mode', type: 'select',
-							options: [['disabled','Disabled'],['wep','WEP'],['wpa_personal','WPA Personal'],['wpa_enterprise','WPA Enterprise'],['wpa2_personal','WPA2 Personal'],['wpa2_enterprise','WPA2 Enterprise'],['wpaX_personal','WPA / WPA2 Personal'],['wpaX_enterprise','WPA / WPA2 Enterprise'],['radius','Radius']],
+						{ title: '安全设置', name: 'wl'+u+'_security_mode', type: 'select',
+							options: [['disabled','禁用'],['wep','WEP'],['wpa_personal','WPA 个人'],['wpa_enterprise','WPA 企业'],['wpa2_personal','WPA2 个人'],['wpa2_enterprise','WPA2 企业'],['wpaX_personal','WPA / WPA2 个人'],['wpaX_enterprise','WPA / WPA2 企业'],['radius','Radius']],
 							value: eval('nvram["wl'+u+'_security_mode"]') },
-						{ title: 'Encryption', indent: 2, name: 'wl'+u+'_crypto', type: 'select',
+						{ title: '加密方式', indent: 2, name: 'wl'+u+'_crypto', type: 'select',
 							options: [['tkip','TKIP'],['aes','AES'],['tkip+aes','TKIP / AES']], value: eval('nvram["wl'+u+'_crypto"]') },
-						{ title: 'Shared Key', indent: 2, name: 'wl'+u+'_wpa_psk', type: 'password', maxlen: 64, size: 64, peekaboo: 1,
-							suffix: ' <button class="btn" type="button" id="_f_wl'+u+'_psk_random1" value="Random" onclick="random_psk(\'_wl'+u+'_wpa_psk\')">Random</button>',
+						{ title: '共享密钥', indent: 2, name: 'wl'+u+'_wpa_psk', type: 'password', maxlen: 64, size: 64, peekaboo: 1,
+							suffix: ' <button class="btn" type="button" id="_f_wl'+u+'_psk_random1" value="随机" onclick="random_psk(\'_wl'+u+'_wpa_psk\')">Random</button>',
 							value: eval('nvram["wl'+u+'_wpa_psk"]') },
-						{ title: 'Shared Key', indent: 2, name: 'wl'+u+'_radius_key', type: 'password', maxlen: 80, size: 32, peekaboo: 1,
+						{ title: '共享密钥', indent: 2, name: 'wl'+u+'_radius_key', type: 'password', maxlen: 80, size: 32, peekaboo: 1,
 							suffix: ' <button class="btn" type="button" id="_f_wl'+u+'_psk_random2" value="Random" onclick="random_psk(\'_wl'+u+'_radius_key\')">Random</button>',
 							value: eval('nvram["wl'+u+'_radius_key"]') },
-						{ title: 'Group Key Renewal', indent: 2, name: 'wl'+u+'_wpa_gtk_rekey', type: 'text', maxlen: 4, size: 6, suffix: ' <i>(seconds)</i>',
+						{ title: '组密钥更新间隔', indent: 2, name: 'wl'+u+'_wpa_gtk_rekey', type: 'text', maxlen: 4, size: 6, suffix: ' <i>(seconds)</i>',
 							value: eval('nvram["wl'+u+'_wpa_gtk_rekey"]') || '3600' },
-						{ title: 'Radius Server', indent: 2, multi: [
+						{ title: 'Radius 服务', indent: 2, multi: [
 							{ name: 'wl'+u+'_radius_ipaddr', type: 'text', maxlen: 15, size: 17, value: eval('nvram["wl'+u+'_radius_ipaddr"]') },
 							{ name: 'wl'+u+'_radius_port', type: 'text', maxlen: 5, size: 7, prefix: ' : ', value: eval('nvram["wl'+u+'_radius_port"]') || '1812' } ] },
-						{ title: 'Encryption', indent: 2, name: 'wl'+u+'_wep_bit', type: 'select', options: [['128','128-bits'],['64','64-bits']],
+						{ title: '加密方式', indent: 2, name: 'wl'+u+'_wep_bit', type: 'select', options: [['128','128-bits'],['64','64-bits']],
 							value: eval('nvram["wl'+u+'_wep_bit"]') },
-						{ title: 'Passphrase', indent: 2, name: 'wl'+u+'_passphrase', type: 'text', maxlen: 16, size: 20,
-							suffix: ' <input type="button" id="_f_wl'+u+'_wep_gen" value="Generate" onclick="generate_wep('+u+')"> <button class="btn" type="button" id="_f_wl'+u+'_wep_random" value="Random" onclick="random_wep('+u+')">Random</button>',
+						{ title: '密码', indent: 2, name: 'wl'+u+'_passphrase', type: 'text', maxlen: 16, size: 20,
+							suffix: ' <input type="button" id="_f_wl'+u+'_wep_gen" value="生成" onclick="generate_wep('+u+')"> <button class="btn" type="button" id="_f_wl'+u+'_wep_random" value="随机" onclick="random_wep('+u+')">Random</button>',
 							value: eval('nvram["wl'+u+'_passphrase"]') }
 					);
 
@@ -1516,14 +1516,14 @@ LAN Access admin module by Augusto Bott
 
 					for (var j = 1; j <= 4; ++j) {
 						f.push(
-							{ title: ('Key ' + j), indent: 2, name: ('wl'+u+'_key' + j), type: 'text', maxlen: 26, size: 34,
+							{ title: ('密钥 ' + j), indent: 2, name: ('wl'+u+'_key' + j), type: 'text', maxlen: 26, size: 34,
 								suffix: '<input type="radio" onchange="verifyFields(this,1)" onclick="verifyFields(this,1)" name="f_wl'+u+'_wepidx" id="_f_wl'+u+'_wepidx_' + j + '" value="' + j + '"' + ((eval('nvram["wl'+u+'_key"]') == j) ? ' checked>' : '>'),
 								value: nvram['wl'+u+'_key' + j] });
 					}
 
 					f.push(
 						{ title: 'WDS', name: 'f_wl'+u+'_lazywds', type: 'select',
-							options: [['0','Link With...'],['1','Automatic']], value: nvram['wl'+u+'_lazywds'] } );
+							options: [['0','连接至...'],['1','自动']], value: nvram['wl'+u+'_lazywds'] } );
 					/* REMOVE-BEGIN */
 					//	alert('nvram["wl'+u+'_wds"]=' + eval('nvram["wl'+u+'_wds"]'));
 					/* REMOVE-END */
@@ -1537,7 +1537,7 @@ LAN Access admin module by Augusto Bott
 					//	wds = (nvram['wl'+u+'_wds']).split(/\s+/);
 					/* REMOVE-END */
 					for (var k = 0; k < 10; k += 2)	{
-						f.push({ title: (k ? '' : 'MAC Address'), indent: 2, multi: [
+						f.push({ title: (k ? '' : 'MAC 地址'), indent: 2, multi: [
 							{ name: 'f_wl'+u+'_wds_' + k, type: 'text', maxlen: 17, size: 20, value: wds[k] || '00:00:00:00:00:00' },
 							{ name: 'f_wl'+u+'_wds_' + (k + 1), type: 'text', maxlen: 17, size: 20, value: wds[k + 1] || '00:00:00:00:00:00' } ] } );
 					}
@@ -1554,8 +1554,8 @@ LAN Access admin module by Augusto Bott
 		<!-- / SESDIV / -->
 	</div>
 
-	<button type="button" value="Save" id="save-button" onclick="save()" class="btn btn-primary">Save <i class="icon-check"></i></button>
-	<button type="button" value="Cancel" id="cancel-button" onclick="javascript:reloadPage();" class="btn">Cancel <i class="icon-cancel"></i></button>
+	<button type="button" value="保存设置" id="save-button" onclick="save()" class="btn btn-primary">保存设置 <i class="icon-check"></i></button>
+	<button type="button" value="取消设置" id="cancel-button" onclick="javascript:reloadPage();" class="btn">取消设置 <i class="icon-cancel"></i></button>
 	<span id="footer-msg" class="alert alert-warning" style="visibility: hidden;"></span>
 
 	<script type="text/javascript">

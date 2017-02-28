@@ -5,7 +5,7 @@ http://www.polarcloud.com/tomato/
 
 For use with Tomato Firmware only.
 No part of this file may be used without permission.
---><title>Wireless</title>
+--><title>无线设置</title>
 <content>
 	<script type="text/javascript" src="js/wireless.jsx?_http_id=<% nv(http_id); %>"></script>
 	<script type="text/javascript">
@@ -94,7 +94,7 @@ No part of this file may be used without permission.
 				htmlOut += ('<input type=\'hidden\' id=\'_wl'+u+'_country\' name=\'wl'+u+'_country\'>');
 				htmlOut += ('<input type=\'hidden\' id=\'_wl'+u+'_nmode_protection\' name=\'wl'+u+'_nmode_protection\'>');
 
-				htmlOut += ('<div class="box"><div class="heading">Wireless Settings ');
+				htmlOut += ('<div class="box"><div class="heading">无线网络设置 ');
 				//if (wl_ifaces.length > 1)
 				htmlOut += ('(' + wl_display_ifname(uidx) + ') ');
 				//W('');
@@ -102,78 +102,78 @@ No part of this file may be used without permission.
 
 				at = ((nvram['wl'+u+'_security_mode'] != "wep") && (nvram['wl'+u+'_security_mode'] != "radius") && (nvram['wl'+u+'_security_mode'] != "disabled"));
 				htmlOut += createFormFields([
-					{ title: 'Afterburner', name: 'wl'+u+'_afterburner', type: 'select', options: [['auto','Auto'],['on','Enable'],['off','Disable *']],
+					{ title: 'Afterburner', name: 'wl'+u+'_afterburner', type: 'select', options: [['auto','自动'],['on','启用'],['off','禁用 *']],
 						value: nvram['wl'+u+'_afterburner'] },
-					{ title: 'AP Isolation', name: 'wl'+u+'_ap_isolate', type: 'select', options: [['0','Disable *'],['1','Enable']],
+					{ title: 'AP 隔离', name: 'wl'+u+'_ap_isolate', type: 'select', options: [['0','禁用 *'],['1','启用']],
 						value: nvram['wl'+u+'_ap_isolate'] },
-					{ title: 'Authentication Type', name: 'wl'+u+'_auth', type: 'select',
-						options: [['0','Auto *'],['1','Shared Key']], attrib: at ? 'disabled' : '',
+					{ title: '认证类型', name: 'wl'+u+'_auth', type: 'select',
+						options: [['0','自动 *'],['1','共享密钥']], attrib: at ? 'disabled' : '',
 						value: at ? 0 : nvram['wl'+u+'_auth'] },
-					{ title: 'Basic Rate', name: 'wl'+u+'_rateset', type: 'select', options: [['default','Default *'],['12','1-2 Mbps'],['all','All']],
+					{ title: '基本速率', name: 'wl'+u+'_rateset', type: 'select', options: [['default','默认 *'],['12','1-2 Mbps'],['all','全部']],
 						value: nvram['wl'+u+'_rateset'] },
-					{ title: 'Beacon Interval', name: 'wl'+u+'_bcn', type: 'text', maxlen: 5, size: 7,
-						suffix: ' <small>(range: 1 - 65535; default: 100)</small>', value: nvram['wl'+u+'_bcn'] },
-					{ title: 'CTS Protection Mode', name: 'wl'+u+'_gmode_protection', type: 'select', options: [['off','Disable *'],['auto','Auto']],
+					{ title: '信标间隔', name: 'wl'+u+'_bcn', type: 'text', maxlen: 5, size: 7,
+						suffix: ' <small>(范围: 1 - 65535; 默认: 100)</small>', value: nvram['wl'+u+'_bcn'] },
+					{ title: 'CTS 保护模式', name: 'wl'+u+'_gmode_protection', type: 'select', options: [['off','禁用 *'],['auto','自动']],
 						value: nvram['wl'+u+'_gmode_protection'] },
-					{ title: 'Regulatory Mode', name: 'wl'+u+'_reg_mode', type: 'select',
-						options: [['off', 'Off *'],['d', '802.11d'],['h', '802.11h']],
+					{ title: 'Regulatory 模式', name: 'wl'+u+'_reg_mode', type: 'select',
+						options: [['off', '禁用 *'],['d', '802.11d'],['h', '802.11h']],
 						value: nvram['wl'+u+'_reg_mode'] },
-					{ title: 'Country / Region', name: 'wl'+u+'_country_code', type: 'select',
+					{ title: '国家 / 地区', name: 'wl'+u+'_country_code', type: 'select',
 						options: wl_countries, value: nvram['wl'+u+'_country_code'] },
-					{ title: 'Bluetooth Coexistence', name: 'wl'+u+'_btc_mode', type: 'select',
-						options: [['0', 'Disable *'],['1', 'Enable'],['2', 'Preemption']],
+					{ title: '蓝牙共存', name: 'wl'+u+'_btc_mode', type: 'select',
+						options: [['0', '禁用 *'],['1', '启用'],['2', '取代']],
 						value: nvram['wl'+u+'_btc_mode'] },
-					{ title: 'Distance / ACK Timing', name: 'f_wl'+u+'_distance', type: 'text', maxlen: 5, size: 7,
-						suffix: ' <small>meters</small>&nbsp;&nbsp;<small>(range: 0 - 99999; 0 = use default)</small>',
+					{ title: '距离 / ACK响应调整', name: 'f_wl'+u+'_distance', type: 'text', maxlen: 5, size: 7,
+						suffix: ' <small>米</small>&nbsp;&nbsp;<small>(范围: 0 - 99999; 默认: 0)</small>',
 						value: (nvram['wl'+u+'_distance'] == '') ? '0' : nvram['wl'+u+'_distance'] },
-					{ title: 'DTIM Interval', name: 'wl'+u+'_dtim', type: 'text', maxlen: 3, size: 5,
-						suffix: ' <small>(range: 1 - 255; default: 1)</small>', value: nvram['wl'+u+'_dtim'] },
-					{ title: 'Fragmentation Threshold', name: 'wl'+u+'_frag', type: 'text', maxlen: 4, size: 6,
-						suffix: ' <small>(range: 256 - 2346; default: 2346)</small>', value: nvram['wl'+u+'_frag'] },
-					{ title: 'Frame Burst', name: 'wl'+u+'_frameburst', type: 'select', options: [['off','Disable *'],['on','Enable']],
+					{ title: 'DTIM 间隔', name: 'wl'+u+'_dtim', type: 'text', maxlen: 3, size: 5,
+						suffix: ' <small>(范围: 1 - 255; 默认: 1)</small>', value: nvram['wl'+u+'_dtim'] },
+					{ title: '分片阈值', name: 'wl'+u+'_frag', type: 'text', maxlen: 4, size: 6,
+						suffix: ' <small>(范围: 256 - 2346; 默认: 2346)</small>', value: nvram['wl'+u+'_frag'] },
+					{ title: '帧突发技术', name: 'wl'+u+'_frameburst', type: 'select', options: [['off','禁用 *'],['on','启用']],
 						value: nvram['wl'+u+'_frameburst'] },
-					{ title: 'HP', hidden: !hp || (uidx > 0) },
-					{ title: 'Amplifier', indent: 2, name: 'wlx_hpamp' + (uidx > 0 ? uidx + '' : ''), type: 'select', options: [['0','Disable'],['1','Enable *']],
+					{ title: '高功率', hidden: !hp || (uidx > 0) },
+					{ title: '功率放大器', indent: 2, name: 'wlx_hpamp' + (uidx > 0 ? uidx + '' : ''), type: 'select', options: [['0','禁用'],['1','启用 *']],
 						value: nvram.wlx_hpamp != '0', hidden: !hp || (uidx > 0) },
-					{ title: 'Enhanced RX Sensitivity', indent: 2, name: 'wlx_hperx' + (uidx > 0 ? uidx + '' : ''), type: 'select', options: [['0','Disable *'],['1','Enable']],
+					{ title: '增强接收敏感度', indent: 2, name: 'wlx_hperx' + (uidx > 0 ? uidx + '' : ''), type: 'select', options: [['0','禁用 *'],['1','启用']],
 						value: nvram.wlx_hperx != '0', hidden: !hp || (uidx > 0) },
-					{ title: 'Maximum Clients', name: 'wl'+u+'_maxassoc', type: 'text', maxlen: 3, size: 5,
-						suffix: ' <small>(range: 1 - 255; default: 128)</small>', value: nvram['wl'+u+'_maxassoc'] },
-					{ title: 'Multicast Rate', name: 'wl'+u+'_mrate', type: 'select',
-						options: [['0','Auto *'],['1000000','1 Mbps'],['2000000','2 Mbps'],['5500000','5.5 Mbps'],['6000000','6 Mbps'],['9000000','9 Mbps'],['11000000','11 Mbps'],['12000000','12 Mbps'],['18000000','18 Mbps'],['24000000','24 Mbps'],['36000000','36 Mbps'],['48000000','48 Mbps'],['54000000','54 Mbps']],
+					{ title: '最大无线客户端数量', name: 'wl'+u+'_maxassoc', type: 'text', maxlen: 3, size: 5,
+						suffix: ' <small>(范围: 1 - 255; 默认: 128)</small>', value: nvram['wl'+u+'_maxassoc'] },
+					{ title: '组播速率', name: 'wl'+u+'_mrate', type: 'select',
+						options: [['0','自动 *'],['1000000','1 Mbps'],['2000000','2 Mbps'],['5500000','5.5 Mbps'],['6000000','6 Mbps'],['9000000','9 Mbps'],['11000000','11 Mbps'],['12000000','12 Mbps'],['18000000','18 Mbps'],['24000000','24 Mbps'],['36000000','36 Mbps'],['48000000','48 Mbps'],['54000000','54 Mbps']],
 						value: nvram['wl'+u+'_mrate'] },
-					{ title: 'Preamble', name: 'wl'+u+'_plcphdr', type: 'select', options: [['long','Long *'],['short','Short']],
+					{ title: '前导信号', name: 'wl'+u+'_plcphdr', type: 'select', options: [['long','长 *'],['short','短']],
 						value: nvram['wl'+u+'_plcphdr'] },
-					{ title: '802.11n Preamble', name: 'wl'+u+'_mimo_preamble', type: 'select', options: [['auto','Auto'],['mm','Mixed Mode *'],['gf','Green Field'],['gfbcm','GF-BRCM']],
+					{ title: '802.11n 报头', name: 'wl'+u+'_mimo_preamble', type: 'select', options: [['auto','自动'],['mm','混合模式 *'],['gf','Green Field'],['gfbcm','GF-BRCM']],
 						value: nvram['wl'+u+'_mimo_preamble'], hidden: !nphy },
-					{ title: 'Overlapping BSS Coexistence', name: 'wl'+u+'_obss_coex', type: 'select', options: [['0','Off *'],['1','On']],
+					{ title: '重叠的 BSS 共存', name: 'wl'+u+'_obss_coex', type: 'select', options: [['0','禁用 *'],['1','启用']],
 						value: nvram['wl'+u+'_obss_coex'], hidden: !nphy },
-					{ title: 'RTS Threshold', name: 'wl'+u+'_rts', type: 'text', maxlen: 4, size: 6,
-						suffix: ' <small>(range: 0 - 2347; default: 2347)</small>', value: nvram['wl'+u+'_rts'] },
-					{ title: 'Receive Antenna', name: 'wl'+u+'_antdiv', type: 'select', options: [['3','Auto *'],['1','A'],['0','B']],
+					{ title: 'RTS 阈值', name: 'wl'+u+'_rts', type: 'text', maxlen: 4, size: 6,
+						suffix: ' <small>(范围: 0 - 2347; 默认: 2347)</small>', value: nvram['wl'+u+'_rts'] },
+					{ title: '接收天线', name: 'wl'+u+'_antdiv', type: 'select', options: [['3','自动 *'],['1','A'],['0','B']],
 						value: nvram['wl'+u+'_antdiv'] },
-					{ title: 'Transmit Antenna', name: 'wl'+u+'_txant', type: 'select', options: [['3','Auto *'],['1','A'],['0','B']],
+					{ title: '发射天线', name: 'wl'+u+'_txant', type: 'select', options: [['3','自动 *'],['1','A'],['0','B']],
 						value: nvram['wl'+u+'_txant'] },
-					{ title: 'Transmit Power', name: 'wl'+u+'_txpwr', type: 'text', maxlen: 3, size: 5,
+					{ title: '发射功率', name: 'wl'+u+'_txpwr', type: 'text', maxlen: 3, size: 5,
 						suffix: hp ?
-						' <small>mW (before amplification)</small>&nbsp;&nbsp;<small>(range: 1 - 251; default: 10)</small>' :
-						' <small>mW</small>&nbsp;&nbsp;<small>(range: 0 - 400, actual max depends on Country selected; use 0 for hardware default)</small>',
+						' <small>mW (放大前功率)</small>&nbsp;&nbsp;<small>(范围: 1 - 251; 默认: 10)</small>' :
+						' <small>mW</small>&nbsp;&nbsp;<small>(范围: 0 - 400, 实际最大量取决于所选国家；硬件默认则使用0)</small>',
 						value: nvram['wl'+u+'_txpwr'] },
-					{ title: 'Transmission Rate', name: 'wl'+u+'_rate', type: 'select',
-						options: [['0','Auto *'],['1000000','1 Mbps'],['2000000','2 Mbps'],['5500000','5.5 Mbps'],['6000000','6 Mbps'],['9000000','9 Mbps'],['11000000','11 Mbps'],['12000000','12 Mbps'],['18000000','18 Mbps'],['24000000','24 Mbps'],['36000000','36 Mbps'],['48000000','48 Mbps'],['54000000','54 Mbps']],
+					{ title: '传输速率', name: 'wl'+u+'_rate', type: 'select',
+						options: [['0','自动 *'],['1000000','1 Mbps'],['2000000','2 Mbps'],['5500000','5.5 Mbps'],['6000000','6 Mbps'],['9000000','9 Mbps'],['11000000','11 Mbps'],['12000000','12 Mbps'],['18000000','18 Mbps'],['24000000','24 Mbps'],['36000000','36 Mbps'],['48000000','48 Mbps'],['54000000','54 Mbps']],
 						value: nvram['wl'+u+'_rate'] },
-					{ title: 'Interference Mitigation', name: 'wl'+u+'_mitigation', type: 'select',
-						options: [['0','None *'],['1','Non-WLAN'],['2','WLAN Manual'],['3','WLAN Auto'],['4','WLAN Auto with Noise Reduction']],
+					{ title: '干扰消减', name: 'wl'+u+'_mitigation', type: 'select',
+						options: [['0','None *'],['1','Non-WLAN'],['2','WLAN Manual'],['3','WLAN Auto'],['4','WLAN 自动降噪']],
 						value: nvram['wl'+u+'_mitigation'] },
-					{ title: 'WMM', name: 'wl'+u+'_wme', type: 'select', options: [['auto','Auto'],['off','Disable'],['on','Enable *']], value: nvram['wl'+u+'_wme'] },
-					{ title: 'No ACK', name: 'wl'+u+'_wme_no_ack', indent: 2, type: 'select', options: [['off','Disable *'],['on','Enable']],
+					{ title: '无线多媒体', name: 'wl'+u+'_wme', type: 'select', options: [['auto','自动 *'],['off','禁用'],['on','启用 *']], value: nvram['wl'+u+'_wme'] },
+					{ title: '无 ACK', name: 'wl'+u+'_wme_no_ack', indent: 2, type: 'select', options: [['off','禁用 *'],['on','启用']],
 						value: nvram['wl'+u+'_wme_no_ack'] },
-					{ title: 'APSD Mode', name: 'wl'+u+'_wme_apsd', indent: 2, type: 'select', options: [['off','Disable *'],['on','Enable']],
+					{ title: 'APSD 模式', name: 'wl'+u+'_wme_apsd', indent: 2, type: 'select', options: [['off','禁用 *'],['on','启用']],
 						value: nvram['wl'+u+'_wme_apsd'] },
-					{ title: 'Wireless Multicast Forwarding', name: 'wl'+u+'_wmf_bss_enable', type: 'select', options: [['0','Disable *'],['1','Enable']],
+					{ title: '无线组播转发', name: 'wl'+u+'_wmf_bss_enable', type: 'select', options: [['0','禁用 *'],['1','启用']],
 						value: nvram['wl'+u+'_wmf_bss_enable'] }
 					]);
-				htmlOut += ('<small>The default settings are indicated with an asterisk <b style="font-size: 1.5em">*</b> symbol.</small></div></div>');
+				htmlOut += ('<small>星号 <b style="font-size: 1.5em">*</b> 表示为默认值.</small></div></div>');
 			}
 
 		}
@@ -181,8 +181,8 @@ No part of this file may be used without permission.
 		$('#formfields').append(htmlOut);
 	</script>
 
-	<button type="button" value="Save" id="save-button" onclick="save()" class="btn btn-primary">Save <i class="icon-check"></i></button>
-	<button type="button" value="Cancel" id="cancel-button" onclick="javascript:reloadPage();" class="btn">Cancel <i class="icon-cancel"></i></button>
+	<button type="button" value="保存设置" id="save-button" onclick="save()" class="btn btn-primary">保存设置 <i class="icon-check"></i></button>
+	<button type="button" value="取消设置" id="cancel-button" onclick="javascript:reloadPage();" class="btn">取消设置 <i class="icon-cancel"></i></button>
 	<span id="footer-msg" class="alert alert-warning" style="visibility: hidden;"></span>
 
 	<script type="text/javascript">verifyFields(null, 1);</script>
