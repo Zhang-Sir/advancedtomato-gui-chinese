@@ -9,6 +9,6 @@ to develop and work on Tomato GUI. Easiest way to compile firmware with up to da
 is 0777 and +X. 
 
 Tutorial how to build AdvancedTomato firmware can be found here: https://github.com/Jackysi/advancedtomato2/blob/advancedtomato-ac/readme.md
-=================
+
 转载与编译请保留汉化作者信息
 汉化作者博客 https://www.getlinux.cn
