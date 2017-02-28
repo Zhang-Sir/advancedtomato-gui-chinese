@@ -50,7 +50,7 @@ No part of this file may be used without permission.
 		Hi there! What are you looking at? Messy isn't it?
 		^_^
 		*/
-		var week = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+		var week = ['星期天','星期一','星期二','星期三','星期四','星期五','星期六'];
 		var pointLoc = 0;
 		var vWidth = 1024;
 		var vHeight = 300;

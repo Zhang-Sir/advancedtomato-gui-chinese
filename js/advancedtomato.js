@@ -172,7 +172,7 @@ function AdvancedTomato() {
 		if ( n < lastUpdate || n == null ) {
 
 			$updateNotification = $( '<div class="alert alert-info icon"><a href="#" class="close" data-update="' + nvram.at_update.replace( '.', '' ) + '"><i class="icon-cancel"></i></a>\
-				<h5>Update Available!</h5>AdvancedTomato version <b>' + nvram.at_update + '</b> has been released and it is available for download.	&nbsp; <a target="_blank" href="https://advancedtomato.com/">Click here to find out more</a>.</div>' );
+				<h5>有可用更新!</h5>AdvancedTomato version <b>' + nvram.at_update + '</b> 已发布，可供下载.	&nbsp; <a target="_blank" href="https://advancedtomato.com/">请点击这里了解更多</a>.</div>' );
 
 			$( $updateNotification ).find( '.close' ).on( 'click', function() {
 				if ( $( this ).attr( 'data-update' ) ) { cookie.set( 'latest-update', $( this ).attr( 'data-update' ) ); }
@@ -190,8 +190,8 @@ function AdvancedTomato() {
 
 		if ( nvram.tomatoanon_answer != '1' ) {
 
-			$( '.container' ).prepend( '<div class="alert alert-warning icon"><h5>Attention</h5> You did not configure <b>TomatoAnon project</b> setting.\
-				Please go to <a onclick="loadPage(\'admin-tomatoanon.asp\')" href="#">TomatoAnon configuration page</a> and make a choice.</div>' );
+			$( '.container' ).prepend( '<div class="alert alert-warning icon"><h5>注意</h5> 您没有配置 <b>TomatoAnon 项目</b> 设置.\
+				请访问 <a onclick="loadPage(\'admin-tomatoanon.asp\')" href="#">TomatoAnon 配置页面</a> 并做出选择.</div>' );
 
 		}
 
@@ -225,7 +225,7 @@ function systemUI() {
 		stats = {};
 		try { eval( data ); } catch ( ex ) { stats = {}; }
 
-		var wanstatus = '<a title="Go to Status Overview" href="#" onclick="loadPage(\'#status-home.asp\');">' + ( ( stats.wanstatus[ 0 ] == 'Connected' ) ? '<span style="color: green;">' + stats.wanstatus[ 0 ] + '</span>' : stats.wanstatus[ 0 ] ) + '</a>';
+		var wanstatus = '<a title="转到状态概览" href="#" onclick="loadPage(\'#status-home.asp\');">' + ( ( stats.wanstatus[ 0 ] == '已连接' ) ? '<span style="color: green;">' + stats.wanstatus[ 0 ] + '</span>' : stats.wanstatus[ 0 ] ) + '</a>';
 		$( '.system-ui .datasystem' ).html(
 			'<div class="router-name">' + nvram.t_model_name + ' <small class="pull-right">(' + stats.uptime + ')</small></div>' +
 			'<div class="inner-container row">' +
@@ -247,7 +247,7 @@ function data_boxes() {
 		var id     = $( this ).attr( 'data-box' );
 		var parent = $( this );
 		var status = (((hs_cook = cookie.get( id + '_visibility' )) != null && (hs_cook != '1')) && $( this ).is( ':visible' )) ? false : true;
-		var html   = $( '<a class="pull-right" href="#" data-toggle="tooltip" title="Hide/Show"><i class="icon-chevron-' + ((status) ? 'down' : 'up') + '"></i></a>' );
+		var html   = $( '<a class="pull-right" href="#" data-toggle="tooltip" title="隐藏/显示"><i class="icon-chevron-' + ((status) ? 'down' : 'up') + '"></i></a>' );
 
 		// Hide if hidden
 		if ( status ) {
@@ -380,7 +380,7 @@ function loadPage( page, is_history ) {
 				if ( $( 'body .body-overwrite' ).length == 0 ) {
 
 					$( 'body' ).append( '<div class="body-overwrite"><div class="body-overwrite-text text-center"><div class="spinner spinner-large"></div>' +
-					                    '<br><br><b>Connection lost!</b><br>Attempting to reconnect...</div></div>' );
+					                    '<br><br><b>连接丢失!</b><br>正在尝试重新连接...</div></div>' );
 
 				}
 
@@ -404,10 +404,10 @@ function loadPage( page, is_history ) {
 			// In case error is 0 it usually means 504, gateway timeout
 			if  ( jqXHR.status == 0 ) jqXHR.status = 504;
 
-			$( 'h2.currentpage' ).text( jqXHR.status + ' ERROR' );
-			$( '.container .ajaxwrap' ).html( '<div class="box"><div class="heading">ERROR - ' + jqXHR.status + '</div><div class="content">\
-				<p>The Graphical user interface was unable to communicate with the router!<br>These issues usually occur when a file is missing, web handler is busy or the connection to router is unavailable.</p>\
-				<a href="/">Refreshing</a> browser window might help.</div></div>' ).addClass( 'ajax-animation' );
+			$( 'h2.currentpage' ).text( jqXHR.status + ' 错误' );
+			$( '.container .ajaxwrap' ).html( '<div class="box"><div class="heading">错误 - ' + jqXHR.status + '</div><div class="content">\
+				<p>图形用户界面无法与路由器通信!<br>出现这些问题，可能是当文件丢失，Web 处理程序正忙或与路由器的连接不可用.</p>\
+				<a href="/">刷新</a> 浏览器窗口尝试重新连接.</div></div>' ).addClass( 'ajax-animation' );
 
 			// Loaded, clear state
 			window.ajaxLoadingState = false;

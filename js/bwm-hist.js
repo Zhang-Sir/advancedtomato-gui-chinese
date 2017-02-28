@@ -50,7 +50,7 @@ function checkRstats()
 {
 	if (nvram.rstats_enable != '1') {
 		
-		W('<div class="alert alert-warning">Bandwidth monitoring disabled.</b> <a href="admin-bwm.asp">Enable &raquo;</a></div>');
+		W('<div class="alert alert-warning">带宽监控已禁用.</b> <a href="admin-bwm.asp">启用 &raquo;</a></div>');
 		$(function() { E('rstats').style.display = 'none'; });
 		
 	} else {
@@ -64,7 +64,7 @@ function checkCstats()
 {
 	if (nvram.cstats_enable != '1') {
 		
-		W('<div class="alert alert-info">IP Traffic monitoring disabled.</b> <a href="admin-iptraffic.asp">Enable &raquo;</a></div>');
+		W('<div class="alert alert-info">IP 流量监控已禁用.</b> <a href="admin-iptraffic.asp">启用 &raquo;</a></div>');
 		$(function() { E('cstats').style.display = 'none'; });
 		
 	} else if (cstats_busy) {

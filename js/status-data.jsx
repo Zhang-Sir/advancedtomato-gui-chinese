@@ -128,7 +128,7 @@ do {
 /* DUALWAN-END */
 
 	for(var uidx = 1; uidx <= nvram.mwan_num; ++uidx) {
-		if (stats.wanstatus[uidx-1] != 'Connected') stats.wanstatus[uidx-1] = '<b>' + stats.wanstatus[uidx-1] + '</b>';
+		if (stats.wanstatus[uidx-1] != '已连接') stats.wanstatus[uidx-1] = '<b>' + stats.wanstatus[uidx-1] + '</b>';
 	}
 
 	stats.channel = [];
