@@ -4,7 +4,7 @@ Copyright (C) 2007-2011 Shibby
 http://openlinksys.info
 For use with Tomato Firmware only.
 No part of this file may be used without permission.
---><title>SNMP Settings</title>
+--><title>SNMP 设置</title>
 <content>
 	<script type="text/javascript">
 		//	<% nvram("snmp_enable,snmp_port,snmp_remote,snmp_remote_sip,snmp_location,snmp_contact,snmp_ro"); %>
@@ -51,27 +51,27 @@ No part of this file may be used without permission.
 		<input type="hidden" name="snmp_remote">
 
 		<div class="box">
-			<div class="heading">SNMP Settings</div>
+			<div class="heading">SNMP 设置</div>
 			<div class="content" id="config-section"></div>
 			<script type="text/javascript">
 				$('#config-section').forms([
-					{ title: 'Enable SNMP', name: 'f_snmp_enable', type: 'checkbox', value: nvram.snmp_enable == '1' },
+					{ title: '启用 SNMP', name: 'f_snmp_enable', type: 'checkbox', value: nvram.snmp_enable == '1' },
 					null,
-					{ title: 'Port', name: 'snmp_port', type: 'text', maxlen: 5, size: 7, value: fixPort(nvram.snmp_port, 161) },
-					{ title: 'Remote access', indent: 2, name: 'f_snmp_remote', type: 'checkbox', value: nvram.snmp_remote == '1' },
-					{ title: 'Allowed Remote IP Address', indent: 2, name: 'snmp_remote_sip', type: 'text', maxlen: 512, size: 64, value: nvram.snmp_remote_sip,
-						suffix: '<small>(optional; ex: "1.1.1.1", "1.1.1.0/24", "1.1.1.1 - 2.2.2.2" or "me.example.com")</small>' },
+					{ title: '端口', name: 'snmp_port', type: 'text', maxlen: 5, size: 7, value: fixPort(nvram.snmp_port, 161) },
+					{ title: '远程访问', indent: 2, name: 'f_snmp_remote', type: 'checkbox', value: nvram.snmp_remote == '1' },
+					{ title: '允许远程 IP 地址', indent: 2, name: 'snmp_remote_sip', type: 'text', maxlen: 512, size: 64, value: nvram.snmp_remote_sip,
+						suffix: '<small>(可选; 例如: "1.1.1.1", "1.1.1.0/24", "1.1.1.1 - 2.2.2.2" 或 "me.example.com")</small>' },
 					null,
-					{ title: 'Location', indent: 2, name: 'snmp_location', type: 'text', maxlen: 40, size: 64, value: nvram.snmp_location },
-					{ title: 'Contact', indent: 2, name: 'snmp_contact', type: 'text', maxlen: 40, size: 64, value: nvram.snmp_contact },
-					{ title: 'RO Community', indent: 2, name: 'snmp_ro', type: 'text', maxlen: 40, size: 64, value: nvram.snmp_ro }
+					{ title: '主机名称', indent: 2, name: 'snmp_location', type: 'text', maxlen: 40, size: 64, value: nvram.snmp_location },
+					{ title: '联系方式', indent: 2, name: 'snmp_contact', type: 'text', maxlen: 40, size: 64, value: nvram.snmp_contact },
+					{ title: 'RO 社区', indent: 2, name: 'snmp_ro', type: 'text', maxlen: 40, size: 64, value: nvram.snmp_ro }
 					]);
 			</script>
 		</div>
 	</form>
 
-	<button type="button" value="Save" id="save-button" onclick="save();" class="btn btn-primary">Save <i class="icon-check"></i></button>
-	<button type="button" value="Cancel" id="cancel-button" onclick="javascript:reloadPage();" class="btn">Cancel <i class="icon-cancel"></i></button>
+	<button type="button" value="保存设置" id="save-button" onclick="save();" class="btn btn-primary">保存设置 <i class="icon-check"></i></button>
+	<button type="button" value="取消设置" id="cancel-button" onclick="javascript:reloadPage();" class="btn">取消设置 <i class="icon-cancel"></i></button>
 	<span id="footer-msg" class="alert alert-warning" style="visibility: hidden;"></span>
 
 	<script type="text/javascript">verifyFields(null, 1);</script>

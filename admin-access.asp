@@ -5,7 +5,7 @@ http://www.polarcloud.com/tomato/
 
 For use with Tomato Firmware only.
 No part of this file may be used without permission.
---><title>Admin Access</title>
+--><title>访问设置</title>
 <content>
 	<script type="text/javascript" src="js/interfaces.js"></script>
 	<script type="text/javascript">
@@ -15,19 +15,19 @@ No part of this file may be used without permission.
 		sdup = parseInt("<% psup('dropbear'); %>");
 		shlimit = nvram.ne_shlimit.split(",");
 		if (shlimit.length != 3) shlimit = [0,3,60];
-		var xmenus = [["Status", "status"], ["Bandwidth", "bwm"], ["IP Traffic", "ipt"], ["Tools", "tools"], ["Basic", "basic"],
-			["Advanced", "advanced"], ["Port Forwarding", "forward"], ["QoS", "qos"],
+		var xmenus = [['系统状态', 'status'], ['带宽监控', 'bwm'], ['IP 流量监控', 'ipt'], ['实用工具', 'tools'], ['基本设置', 'basic'],
+			['高级设置', 'advanced'], ['端口转发', 'forward'], ['QoS 设置', 'qos'],
 			/* USB-BEGIN */
-			['USB and NAS', 'nas'],
+			['USB & NAS', 'nas'],
 			/* USB-END */
 			/* VPN-BEGIN */
-			['VPN Tunneling', 'vpn'],
+			['VPN 设置', 'vpn'],
 			/* VPN-END */
-			['Administration', 'admin']];
+			['系统管理', 'admin']];
 		function toggle(service, isup)
 		{
 			if (changed > 0) {
-				if (!confirm("Unsaved changes will be lost. Continue anyway?")) return;
+				if (!confirm("未保存的更改将丢失，继续吗?")) return;
 			}
 			E("_" + service + "_button").disabled = true;
 			$('#_' + service + "_button").after(' <div class="spinner"></div>');
@@ -66,7 +66,7 @@ No part of this file may be used without permission.
 			a = E("_f_http_local");
 			b = E("_f_http_remote").value;
 			if ((a.value != 3) && (b != 0) && (a.value != b)) {
-				ferror.set(a, "The local http/https must also be enabled when using remote access.", quiet || !ok);
+				ferror.set(a, "使用远程访问时，还必须启用本地 http / https.", quiet || !ok);
 				ok = 0;
 			}
 			else {
@@ -99,7 +99,7 @@ No part of this file may be used without permission.
 			}
 			else if (a.value != "") {
 				if (a.value.search(/^\s*ssh-(dss|rsa)/) == -1) {
-					ferror.set(a, "Invalid SSH key.", quiet || !ok);
+					ferror.set(a, "不正确的 SSH 密钥.", quiet || !ok);
 					ok = 0;
 				}
 			}
@@ -113,11 +113,11 @@ No part of this file may be used without permission.
 			a.value = a.value.trim();
 			b.value = b.value.trim();
 			if (a.value != b.value) {
-				ferror.set(b, "Both passwords must match.", quiet || !ok);
+				ferror.set(b, "两次输入的密码不同.", quiet || !ok);
 				ok = 0;
 			}
 			else if (a.value == "") {
-				ferror.set(a, "Password must not be empty.", quiet || !ok);
+				ferror.set(a, "密码不能为空.", quiet || !ok);
 				ok = 0;
 			}
 			else {
@@ -135,7 +135,7 @@ No part of this file may be used without permission.
 			fom = E("_fom");
 			a = E("_f_http_local").value * 1;
 			if (a == 0) {
-				if (!confirm("Warning: Web Admin is about to be disabled. If you decide to re-enable Web Admin at a later time, it must be done manually via Telnet, SSH or by performing a hardware reset. Are you sure you want to do this?")) return;
+				if (!confirm("警告：Web 管理即将被禁用，如果您决定稍后重新启用 Web Admin，则必须通过 Telnet，SSH 或通过手动执行硬件重置。 您确定要执行此操作?")) return;
 				fom._nextpage.value = "about:blank";
 			}
 			fom.http_enable.value = (a & 1) ? 1 : 0;
@@ -220,40 +220,40 @@ No part of this file may be used without permission.
 		<input type="hidden" name="web_mx">
 
 		<div class="box" data-box="admin-access">
-			<div class="heading">Admin Access Settings</div>
+			<div class="heading">访问设置</div>
 			<div class="content" id="section-gui">
 
 				<script type="text/javascript">
 					var m = [
-						{ title: 'Local Access', name: 'f_http_local', type: 'select', options: [[0,'Disabled'],[1,'HTTP'],[2,'HTTPS'],[3,'HTTP &amp; HTTPS']],
+						{ title: '本地访问', name: 'f_http_local', type: 'select', options: [[0,'禁用'],[1,'HTTP'],[2,'HTTPS'],[3,'HTTP &amp; HTTPS']],
 							value: ((nvram.https_enable != 0) ? 2 : 0) | ((nvram.http_enable != 0) ? 1 : 0) },
-						{ title: 'HTTP Port', indent: 2, name: 'http_lanport', type: 'text', maxlen: 5, size: 7, value: fixPort(nvram.http_lanport, 80) },
-						{ title: 'HTTPS Port', indent: 2, name: 'https_lanport', type: 'text', maxlen: 5, size: 7, value: fixPort(nvram.https_lanport, 443) },
-						{ title: '<h5>SSL Certificate</h5>', rid: 'row_sslcert' },
-						{ title: 'Common Name (CN)', indent: 2, name: 'https_crt_cn', help: 'optional; space separated', type: 'text',
+						{ title: 'HTTP 端口', indent: 2, name: 'http_lanport', type: 'text', maxlen: 5, size: 7, value: fixPort(nvram.http_lanport, 80) },
+						{ title: 'HTTPS 端口', indent: 2, name: 'https_lanport', type: 'text', maxlen: 5, size: 7, value: fixPort(nvram.https_lanport, 443) },
+						{ title: '<h5>SSL 证书</h5>', rid: 'row_sslcert' },
+						{ title: '证书公共名 (CN)', indent: 2, name: 'https_crt_cn', help: '可选; 多个用空格隔开', type: 'text',
 							maxlen: 64, size: 64, value: nvram.https_crt_cn },
 						{ title: 'Regenerate', indent: 2, name: 'f_https_crt_gen', type: 'checkbox', value: 0 },
-						{ title: 'Save In NVRAM', indent: 2, name: 'f_https_crt_save', type: 'checkbox', value: nvram.https_crt_save == 1 },
-						{ title: 'Remote Access', name: 'f_http_remote', type: 'select', options: [[0,'Disabled'],[1,'HTTP'],[2,'HTTPS']],
+						{ title: '保存于 NVRAM', indent: 2, name: 'f_https_crt_save', type: 'checkbox', value: nvram.https_crt_save == 1 },
+						{ title: '远程访问', name: 'f_http_remote', type: 'select', options: [[0,'禁用'],[1,'HTTP'],[2,'HTTPS']],
 							value:  (nvram.remote_management == 1) ? ((nvram.remote_mgt_https == 1) ? 2 : 1) : 0 },
-						{ title: 'Port', indent: 2, name: 'http_wanport', type: 'text', maxlen: 5, size: 7, value:  fixPort(nvram.http_wanport, 8080) },
-						{ title: 'Allow Wireless Access', name: 'f_http_wireless', type: 'checkbox', value:  nvram.web_wl_filter == 0 },
-						{ title: '<h5>User Interface Settings</h5>' },
-						{ title: 'Interface Theme', name: 'web_css', type: 'select', help: 'With AdvancedTomato you get very few built in skins, others are available on AdvancedTomato Themes Directory. This way we can save space on router for more important functions.',
-							options: [['tomato','Default'],
-							['css/schemes/green-scheme','Green Color Scheme'],
-							['css/schemes/red-scheme','Red Color Scheme'],
-							['css/schemes/torquoise-scheme','Torquoise Color Scheme'],
-							['ext/custom','Custom (ext/custom.css)'],
-							['online', 'On-line from ATTD']], value: nvram.web_css },
-						{ title    : 'Navigation Reveal', name: 'at_nav_action', type: 'select', help: 'This option allows you to change the method you use navigation menu (on the left side).',
-							options: [ [ 'click', 'Mouse Click' ], ['hover', 'Mouse Over'] ], value: nvram.at_nav_action },
-						{ title: 'Default Navigation State', name: 'at_nav_state', type: 'select', help: 'You can always toggle navigation style by clicking an icon right to logo, but doing so won\'t change default state.',
-							options: [['default', 'Default'], ['collapsed', 'Collapsed']], value: nvram.at_nav_state },
-						{ title: 'ATTD ID#', indent: 2, name: 'ttb_css', type: 'text', maxlen: 25, size: 30, value: nvram.ttb_css, suffix: 'Theme ID# from <a href="http://advancedtomato.com/themes/" target="_blank"><u><i>ATTD themes gallery</i></u></a>' },
-						{ title: 'Web GUI directory', name: 'web_dir', type: 'select', help: 'Experts only! This will change directory from which Tomato Web handler is reading the interface files from. You should only change this if you have another interface in specific directory',
-							options: [['default','Default: /www'], ['jffs', 'Custom: /jffs/www (Experts Only!)'], ['opt', 'Custom: /opt/www (Experts Only!)'], ['tmp', 'Custom: /tmp/www (Experts Only!)']], value: nvram.web_dir, suffix: ' <small>Please be sure of your decision before change this settings!</small>' },
-						{ title: 'Navigation Menu', help: "This option allows you to extend navigation menu javascript object (See Tomato.js source code for more info). This is advanced option so take care! Only JSON format accepted!",
+						{ title: '端口', indent: 2, name: 'http_wanport', type: 'text', maxlen: 5, size: 7, value:  fixPort(nvram.http_wanport, 8080) },
+						{ title: '允许无线访问', name: 'f_http_wireless', type: 'checkbox', value:  nvram.web_wl_filter == 0 },
+						{ title: '<h5>用户界面设置</h5>' },
+						{ title: '界面主题', name: 'web_css', type: 'select', help: '使用 AdvancedTomato，你几乎没有内置的皮肤, 这样我们可以节省路由器上的空间以便添加更重要的功能.',
+							options: [['tomato','默认'],
+							['css/schemes/green-scheme','绿色主题'],
+							['css/schemes/red-scheme','红色主题'],
+							['css/schemes/torquoise-scheme','蓝绿色主题'],
+							['ext/custom','自定义 (ext/custom.css)'],
+							['online', '获取 ATTD 在线主题']], value: nvram.web_css },
+						{ title    : '导航栏显示', name: 'at_nav_action', type: 'select', help: '此选项允许您更改使用导航菜单的方法(在左侧).',
+							options: [ [ 'click', '单击显示' ], ['hover', '划过显示'] ], value: nvram.at_nav_action },
+						{ title: '默认导航状态', name: 'at_nav_state', type: 'select', help: '您可以随时通过单击图标直接切换导航样式，但这样做不会更改默认状态.',
+							options: [['default', '默认'], ['collapsed', '折叠']], value: nvram.at_nav_state },
+						{ title: 'ATTD ID#', indent: 2, name: 'ttb_css', type: 'text', maxlen: 25, size: 30, value: nvram.ttb_css, suffix: '主题 ID# 自 <a href="http://advancedtomato.com/themes/" target="_blank"><u><i>ATTD 主题库</i></u></a>' },
+						{ title: 'Web GUI 目录', name: 'web_dir', type: 'select', help: '警号！这将改变 Tomato Web 处理程序从中读取接口文件的目录. 只有在特定目录中有另一个接口时，才应该更改此选项',
+							options: [['default','默认: /www'], ['jffs', '自定义: /jffs/www '], ['opt', '自定义: /opt/www '], ['tmp', '自定义: /tmp/www ']], value: nvram.web_dir, suffix: ' <small>更改此设置之前，请确保您的已妥当准备好文件！</small>' },
+						{ title: '导航菜单', help: "此选项允许您扩展导航菜单的 javascript 对象（有关详细信息，请参阅 Tomato.js 源代码）。 这是高级选项，所以要小心！ 只接受 JSON 格式！",
 							name: 'at_nav', type: 'textarea', style: 'width: 100%; height: 100px;', value: nvram.at_nav }
 					];
 
@@ -264,14 +264,14 @@ No part of this file may be used without permission.
 		</div>
 
 		<div class="box" data-box="admin-weblogin">
-			<div class="heading">Authorization Settings</div>
+			<div class="heading">授权设置</div>
 			<div class="content" id="section-weblogin">
 				<script type="text/javascript">
 					$('#section-weblogin').forms([
-						{ title: 'Username', name: 'http_username', type: 'text', value: nvram.http_username, suffix: '&nbsp;<small>(empty field means "admin")</small>' },
-						{ title: 'Allow web login as "root"', name: 'f_http_root', type: 'checkbox', value: nvram.http_root == 1 },
-						{ title: 'Password', name: 'set_password_1', type: 'password', value: '**********' },
-						{ title: 'Repeat Password', indent: 2, name: 'set_password_2', type: 'password', value: '**********' }
+						{ title: '用户名', name: 'http_username', type: 'text', value: nvram.http_username, suffix: '&nbsp;<small>(留空表示“admin”)</small>' },
+						{ title: '允许 "root" 登录', name: 'f_http_root', type: 'checkbox', value: nvram.http_root == 1 },
+						{ title: '请输入密码', name: 'set_password_1', type: 'password', value: '**********' },
+						{ title: '请再次输入密码', indent: 2, name: 'set_password_2', type: 'password', value: '**********' }
 					]);
 				</script>
 			</div>
@@ -279,63 +279,63 @@ No part of this file may be used without permission.
 
 
 		<div class="box" id="section-ssh" data-box="access-ssh">
-			<div class="heading">SSH Daemon <span class="ssh-status"></span></div>
+			<div class="heading">SSH 访问设置 <span class="ssh-status"></span></div>
 			<div class="content">
 				<script type="text/javascript">
 					$('#section-ssh .content').forms([
-						{ title: 'Enable at Startup', name: 'f_sshd_eas', type: 'checkbox', value: nvram.sshd_eas == 1 },
-						{ title: 'Extended MOTD', name: 'f_sshd_motd', type: 'checkbox', value: nvram.sshd_motd == 1 },
-						{ title: 'Remote Access', name: 'f_sshd_remote', type: 'checkbox', value: nvram.sshd_remote == 1 },
-						{ title: 'Remote Port', indent: 2, name: 'sshd_rport', type: 'text', maxlen: 5, size: 7, value: nvram.sshd_rport },
-						{ title: 'Remote Forwarding', name: 'f_sshd_forwarding', type: 'checkbox', value: nvram.sshd_forwarding == 1 },
-						{ title: 'Port', name: 'sshd_port', type: 'text', maxlen: 5, size: 7, value: nvram.sshd_port },
-						{ title: 'Allow Password Login', name: 'f_sshd_pass', type: 'checkbox', value: nvram.sshd_pass == 1 },
-						{ title: 'Authorized Keys', name: 'sshd_authkeys', style: 'width: 100%; height: 100px;', type: 'textarea', value: nvram.sshd_authkeys }
+						{ title: '开机启动', name: 'f_sshd_eas', type: 'checkbox', value: nvram.sshd_eas == 1 },
+						{ title: '扩展 MOTD', name: 'f_sshd_motd', type: 'checkbox', value: nvram.sshd_motd == 1 },
+						{ title: '远程访问', name: 'f_sshd_remote', type: 'checkbox', value: nvram.sshd_remote == 1 },
+						{ title: '远程访问端口', indent: 2, name: 'sshd_rport', type: 'text', maxlen: 5, size: 7, value: nvram.sshd_rport },
+						{ title: '远程转发', name: 'f_sshd_forwarding', type: 'checkbox', value: nvram.sshd_forwarding == 1 },
+						{ title: 'SSH 访问端口', name: 'sshd_port', type: 'text', maxlen: 5, size: 7, value: nvram.sshd_port },
+						{ title: '使用密码登录', name: 'f_sshd_pass', type: 'checkbox', value: nvram.sshd_pass == 1 },
+						{ title: '使用认证密钥', name: 'sshd_authkeys', style: 'width: 100%; height: 100px;', type: 'textarea', value: nvram.sshd_authkeys }
 					]);
-					$('#section-ssh .heading').append('<a href="#" data-toggle="tooltip" class="pull-right" title="' + (sdup ? 'Stop' : 'Start') + ' SSH Daemon" onclick="toggle(\'sshd\', sdup)" id="_sshd_button">'
+					$('#section-ssh .heading').append('<a href="#" data-toggle="tooltip" class="pull-right" title="' + (sdup ? '禁用' : '启用') + ' SSH 守护进程" onclick="toggle(\'sshd\', sdup)" id="_sshd_button">'
 						+ (sdup ? '<i class="icon-stop"></i>' : '<i class="icon-play"></i>') + '</a>');
-					$('.ssh-status').html((sdup ? '<small style="color: green;">(Running)</small>' : '<small style="color: red;">(Stopped)</small>'));
+					$('.ssh-status').html((sdup ? '<small style="color: green;">(运行中)</small>' : '<small style="color: red;">(停止)</small>'));
 				</script>
 			</div>
 		</div>
 
 		<div class="box" id="section-telnet" data-box="access-telnet">
-			<div class="heading">Telnet Daemon <span class="telnet-status"></span></div>
+			<div class="heading">Telnet 访问设置 <span class="telnet-status"></span></div>
 			<div class="content">
 				<script type="text/javascript">
 					$('#section-telnet .content').forms([
-						{ title: 'Enable at Startup', name: 'f_telnetd_eas', type: 'checkbox', value: nvram.telnetd_eas == 1 },
-						{ title: 'Port', name: 'telnetd_port', type: 'text', maxlen: 5, size: 7, value: nvram.telnetd_port }
+						{ title: '开机启动', name: 'f_telnetd_eas', type: 'checkbox', value: nvram.telnetd_eas == 1 },
+						{ title: 'Telnet 访问端口', name: 'telnetd_port', type: 'text', maxlen: 5, size: 7, value: nvram.telnetd_port }
 					]);
-					$('#section-telnet .heading').append('<a href="#" data-toggle="tooltip" class="pull-right" title="' + (tdup ? 'Stop' : 'Start') + ' Telnet Daemon" onclick="toggle(\'telnetd\', tdup)" id="_telnetd_button">'
+					$('#section-telnet .heading').append('<a href="#" data-toggle="tooltip" class="pull-right" title="' + (tdup ? '禁用' : '启用') + ' Telnet 守护进程" onclick="toggle(\'telnetd\', tdup)" id="_telnetd_button">'
 						+ (tdup ? '<i class="icon-stop"></i>' : '<i class="icon-play"></i>') + '</a>');
-					$('.telnet-status').html((tdup ? '<small style="color: green;">(Running)</small>' : '<small style="color: red;">(Stopped)</small>'));
+					$('.telnet-status').html((tdup ? '<small style="color: green;">(运行中)</small>' : '<small style="color: red;">(停止)</small>'));
 				</script>
 			</div>
 		</div>
 
 		<div class="box" id="section-restrict" data-box="access-restrict">
-			<div class="heading">Admin Restrictions</div>
+			<div class="heading">管理限制</div>
 			<div class="content">
 				<script type="text/javascript">
 					$('#section-restrict .content').forms([
-						{ title: 'Allowed Remote IP Address', name: 'f_rmgt_sip', type: 'text', maxlen: 512, size: 64, value: nvram.rmgt_sip,
-							suffix: '<small>(optional; ex: "1.1.1.1", "1.1.1.0/24", "1.1.1.1 - 2.2.2.2" or "me.example.com")</small>' },
-						{ title: 'Limit Connection Attempts', multi: [
+						{ title: '允许远程管理的 IP 地址', name: 'f_rmgt_sip', type: 'text', maxlen: 512, size: 64, value: nvram.rmgt_sip,
+							suffix: '<small>("空白" 不限制,可单一IP或范围;例: "1.1.1.1", "1.1.1.0/24", "1.1.1.1 - 2.2.2.2" or "me.example.com")</small>' },
+						{ title: '最大尝试连接次数', multi: [
 							{ suffix: ' SSH &nbsp; / &nbsp;', name: 'f_limit_ssh', type: 'checkbox', value: (shlimit[0] & 1) != 0 },
 							{ suffix: ' Telnet &nbsp;', name: 'f_limit_telnet', type: 'checkbox', value: (shlimit[0] & 2) != 0 }
 						] },
 						{ title: '', indent: 2, multi: [
-							{ name: 'f_limit_hit', type: 'text', maxlen: 4, size: 6, suffix: 'every ', value: shlimit[1] },
-							{ name: 'f_limit_sec', type: 'text', maxlen: 4, size: 6, suffix: 'seconds', value: shlimit[2] }
+							{ name: 'f_limit_hit', type: 'text', maxlen: 4, size: 6, suffix: '每 ', value: shlimit[1] },
+							{ name: 'f_limit_sec', type: 'text', maxlen: 4, size: 6, suffix: '秒', value: shlimit[2] }
 						] }
 					]);
 				</script>
 			</div>
 		</div>
 
-		<button type="button" value="Save" id="save-button" onclick="save();" class="btn btn-primary">Save <i class="icon-check"></i></button>
-		<button type="button" value="Cancel" id="cancel-button" onclick="javascript:reloadPage();" class="btn">Cancel <i class="icon-cancel"></i></button>
+		<button type="button" value="保存设置" id="save-button" onclick="save();" class="btn btn-primary">保存设置 <i class="icon-check"></i></button>
+		<button type="button" value="取消设置" id="cancel-button" onclick="javascript:reloadPage();" class="btn">取消设置 <i class="icon-cancel"></i></button>
 		<span id="footer-msg" class="alert alert-warning" style="visibility: hidden;"></span>
 	</form>
 

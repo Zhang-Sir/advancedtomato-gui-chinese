@@ -5,7 +5,7 @@ http://www.polarcloud.com/tomato/
 
 For use with Tomato Firmware only.
 No part of this file may be used without permission.
---><title>IP Traffic Monitoring</title>
+--><title>IP 流量监控</title>
 <content>
 	<script type="text/javascript">
 
@@ -29,7 +29,7 @@ No part of this file may be used without permission.
 			var name;
 			name = fix(E('backup-name').value);
 			if (name.length <= 1) {
-				alert('Invalid filename');
+				alert('不正确的文件名');
 				return;
 			}
 
@@ -44,11 +44,11 @@ No part of this file may be used without permission.
 			name = name.toLowerCase();
 
 			if ((name.length <= 3) || (name.substring(name.length - 3, name.length).toLowerCase() != '.gz')) {
-				alert('Incorrect filename. Expecting a ".gz" file.');
+				alert('不正确的文件名. 正确的扩展名为 ".gz".');
 				return false;
 			}
 
-			if (!confirm('Restore data from ' + name + '?')) return;
+			if (!confirm('是否从 ' + name + '恢复?')) return;
 			E('restore-button').disabled = 1;
 			fields.disableAll(E('_fom'), 1);
 			E('restore-form').submit();
@@ -113,19 +113,19 @@ No part of this file may be used without permission.
 			if (b) {
 				if (!v_length(eUser, quiet, 2)) return 0;
 				if (path.substr(0, 1) != '/') {
-					ferror.set(eUser, 'Please start at the / root directory.', quiet);
+					ferror.set(eUser, '请从 / 根目录开始.', quiet);
 					return 0;
 				}
 			}
 			else if (v == '/jffs/') {
 				if (nvram.jffs2_on != '1') {
-					ferror.set(eLoc, 'JFFS2 is not enabled.', quiet);
+					ferror.set(eLoc, 'JFFS2 未启用.', quiet);
 					return 0;
 				}
 			}
 			else if (v.match(/^\/cifs(1|2)\/$/)) {
 				if (nvram['cifs' + RegExp.$1].substr(0, 1) != '1') {
-					ferror.set(eLoc, 'CIFS #' + RegExp.$1 + ' is not enabled.', quiet);
+					ferror.set(eLoc, 'CIFS #' + RegExp.$1 + ' 未启用.', quiet);
 					return 0;
 				}
 			}
@@ -149,11 +149,11 @@ No part of this file may be used without permission.
 				path = getPath();
 				if (((E('_cstats_stime').value * 1) <= 48) &&
 					((path == '*nvram') || (path == '/jffs/'))) {
-					if (!confirm('Frequent saving to NVRAM or JFFS2 is not recommended. Continue anyway?')) return;
+					if (!confirm('不建议对 NVRAM 或 JFFS2 频繁的存取，是否继续??')) return;
 				}
 				if ((nvram.cstats_path != path) && (fom.cstats_path.value != path) && (path != '') && (path != '*nvram') &&
 					(path.substr(path.length - 1, 1) != '/')) {
-					if (!confirm('Note: ' + path + ' will be treated as a file. If this is a directory, please use a trailing /. Continue anyway?')) return;
+					if (!confirm('注意: ' + path + ' 将会被视为一个文件. 如果这是一个目录，请使用 /. 是否继续?')) return;
 				}
 				fom.cstats_path.value = path;
 				if (E('_f_new').checked) {
@@ -187,7 +187,7 @@ No part of this file may be used without permission.
 	</script>
 
 	<div class="box">
-		<div class="heading">IP Traffic Monitoring Settings</div>
+		<div class="heading">IP 流量监控设置</div>
 		<div class="content">
 			<form id="_fom" method="post" action="tomato.cgi">
 				<input type="hidden" name="_nextpage" value="/#admin-iptraffic.asp">
@@ -215,70 +215,66 @@ No part of this file may be used without permission.
 						break;
 				}
 				$('#iptconfig').forms([
-					{ title: 'Enable', name: 'f_cstats_enable', type: 'checkbox', value: nvram.cstats_enable == '1' },
-					{ title: 'Save History Location', multi: [
+					{ title: '启用', name: 'f_cstats_enable', type: 'checkbox', value: nvram.cstats_enable == '1' },
+					{ title: '历史数据保存位置', multi: [
 						/* REMOVE-BEGIN
 						//	{ name: 'f_loc', type: 'select', options: [['','RAM (Temporary)'],['*nvram','NVRAM'],['/jffs/','JFFS2'],['/cifs1/','CIFS 1'],['/cifs2/','CIFS 2'],['*user','Custom Path']], value: loc },
 						REMOVE-END */
-						{ name: 'f_loc', type: 'select', options: [['','RAM (Temporary)'],['/jffs/','JFFS2'],['/cifs1/','CIFS 1'],['/cifs2/','CIFS 2'],['*user','Custom Path']], value: loc },
+						{ name: 'f_loc', type: 'select', options: [['','RAM (临时的)'],['/jffs/','JFFS2'],['/cifs1/','CIFS 1'],['/cifs2/','CIFS 2'],['*user','自定义路径']], value: loc },
 						{ name: 'f_user', type: 'text', maxlen: 48, size: 30, value: nvram.cstats_path }
 					] },
-					{ title: 'Save Frequency', indent: 2, name: 'cstats_stime', type: 'select', value: nvram.cstats_stime, options: [
-						[1,'Every Hour'],[2,'Every 2 Hours'],[3,'Every 3 Hours'],[4,'Every 4 Hours'],[5,'Every 5 Hours'],[6,'Every 6 Hours'],
-						[9,'Every 9 Hours'],[12,'Every 12 Hours'],[24,'Every 24 Hours'],[48,'Every 2 Days'],[72,'Every 3 Days'],[96,'Every 4 Days'],
-						[120,'Every 5 Days'],[144,'Every 6 Days'],[168,'Every Week']] },
-					{ title: 'Save On Shutdown', indent: 2, name: 'f_sshut', type: 'checkbox', value: nvram.cstats_sshut == '1' },
-					{ title: 'Create New File<br><small>(Reset Data)</small>', indent: 2, name: 'f_new', type: 'checkbox', value: 0,
-						suffix: ' &nbsp; <b id="newmsg" style="visibility:hidden"><small>Enable if this is a new file</small></b>' },
-					{ title: 'Create Backups', indent: 2, name: 'f_bak', type: 'checkbox', value: nvram.cstats_bak == '1' },
-					{ title: 'First Day Of The Month', name: 'cstats_offset', type: 'text', value: nvram.cstats_offset, maxlen: 2, size: 4 },
-					{ title: 'Excluded IPs', help: 'Comma separated list', name: 'cstats_exclude', type: 'text', value: nvram.cstats_exclude, maxlen: 512, size: 50 },
-					{ title: 'Included IPs', help: 'Comma separated list', name: 'cstats_include', type: 'text', value: nvram.cstats_include, maxlen: 2048, size: 50 },
-					{ title: 'Enable Auto-Discovery', name: 'f_all', type: 'checkbox', value: nvram.cstats_all == '1', suffix: '&nbsp;<small>(automatically include new IPs in monitoring as soon as any traffic is detected)</small>' },
-					{ title: 'Labels on graphics', name: 'cstats_labels', type: 'select', value: nvram.cstats_stime, options: [[0,'Show known hostnames and IPs'],[1,'Prefer to show only known hostnames, otherwise show IPs'],[2,'Show only IPs']], value: nvram.cstats_labels }
+					{ title: '保存频率', indent: 2, name: 'cstats_stime', type: 'select', value: nvram.cstats_stime, options: [
+						[1,'每小时'],[2,'每2小时'],[3,'每3小时'],[4,'每4小时'],[5,'每5小时'],[6,'每6小时'],
+						[9,'每9小时'],[12,'每12小时'],[24,'每天'],[48,'每两天'],[72,'每三天'],[96,'每四天'],
+						[120,'每五天'],[144,'每六天'],[168,'每周']] },
+					{ title: '关机时保存', indent: 2, name: 'f_sshut', type: 'checkbox', value: nvram.cstats_sshut == '1' },
+					{ title: '创建新文件<br><small>(清除数据)</small>', indent: 2, name: 'f_new', type: 'checkbox', value: 0,
+						suffix: ' &nbsp; <b id="newmsg" style="visibility:hidden"><small>注意：如果这是一个新文件，则启用之</small></b>' },
+					{ title: '创建备份', indent: 2, name: 'f_bak', type: 'checkbox', value: nvram.cstats_bak == '1' },
+					{ title: '每月第一天为', name: 'cstats_offset', type: 'text', value: nvram.cstats_offset, maxlen: 2, size: 4 },
+					{ title: '排除的 IP', help: '多个用逗号分隔', name: 'cstats_exclude', type: 'text', value: nvram.cstats_exclude, maxlen: 512, size: 50 },
+					{ title: '包含的 IP', help: '多个用逗号分隔', name: 'cstats_include', type: 'text', value: nvram.cstats_include, maxlen: 2048, size: 50 },
+					{ title: '启用自动发现', name: 'f_all', type: 'checkbox', value: nvram.cstats_all == '1', suffix: '&nbsp;<small>(自动发现新加入的 IP 如果有流量的立即开始监控)</small>' },
+					{ title: '图形标签', name: 'cstats_labels', type: 'select', value: nvram.cstats_stime, options: [[0,'显示主机名和IP'],[1,'优先显示主机, 否则显示IP'],[2,'仅显示IP']], value: nvram.cstats_labels }
 					], { align: 'left' });
 			</script>
 
 			<div class="row">
 
 				<div class="col-sm-12">
-					<h4>Backup</h4>
+					<h4>备份</h4>
 					<div class="section" id="backup-section">
 						<form>
 							<div class="input-append">
-								<button name="f_backup_button" id="backup-button" onclick="backupButton(); return false;" class="btn">Backup <i class="icon-download"></i></button>
+								<button name="f_backup_button" id="backup-button" onclick="backupButton(); return false;" class="btn">备份 <i class="icon-download"></i></button>
 							</div>
 						</form>
 					</div>
 				</div>
 
 				<div class="col-sm-12">
-					<h4>Restore</h4>
+					<h4>恢复</h4>
 					<div class="section" id="restore-section">
 						<form id="restore-form" method="post" action="ipt/restore.cgi?_http_id=<% nv(http_id); %>" encType="multipart/form-data">
 							<input class="uploadfile" type="file" size="40" id="restore-name" name="restore_name" accept="application/x-gzip">
-							<button type="button" name="f_restore_button" id="restore-button" value="Restore" onclick="restoreButton(); return false;" class="btn">Restore <i class="icon-upload"></i></button>
+							<button type="button" name="f_restore_button" id="restore-button" value="恢复" onclick="restoreButton(); return false;" class="btn">恢复 <i class="icon-upload"></i></button>
 						</form><br>
 					</div>
 				</div>
 
 				<div class="col-sm-12">
-					<h4>Notes</h4>
+					<h4>说明</h4>
 					<ul>
-						<li>IP Traffic is about monitoring <i>IPv4</i> network traffic flowing <i>through</i> the router.</li>
-						<li>Check your <a class="ajaxload" href="basic-network.asp">LAN Settings</a> before enabling this feature: any/all LAN interfaces must have a netmask with at least 16 bits set (255.255.0.0).</li>
-						<li>Monitoring of larger subnets is not supported.</li>
+						<li>IP 流量是关于监控 <i>IPv4</i> 网络流量 <i>通过</i> 此路由器.</li>
+						<li>检查你的 <a class="ajaxload" href="basic-network.asp">LAN 设置</a> 在启用此功能之前：任何/所有 LAN 接口必须具有至少设置了16位的网络掩码（255.255.0.0）.</li>
+						<li>不支持监控较大的子网.</li>
 					</ul>
 
-					<p>Other relevant notes/hints:</p>
+					<p>其他说明:</p>
 					<ul>
-						<li>Before enabling this feature, please check your <a class="ajaxload" href="basic-network.asp">LAN Settings</a> and make sure the netmask on any/all of your LAN bridges has been configured properly (i.e. netmask with at least 16 bits set or "255.255.0.0").</li>
-						<li>Although technically supported, it's not actually recommended having IP Traffic monitoring enabled with subnets larger than/the equivalent of a class C network (i.e. netmask with at least 24 bits set or "255.255.255.0").</li>
-						<li>IP Traffic monitoring keeps track of data/packets that would be either <i>coming from/leaving</i> or <i>going to/arriving</i> IPs on LAN interfaces/subnets.</li>
-						<li>As a rule of thumb, this means keeping track of network/data packets being forwarded from/to LAN interfaces as a result of some kind of routing (or NAT) and would exclude any/all data/packets being exchanged between devices reachable/within the same LAN interface (i.e. on the same IP subnet/LAN bridge, even if packets are actually being forwarded from/to wired/wireless/different interfaces through the router).</li>
-						<!-- VLAN-BEGIN -->
-						<li>Network traffic/communications flowing from/to/between different LAN bridges/subnets will be tracked/accounted separately/accordingly ("twice", as in: number of bytes/packets <i>coming from</i> the first LAN bridge and (the same) number of bytes/packets <i>going to</i> the second LAN bridge).</li>
-						<!-- VLAN-END -->
+						<li>启用此功能之前，请检查您的 <a class="ajaxload" href="basic-network.asp">LAN 设置</a> 并确保 任何/所有 LAN 网桥上的网络掩码已正确配置(如： 至少设置16位的网络掩码或“255.255.0.0”).</li>
+						<li>虽然技术上支持，但实际上并不建议使用 大于/等于 C 类网络的子网（即，至少设置24位的网络掩码或“255.255.255.0”）启用 IP流量监控。.</li>
+						<li>IP 流量监控保持跟踪LAN 接口/子网 <i>流入/流出</i> 或 <i>发送/接收</i> 数据的 IP 地址.</li>
 					</ul>
 				</div>
 
@@ -286,8 +282,8 @@ No part of this file may be used without permission.
 		</div>
 	</div>
 
-	<button type="button" value="Save" id="save-button" onclick="save()" class="btn btn-primary">Save <i class="icon-check"></i></button>
-	<button type="button" value="Cancel" id="cancel-button" onclick="javascript:reloadPage();" class="btn">Cancel <i class="icon-cancel"></i></button>
+	<button type="button" value="保存设置" id="save-button" onclick="save()" class="btn btn-primary">保存设置 <i class="icon-check"></i></button>
+	<button type="button" value="取消设置" id="cancel-button" onclick="javascript:reloadPage();" class="btn">取消设置 <i class="icon-cancel"></i></button>
 	<span id="footer-msg" class="alert alert-warning" style="visibility: hidden;"></span><br /><br />
 
 	<script type="text/javascript">init(); verifyFields(null, 1);</script>

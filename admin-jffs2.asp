@@ -5,7 +5,7 @@ http://www.polarcloud.com/tomato/
 
 For use with Tomato Firmware only.
 No part of this file may be used without permission.
---><title>JFFS</title>
+--><title>JFFS 设置</title>
 <content>
 	<script type="text/javascript">
 		//	<% nvram("at_update,tomatoanon_answer,jffs2_on,jffs2_exec,t_fix1"); %>
@@ -22,17 +22,17 @@ No part of this file may be used without permission.
 		function formatClicked()
 		{
 			if (!verifyFields(null, 0)) return;
-			if (!confirm("Format the JFFS partition?")) return;
+			if (!confirm("确认要格式化 JFFS 分区?")) return;
 			save(1);
 		}
 
 		function formatClock()
 		{
 			if (ftime == 0) {
-				$('.fclock').html('a few more seconds');
+				$('.fclock').html('请稍等');
 			}
 			else {
-				$('.fclock').html(((ftime > 0) ? 'about ' : '') + ftime + ' second' + ((ftime == 1) ? '' : 's'));
+				$('.fclock').html(((ftime > 0) ? '剩余 ' : '') + ftime + ' 秒' + ((ftime == 1) ? '' : 's'));
 			}
 			if (--ftime >= 0) setTimeout(formatClock, 1000);
 		}
@@ -42,7 +42,7 @@ No part of this file may be used without permission.
 			if (!verifyFields(null, 0)) return;
 
 			E('format').disabled = 1;
-			if (format) $('.ajaxwrap').prepend('<div class="alert alert-warning icon"><h5>Warning!</h5>Formating JFFS partition, please wait <span class="fclock">about 60 seconds</span>...</div>');
+			if (format) $('.ajaxwrap').prepend('<div class="alert alert-warning icon"><h5>警告!</h5>格式化分区 JFFS，请稍候 <span class="fclock">剩余60秒</span>...</div>');
 
 			var fom = E('_fom');
 			var on = E('_f_jffs2_on').checked ? 1 : 0;
@@ -81,7 +81,7 @@ No part of this file may be used without permission.
 		<input type="hidden" name="jffs2_format" value="0">
 
 		<div class="box">
-			<div class="heading">JFFS Partition</div>
+			<div class="heading">JFFS 分区</div>
 			<div class="content" id="jffsdata"></div>
 			<script type="text/javascript">
 				// <% statfs("/jffs", "jffs2"); %>
@@ -90,12 +90,12 @@ No part of this file may be used without permission.
 
 				jfon = (nvram.jffs2_on == 1);
 				$('#jffsdata').forms([
-					{ title: 'Enable', name: 'f_jffs2_on', type: 'checkbox', value: jfon },
-					{ title: 'Execute When Mounted', name: 'jffs2_exec', type: 'text', maxlen: 64, size: 34, value: nvram.jffs2_exec },
+					{ title: '启用', name: 'f_jffs2_on', type: 'checkbox', value: jfon },
+					{ title: '挂载后执行', name: 'jffs2_exec', type: 'text', maxlen: 64, size: 34, value: nvram.jffs2_exec },
 					null,
-					{ title: 'JFFS Usage ', text: (((jffs2.mnt) || (jffs2.size > 0)) ? scaleSize(jffs2.size - jffs2.free) : '') + ((jffs2.mnt) ? ' / ' + scaleSize(jffs2.size) + ' (<span class="percentage"></span>)\
-					<div class="progress small jffs2"><div class="bar"></div></div>' : ' (not mounted)') },
-					{ title: '', custom: '<button type="button" value="Format / Erase..." onclick="formatClicked()" id="format" class="btn">Format / Erase...</button>' }
+					{ title: 'JFFS 使用率 ', text: (((jffs2.mnt) || (jffs2.size > 0)) ? scaleSize(jffs2.size - jffs2.free) : '') + ((jffs2.mnt) ? ' / ' + scaleSize(jffs2.size) + ' (<span class="percentage"></span>)\
+					<div class="progress small jffs2"><div class="bar"></div></div>' : ' (未挂载)') },
+					{ title: '', custom: '<button type="button" value="格式化 / 擦除..." onclick="formatClicked()" id="format" class="btn">格式化 / 擦除...</button>' }
 				]);
 
 				// Progress BAR
@@ -109,8 +109,8 @@ No part of this file may be used without permission.
 			</script>
 		</div>
 
-		<button type="button" value="Save" id="save-button" onclick="save()" class="btn btn-primary">Save <i class="icon-check"></i></button>
-		<button type="button" value="Cancel" id="cancel-button" onclick="javascript:reloadPage();" class="btn">Cancel <i class="icon-cancel"></i></button>
+		<button type="button" value="保存设置" id="save-button" onclick="save()" class="btn btn-primary">保存设置 <i class="icon-check"></i></button>
+		<button type="button" value="取消设置" id="cancel-button" onclick="javascript:reloadPage();" class="btn">取消设置 <i class="icon-cancel"></i></button>
 		<span id="footer-msg" class="alert alert-warning" style="visibility: hidden;"></span>
 	</form>
 

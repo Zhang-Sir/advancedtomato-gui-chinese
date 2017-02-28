@@ -5,7 +5,7 @@ http://www.polarcloud.com/tomato/
 
 For use with Tomato Firmware only.
 No part of this file may be used without permission.
---><title>CIFS Client</title>
+--><title>CIFS 客户端</title>
 <content>
 	<script type="text/javascript">
 
@@ -41,7 +41,7 @@ No part of this file may be used without permission.
 					if ((!v_length(user, quiet, 1)) || (!v_length(pass, quiet, 1))) return 0;
 					unc.value = unc.value.replace(/\//g, '\\');
 					if (!unc.value.match(/^\\\\.+\\/)) {
-						ferror.set(unc, 'Invalid UNC', quiet);
+						ferror.set(unc, '错误的共享路径', quiet);
 						return 0;
 					}
 				}
@@ -91,42 +91,42 @@ No part of this file may be used without permission.
 
 				var cifs = '<div class="box" data-box="cifs-set-1"><div class="heading">CIFS1 <small>(/cifs1)</small></div><div class="content">' +
 				createFormFields([
-					{ title: 'Enable', indent: 2, name: 'f_cifs1_enable', type: 'checkbox', value: a[0]*1 },
-					{ title: 'UNC', indent: 2, name: 'f_cifs1_unc', type: 'text', maxlen: 128, size: 48, value: a[1] },
-					{ title: 'Netbios Name', indent: 2, name: 'f_cifs1_servern', type: 'text', maxlen: 128, size: 48, value: a[6] },
-					{ title: 'Username', indent: 2, name: 'f_cifs1_user', type: 'text', maxlen: 32, size: 34, value: a[2] },
-					{ title: 'Password', indent: 2, name: 'f_cifs1_pass', type: 'password', maxlen: 32, size: 34, peekaboo: 1, value: a[3] },
-					{ title: 'Domain', indent: 2, name: 'f_cifs1_dom', type: 'text', maxlen: 32, size: 34, value: a[4] },
-					{ title: 'Execute When Mounted', indent: 2, name: 'f_cifs1_exec', type: 'text', maxlen: 64, size: 34, value: a[5] },
-					{ title: 'Security', indent: 2, name: 'f_cifs1_sec', type: 'select',
-						options: [['','Default (NTLM)'],['ntlmi','NTLM and packet signing'],['ntlmv2','NTLMv2'],['ntlmv2i','NTLMv2 and packet signing'],['nontlm','No NTLM'],['lanman','LANMAN'],['none','None']],
+					{ title: '启用', indent: 2, name: 'f_cifs1_enable', type: 'checkbox', value: a[0]*1 },
+					{ title: '共享路径(UNC)', indent: 2, name: 'f_cifs1_unc', type: 'text', maxlen: 128, size: 48, value: a[1] },
+					{ title: '计算机名', indent: 2, name: 'f_cifs1_servern', type: 'text', maxlen: 128, size: 48, value: a[6] },
+					{ title: '用户名称', indent: 2, name: 'f_cifs1_user', type: 'text', maxlen: 32, size: 34, value: a[2] },
+					{ title: '请输入密码', indent: 2, name: 'f_cifs1_pass', type: 'password', maxlen: 32, size: 34, peekaboo: 1, value: a[3] },
+					{ title: '所在域', indent: 2, name: 'f_cifs1_dom', type: 'text', maxlen: 32, size: 34, value: a[4] },
+					{ title: '挂载后执行', indent: 2, name: 'f_cifs1_exec', type: 'text', maxlen: 64, size: 34, value: a[5] },
+					{ title: '安全设置', indent: 2, name: 'f_cifs1_sec', type: 'select',
+						options: [['','默认 (NTLM)'],['ntlmi','NTLM 和 数据包签名'],['ntlmv2','NTLMv2'],['ntlmv2i','NTLMv2 和 数据包签名'],['nontlm','No NTLM'],['lanman','LANMAN'],['none','无']],
 						value: a[7] },
-					{ title: 'CIFS1 Usage', indent: 2, text: cifs1.size ? (scaleSize(cifs1.size - cifs1.free) + ' / ' + scaleSize(cifs1.size)) +
-						' (<span class="txtcifs1"></span>) <div class="progress small cifs1"><div class="bar"></div></div>' : '(not mounted)' },
+					{ title: 'CIFS1 使用率', indent: 2, text: cifs1.size ? (scaleSize(cifs1.size - cifs1.free) + ' / ' + scaleSize(cifs1.size)) +
+						' (<span class="txtcifs1"></span>) <div class="progress small cifs1"><div class="bar"></div></div>' : '(未挂载)' },
 				]) + '</div></div>';
 
 				cifs += '<div class="box" data-box="cifs-set-2"><div class="heading">CIFS2 <small>(/cifs2)</small></div><div class="content">' +
 				createFormFields([
-					{ title: 'Enable', indent: 2, name: 'f_cifs2_enable', type: 'checkbox', value: b[0]*1 },
-					{ title: 'UNC', indent: 2, name: 'f_cifs2_unc', type: 'text', maxlen: 128, size: 48, value: b[1] },
-					{ title: 'Netbios Name', indent: 2, name: 'f_cifs2_servern', type: 'text', maxlen: 128, size: 48, value: b[6] },
-					{ title: 'Username', indent: 2, name: 'f_cifs2_user', type: 'text', maxlen: 32, size: 34, value: b[2] },
-					{ title: 'Password', indent: 2, name: 'f_cifs2_pass', type: 'password', maxlen: 32, size: 34, peekaboo: 1, value: b[3] },
-					{ title: 'Domain', indent: 2, name: 'f_cifs2_dom', type: 'text', maxlen: 32, size: 34, value: b[4] },
-					{ title: 'Execute When Mounted', indent: 2, name: 'f_cifs2_exec', type: 'text', maxlen: 64, size: 34, value: b[5] },
-					{ title: 'Security', indent: 2, name: 'f_cifs2_sec', type: 'select',
-						options: [['','Default (NTLM)'],['ntlmi','NTLM and packet signing'],['ntlmv2','NTLMv2'],['ntlmv2i','NTLMv2 and packet signing'],['nontlm','No NTLM'],['lanman','LANMAN'],['none','None']],
+					{ title: '启用', indent: 2, name: 'f_cifs2_enable', type: 'checkbox', value: b[0]*1 },
+					{ title: '共享路径(UNC)', indent: 2, name: 'f_cifs2_unc', type: 'text', maxlen: 128, size: 48, value: b[1] },
+					{ title: '计算机名', indent: 2, name: 'f_cifs2_servern', type: 'text', maxlen: 128, size: 48, value: b[6] },
+					{ title: '用户名称', indent: 2, name: 'f_cifs2_user', type: 'text', maxlen: 32, size: 34, value: b[2] },
+					{ title: '请输入密码', indent: 2, name: 'f_cifs2_pass', type: 'password', maxlen: 32, size: 34, peekaboo: 1, value: b[3] },
+					{ title: '所在域', indent: 2, name: 'f_cifs2_dom', type: 'text', maxlen: 32, size: 34, value: b[4] },
+					{ title: '挂载后执行', indent: 2, name: 'f_cifs2_exec', type: 'text', maxlen: 64, size: 34, value: b[5] },
+					{ title: '安全设置', indent: 2, name: 'f_cifs2_sec', type: 'select',
+						options: [['','默认 (NTLM)'],['ntlmi','NTLM 和 数据包签名'],['ntlmv2','NTLMv2'],['ntlmv2i','NTLMv2 和 数据包签名'],['nontlm','No NTLM'],['lanman','LANMAN'],['none','无']],
 						value: b[7] },
-					{ title: 'CIFS2 Usage', indent: 2, text: cifs2.size ? (scaleSize(cifs2.size - cifs2.free) + ' / ' + scaleSize(cifs2.size)) +
-						' (<span class="txtcifs2"></span>) <div class="progress small cifs2"><div class="bar"></div></div>' : '(not mounted)' }
+					{ title: 'CIFS2 使用率', indent: 2, text: cifs2.size ? (scaleSize(cifs2.size - cifs2.free) + ' / ' + scaleSize(cifs2.size)) +
+						' (<span class="txtcifs2"></span>) <div class="progress small cifs2"><div class="bar"></div></div>' : '(未挂载)' }
 				]) + '</div></div>';
 
 				$('#mounties').append(cifs);
 			</script>
 		</div>
 
-		<button type="button" value="Save" id="save-button" onclick="save()" class="btn btn-primary">Save <i class="icon-check"></i></button>
-		<button type="button" value="Cancel" id="cancel-button" onclick="javascript:reloadPage();" class="btn">Cancel <i class="icon-cancel"></i></button>
+		<button type="button" value="保存设置" id="save-button" onclick="save()" class="btn btn-primary">保存设置 <i class="icon-check"></i></button>
+		<button type="button" value="取消设置" id="cancel-button" onclick="javascript:reloadPage();" class="btn">取消设置 <i class="icon-cancel"></i></button>
 		<span id="footer-msg" class="alert alert-warning" style="visibility: hidden;"></span>
 
 	</form>
