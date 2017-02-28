@@ -3,7 +3,7 @@
 	<head>
 		<meta http-equiv="content-type" content="text/html;charset=utf-8">
 		<meta name="robots" content="noindex,nofollow">
-		<title>[<% ident(); %>] Error</title>
+		<title>[<% ident(); %>] 错误</title>
 		<style>
 			body {
 				font-family: 'Verdana';
@@ -55,12 +55,12 @@
 
 		<div class="container" style="text-align: center;">
 			<div class="row">
-				<h2>Somthing went wrong...</h2>
+				<h2>出了些问题...</h2>
 				<p><script type="text/javascript">
 						//<% resmsg("Unknown error"); %>
 						document.write(resmsg);
 					</script></p>
-				<p><a class="btn btn-primary" onclick="history.go(-1)">Go Back</a></p>
+				<p><a class="btn btn-primary" onclick="history.go(-1)">返回</a></p>
 			</div>
 		</div>
 

@@ -5,7 +5,7 @@ http://www.polarcloud.com/tomato/
 
 For use with Tomato Firmware only.
 No part of this file may be used without permission.
---><title>Basic IPv6 Forwarding</title>
+--><title>IPv6 转发</title>
 <content>
 	<script type="text/javascript">
 		//	<% nvram("at_update,tomatoanon_answer,ipv6_portforward"); %>
@@ -55,7 +55,7 @@ No part of this file may be used without permission.
 			if (!v_iptport(f[4], quiet)) return 0;
 
 			f[5].value = f[5].value.replace(/>/g, '_');
-			if (!v_nodelim(f[5], quiet, 'Description')) return 0;
+			if (!v_nodelim(f[5], quiet, '描述')) return 0;
 			return 1;
 		}
 
@@ -78,7 +78,7 @@ No part of this file may be used without permission.
 				{ type: 'text', maxlen: 140, class : 'input-medium' },
 				{ type: 'text', maxlen: 16, class : 'input-small' },
 				{ type: 'text', maxlen: 32 }]);
-			this.headerSet(['On', 'Proto', 'Src Address', 'Dest Address', 'Dest Ports', 'Description']);
+			this.headerSet(['启用', '协议', '源地址', '目标地址', '目标端口', '描述']);
 			var nv = nvram.ipv6_portforward.split('>');
 			for (var i = 0; i < nv.length; ++i) {
 				var r;
@@ -129,24 +129,24 @@ No part of this file may be used without permission.
 		<input type="hidden" name="ipv6_portforward">
 
 		<div class="box">
-			<div class="heading">Basic IPv6 Port-forwarding</div>
+			<div class="heading">基本 IPv6 转发</div>
 			<div class="content">
 				<script type="text/javascript">show_notice1('<% notice("ip6tables"); %>');</script>
 				<table class="line-table" id="fo-grid"></table><br /><hr>
 
-				<h4>Notes</h4>
-				Opens access to ports on machines inside the LAN, but does <b>not</b> re-map ports.
+				<h4>说明</h4>
+				开放对局域网内机器的端口访问，但是 <b>不</b> 重映射端口.
 				<ul>
-					<li><b>Src Address</b> <i>(optional)</i> - Forward only if from this address. Ex: "2001:4860:800b::/48", "me.example.com".
-					<li><b>Dest Address</b> <i>(optional)</i> - The destination address inside the LAN.
-					<li><b>Dest Ports</b> - The ports to be opened for forwarding. Ex: "2345", "200,300", "200-300,400".
+					<li><b>源地址</b> <i>(可选)</i> - 仅映射该地址的连接. 例: "2001:4860:800b::/48", "me.example.com".
+					<li><b>目标地址</b> <i>(可选)</i> - 对应局域网络内的 IP 地址.
+					<li><b>目标端口</b> - 需要转发的端口，例如: "2345", "200,300", "200-300,400".
 				</ul>
 
 			</div>
 		</div>
 
-		<button type="button" value="Save" id="save-button" onclick="save()" class="btn btn-primary">Save <i class="icon-check"></i></button>
-		<button type="button" value="Cancel" id="cancel-button" onclick="javascript:reloadPage();" class="btn">Cancel <i class="icon-cancel"></i></button>
+		<button type="button" value="保存设置" id="save-button" onclick="save()" class="btn btn-primary">保存设置 <i class="icon-check"></i></button>
+		<button type="button" value="取消设置" id="cancel-button" onclick="javascript:reloadPage();" class="btn">取消设置 <i class="icon-cancel"></i></button>
 		<span id="footer-msg" class="alert alert-warning" style="visibility: hidden;"></span>
 	</form>
 

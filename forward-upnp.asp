@@ -5,7 +5,7 @@ http://www.polarcloud.com/tomato/
 
 For use with Tomato Firmware only.
 No part of this file may be used without permission.
---><title>UPnP / NAT-PMP Forwarding</title>
+--><title>UPnP / NAT-PMP 转发</title>
 <content>
 	<script type="text/javascript">
 
@@ -45,7 +45,7 @@ No part of this file may be used without permission.
 
 		ug.setup = function() {
 			this.init('upnp-grid', 'sort delete');
-			this.headerSet(['External', '<b>Internal', '<b>Internal Address', '<b>Protocol', '<b>Description']);
+			this.headerSet(['外部端口', '内部端口', '内部地址', '协议', '描述']);
 			ug.populate();
 		}
 
@@ -65,7 +65,7 @@ No part of this file may be used without permission.
 						}
 					}
 					for (j = 0; j < 5; ++j) {
-						row.cells[j].title = 'Click to delete';
+						row.cells[j].title = '点击删除';
 					}
 				}
 				this.sort(2);
@@ -75,7 +75,7 @@ No part of this file may be used without permission.
 
 		function deleteAll()
 		{
-			if (!confirm('Delete all entries?')) return;
+			if (!confirm('确认删除所有条目?')) return;
 			submitDelete('*', '0');
 		}
 
@@ -125,7 +125,7 @@ No part of this file may be used without permission.
 				E('_f_upnp_lan3').checked = false;
 			if ((enable) && (!E('_f_upnp_lan').checked) && (!E('_f_upnp_lan1').checked) && (!E('_f_upnp_lan2').checked) && (!E('_f_upnp_lan3').checked)) {
 				if ((E('_f_enable_natpmp').checked) || (E('_f_enable_upnp').checked)) {
-					var m = 'NAT-PMP or UPnP must be enabled in least one LAN bridge. You may continue but remember to configure an access to UPnP service by Custom Configuration';
+					var m = '必须在至少有一个 LAN 网桥中启用 NAT-PMP 或 UPnP。 您可以继续，但请记住通过自定义配置对 UPnP 服务的访问';
 					ferror.set('_f_enable_natpmp', m, quiet);
 					ferror.set('_f_enable_upnp', m, 1);
 					ferror.set('_f_upnp_lan', m, 1);
@@ -204,46 +204,46 @@ No part of this file may be used without permission.
 		<!-- VLAN-END -->
 
 		<div class="box">
-			<div class="heading">UPnP / NAT-PMP Port Forwarding</div>
+			<div class="heading">UPnP / NAT-PMP 端口转发</div>
 			<div class="content">
 				<table id="upnp-grid" class="line-table"></table><br />
-				<div style="width: 100%; text-align: right"><button type="button" value="Delete All" onclick="deleteAll();" id="upnp-delete-all" class="btn btn-danger">Delete All <i class="icon-cancel"></i></button>
-					<button type="button" value="Refresh" onclick="javascript:reloadPage();" class="btn"><i class="icon-refresh"></i> Refresh</button></div>
+				<div style="width: 100%; text-align: right"><button type="button" value="全部删除" onclick="deleteAll();" id="upnp-delete-all" class="btn btn-danger">全部删除 <i class="icon-cancel"></i></button>
+					<button type="button" value="刷新" onclick="javascript:reloadPage();" class="btn"><i class="icon-refresh"></i> 刷新</button></div>
 			</div>
 		</div>
 
 		<div class="box" data-box="forward-upnp-settings">
-			<div class="heading">Settings</div>
+			<div class="heading">设置</div>
 			<div class="content" id="upnpsettings"></div>
 			<script type="text/javascript">
 				$('#upnpsettings').forms([
-					{ title: 'Enable UPnP', name: 'f_enable_upnp', type: 'checkbox', value: (nvram.upnp_enable & 1) },
-					{ title: 'Enable NAT-PMP', name: 'f_enable_natpmp', type: 'checkbox', value: (nvram.upnp_enable & 2) },
+					{ title: '启用 UPnP', name: 'f_enable_upnp', type: 'checkbox', value: (nvram.upnp_enable & 1) },
+					{ title: '启用 NAT-PMP', name: 'f_enable_natpmp', type: 'checkbox', value: (nvram.upnp_enable & 2) },
 					/* REMOVE-BEGIN
 					!!TB - additional miniupnp settings
 					REMOVE-END */
-					{ title: 'Inactive Rules Cleaning', name: 'f_upnp_clean', type: 'checkbox', value: (nvram.upnp_clean == '1') },
-					{ title: 'Cleaning Interval', indent: 2, name: 'upnp_clean_interval', type: 'text', maxlen: 5, size: 7,
-						suffix: ' <small>seconds</small>', value: nvram.upnp_clean_interval },
-					{ title: 'Cleaning Threshold', indent: 2, name: 'upnp_clean_threshold', type: 'text', maxlen: 4, size: 7,
-						suffix: ' <small>redirections</small>', value: nvram.upnp_clean_threshold },
-					{ title: 'Secure Mode', name: 'f_upnp_secure', type: 'checkbox',
-						suffix: ' &nbsp; <small>(when enabled, UPnP clients are allowed to add mappings only to their IP)</small>',
+					{ title: '自动删除无效规则', name: 'f_upnp_clean', type: 'checkbox', value: (nvram.upnp_clean == '1') },
+					{ title: '删除间隔', indent: 2, name: 'upnp_clean_interval', type: 'text', maxlen: 5, size: 7,
+						suffix: ' <small>秒</small>', value: nvram.upnp_clean_interval },
+					{ title: '删除阈值', indent: 2, name: 'upnp_clean_threshold', type: 'text', maxlen: 4, size: 7,
+						suffix: ' <small>重定向</small>', value: nvram.upnp_clean_threshold },
+					{ title: '安全模式', name: 'f_upnp_secure', type: 'checkbox',
+						suffix: ' &nbsp; <small>(当启用时，UPnP 的客户机可以只映射到其 IP)</small>',
 						value: (nvram.upnp_secure == '1') },
 					/* VLAN-BEGIN */
-					{ title: 'Enabled on' },
+					{ title: '监听在' },
 					{ title: 'LAN', indent: 2, name: 'f_upnp_lan', type: 'checkbox', value: (nvram.upnp_lan == '1') },
 					{ title: 'LAN1', indent: 2, name: 'f_upnp_lan1', type: 'checkbox', value: (nvram.upnp_lan1 == '1') },
 					{ title: 'LAN2', indent: 2, name: 'f_upnp_lan2', type: 'checkbox', value: (nvram.upnp_lan2 == '1') },
 					{ title: 'LAN3', indent: 2, name: 'f_upnp_lan3', type: 'checkbox', value: (nvram.upnp_lan3 == '1') },
 					/* VLAN-END */
-					{ title: 'Show In My Network Places',  name: 'f_upnp_mnp',  type: 'checkbox',  value: (nvram.upnp_mnp == '1')}
+					{ title: '在网上邻居中显示',  name: 'f_upnp_mnp',  type: 'checkbox',  value: (nvram.upnp_mnp == '1')}
 				]);
 			</script>
 		</div>
 
-		<button type="button" value="Save" id="save-button" onclick="save()" class="btn btn-primary">Save <i class="icon-check"></i></button>
-		<button type="button" value="Cancel" id="cancel-button" onclick="javascript:reloadPage();" class="btn">Cancel <i class="icon-cancel"></i></button>
+		<button type="button" value="保存设置" id="save-button" onclick="save()" class="btn btn-primary">保存设置 <i class="icon-check"></i></button>
+		<button type="button" value="取消设置" id="cancel-button" onclick="javascript:reloadPage();" class="btn">取消设置 <i class="icon-cancel"></i></button>
 		<span id="footer-msg" class="alert alert-warning" style="visibility: hidden;"></span>
 
 	</form>

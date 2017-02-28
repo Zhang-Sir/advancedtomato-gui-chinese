@@ -10,7 +10,7 @@ http://code.google.com/p/tomato-sdhc-vlan/
 For use with Tomato Firmware only.
 No part of this file may be used without permission.
 -->
-<title>View Details</title>
+<title>详细内容</title>
 <content>
 	<style type="text/css">
 		#grid .co1 {
@@ -59,7 +59,7 @@ No part of this file may be used without permission.
 	<script type="text/javascript">
 		//	<% nvram('at_update,tomatoanon_answer,qos_enable,qos_classnames,lan_ipaddr,lan1_ipaddr,lan2_ipaddr,lan3_ipaddr,lan_netmask,lan1_netmask,lan2_netmask,lan3_netmask,t_hidelr'); %>
 
-		var Unclassified = ['Unclassified'];
+		var Unclassified = ['未分类'];
 		var classNames = nvram.qos_classnames.split(' ');		//Toastman Class Labels
 		var abc = Unclassified.concat(classNames);
 
@@ -231,7 +231,7 @@ No part of this file may be used without permission.
 						data[cols[j]] = name + ((ip.indexOf(':') != -1) ? '<br>' : ' ') + '<small>(' + ip + ')</small>';
 						row.setRowData(data);
 						if (E('_f_shortcuts').checked)
-							data[cols[j]] = data[cols[j]] + ' <small><a href="javascript:addExcludeList(\'' + ip + '\')" title="Exclude from List">[Hide]</a></small>';
+							data[cols[j]] = data[cols[j]] + ' <small><a href="javascript:addExcludeList(\'' + ip + '\')" title="从列表中排除">[隐藏]</a></small>';
 						row.cells[cols[j]].innerHTML = data[cols[j]];
 						row.style.cursor = 'default';
 					}
@@ -241,7 +241,7 @@ No part of this file may be used without permission.
 
 		grid.setup = function() {
 			this.init('grid', 'sort');
-			this.headerSet(['Proto', 'Source', 'S Port', 'Destination', 'D Port', 'Class', 'Rule', 'Bytes Out', 'Bytes In']);
+			this.headerSet(['协议', '源地址', '源端口', '目标地址', '目标端口', '应用分类', '规则', '出站流量', '入站流量']);
 		}
 
 		var ref = new TomatoRefresh('/update.cgi', '', 0, 'qos_detailed');
@@ -352,9 +352,9 @@ No part of this file may be used without permission.
 					}
 					if (E('_f_shortcuts').checked) {
 						if (cache[ip] == null) {
-							b[cols[j]] = b[cols[j]] + ' <small><a href="javascript:addToResolveQueue(\'' + ip + '\')" title="Resolve the hostname of this address">[resolve]</a></small>';
+							b[cols[j]] = b[cols[j]] + ' <small><a href="javascript:addToResolveQueue(\'' + ip + '\')" title="解析此主机 IP">[解析]</a></small>';
 						}
-						b[cols[j]] = b[cols[j]] + ' <small><a href="javascript:addExcludeList(\'' + ip + '\')" title="Filter out this IP">[hide]</a></small>';
+						b[cols[j]] = b[cols[j]] + ' <small><a href="javascript:addExcludeList(\'' + ip + '\')" title="过滤此 IP">[隐藏]</a></small>';
 					}
 				}
 
@@ -374,9 +374,9 @@ No part of this file may be used without permission.
 
 			if (resolveCB) resolve();
 			if (numconnshown != numconntotal)
-				E('numtotalconn').innerHTML='<small><i>(showing ' + numconnshown + ' out of ' + numconntotal + ' connections)</i></small>';
+				E('numtotalconn').innerHTML='<small><i>(显示 ' + numconnshown + ' 出站 ' + numconntotal + ' 连接数)</i></small>';
 			else
-				E('numtotalconn').innerHTML='<small>(' + numconntotal + ' connections)</small>';
+				E('numtotalconn').innerHTML='<small>(' + numconntotal + ' 连接数)</small>';
 		}
 
 		function addExcludeList(address) {
@@ -422,7 +422,7 @@ No part of this file may be used without permission.
 				toggleVisibility("filters");
 			}
 
-			if (viewClass != -1) $('#qos-details .heading').html('QOS Details: ' + abc[viewClass] + ' <span id=\'numtotalconn\'></span>');
+			if (viewClass != -1) $('#qos-details .heading').html('QOS 详细信息: ' + abc[viewClass] + ' <span id=\'numtotalconn\'></span>');
 
 			E('_f_shortcuts').checked = (((c = cookie.get('qos_detailed_shortcuts')) != null) && (c == '1'));
 
@@ -490,30 +490,30 @@ No part of this file may be used without permission.
 
 	<script type="text/javascript">
 		if (nvram.qos_enable != '1') {
-			$('.container .ajaxwrap').prepend('<div class="alert alert-info"><b>QoS is disabled.</b>&nbsp; <a class="ajaxload" href="#qos-settings.asp">Enable &raquo;</a> <a class="close"><i class="icon-cancel"></i></a></div>');
+			$('.container .ajaxwrap').prepend('<div class="alert alert-info"><b>QoS 已禁用.</b>&nbsp; <a class="ajaxload" href="#qos-settings.asp">启用 &raquo;</a> <a class="close"><i class="icon-cancel"></i></a></div>');
 		}
 	</script>
 
 	<div class="box" id="qos-details">
-		<div class="heading">QOS Details <span id="numtotalconn"></span></div>
+		<div class="heading">QOS 详细信息 <span id="numtotalconn"></span></div>
 		<div class="content">
-			<h4>Filters <a href="javascript:toggleVisibility('filters');"><span id="sesdivfiltersshowhide"><i class="icon-chevron-up"></i></span></a></h4>
+			<h4>过滤器 <a href="javascript:toggleVisibility('filters');"><span id="sesdivfiltersshowhide"><i class="icon-chevron-up"></i></span></a></h4>
 			<div id="sesdivfilters" style="display:none"></div>
 			<script type="text/javascript">
 				var c;
 				c = [];
-				c.push({ title: 'Show only these IPs', name: 'f_filter_ip', size: 50, maxlen: 255, type: 'text', suffix: ' <small>(Comma separated list)</small>' });
-				c.push({ title: 'Exclude these IPs', name: 'f_filter_ipe', size: 50, maxlen: 255, type: 'text', suffix: ' <small>(Comma separated list)</small>' });
-				c.push({ title: 'Exclude gateway traffic', name: 'f_excludegw', type: 'checkbox', value: ((nvram.t_hidelr) == '1' ? 1 : 0) });
-				c.push({ title: 'Exclude IPv4 broadcast', name: 'f_excludebcast', type: 'checkbox' });
-				c.push({ title: 'Exclude IPv4 multicast', name: 'f_excludemcast', type: 'checkbox' });
-				c.push({ title: 'Auto resolve addresses', name: 'f_autoresolve', type: 'checkbox' });
-				c.push({ title: 'Show shortcuts', name: 'f_shortcuts', type: 'checkbox' });
+				c.push({ title: '仅包含这些 IP', name: 'f_filter_ip', size: 50, maxlen: 255, type: 'text', suffix: ' <small>(逗号分隔列表)</small>' });
+				c.push({ title: '不包含这些 IP', name: 'f_filter_ipe', size: 50, maxlen: 255, type: 'text', suffix: ' <small>(逗号分隔列表)</small>' });
+				c.push({ title: '不包含网关流量', name: 'f_excludegw', type: 'checkbox', value: ((nvram.t_hidelr) == '1' ? 1 : 0) });
+				c.push({ title: '不包含 IPv4 广播', name: 'f_excludebcast', type: 'checkbox' });
+				c.push({ title: '不包括 IPv4 多播', name: 'f_excludemcast', type: 'checkbox' });
+				c.push({ title: '自动解析地址', name: 'f_autoresolve', type: 'checkbox' });
+				c.push({ title: '显示快捷键', name: 'f_shortcuts', type: 'checkbox' });
 				$('#sesdivfilters').forms(c);
 			</script>
 
 			<br /><table id="grid" class="line-table"></table>
-			<div id="loading"><br><b>Loading...</b> <div class="spinner"></div></div>
+			<div id="loading"><br><b>载入中...</b> <div class="spinner"></div></div>
 		</div>
 	</div>
 

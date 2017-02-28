@@ -3,7 +3,7 @@
 	<head>
 		<meta http-equiv="content-type" content="text/html;charset=utf-8">
 		<meta name="robots" content="noindex,nofollow">
-		<title>[<% ident(); %>] Rebooting...</title>
+		<title>[<% ident(); %>] 重启中...</title>
 
 		<style>
 			body {
@@ -122,14 +122,14 @@
 	<body>
 		<div style="width:100%; max-width: 600px; margin: 10% auto; text-align: center;">
 			<div style='width:90%; margin:5px auto;padding:5px 5%;'>
-				<span id="msg"></span><br /><span id="re"><div class="spinner"></div> <b>Rebooting, please wait...</b></span><br />
+				<span id="msg"></span><br /><span id="re"><div class="spinner"></div> <b>重启中, 请稍等...</b></span><br />
 				<div id="progbar" class="progress">
 					<div class="bar success" id="prog">
 						<span class="txt" id="progTXT"></span>
 					</div>
 				</div>
 				<div id="continue" style="display: none;">
-					<button class="btn" type="button" name="go" onclick="go()">Continue</button>
+					<button class="btn" type="button" name="go" onclick="go()">继续</button>
 				</div>
 				<script type="text/javascript">init();</script>
 			</div>

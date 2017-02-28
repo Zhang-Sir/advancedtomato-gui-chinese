@@ -5,7 +5,7 @@ http://www.polarcloud.com/tomato/
 
 For use with Tomato Firmware only.
 No part of this file may be used without permission.
---><title>DMZ Forwarding</title>
+--><title>DMZ 设置</title>
 <content>
 	<script type="text/javascript" src="js/interfaces.js"></script>
 	<script type="text/javascript">
@@ -92,26 +92,26 @@ No part of this file may be used without permission.
 		<input type="hidden" name="dmz_sip">
 
 		<div class="box">
-			<div class="heading">DMZ Settings</div>
+			<div class="heading">DMZ 设置</div>
 			<div class="content dmz-settings"></div>
 			<script type="text/javascript">
 				$('.dmz-settings').forms([
-					{ title: 'Enable DMZ', name: 'f_dmz_enable', type: 'checkbox', value: (nvram.dmz_enable == '1') },
-					{ title: 'Destination Address', indent: 2, name: 'f_dmz_ipaddr', type: 'text', maxlen: 15, size: 17,
+					{ title: '启用 DMZ', name: 'f_dmz_enable', type: 'checkbox', value: (nvram.dmz_enable == '1') },
+					{ title: '目的地址', indent: 2, name: 'f_dmz_ipaddr', type: 'text', maxlen: 15, size: 17,
 						value: (nvram.dmz_ipaddr.indexOf('.') != -1) ? nvram.dmz_ipaddr : (lipp + nvram.dmz_ipaddr) },
 					/* VLAN-BEGIN */
-					{ title: 'Destination Interface', indent: 2, name: 'dmz_ifname', type: 'select',
+					{ title: '目标接口', indent: 2, name: 'dmz_ifname', type: 'select',
 						options: [['br0','LAN (br0)'],['br1','LAN1  (br1)'],['br2','LAN2 (br2)'],['br3','LAN3 (br3)']], value: nvram.dmz_ifname },
 					/* VLAN-END */
-					{ title: 'Source Address Restriction', indent: 2, name: 'f_dmz_sip', type: 'text', maxlen: 512, size: 64,
-						value: nvram.dmz_sip, suffix: '<small>(optional; ex: "1.1.1.1", "1.1.1.0/24", "1.1.1.1 - 2.2.2.2" or "me.example.com")</small>' }
+					{ title: '源地址限制', indent: 2, name: 'f_dmz_sip', type: 'text', maxlen: 512, size: 64,
+						value: nvram.dmz_sip, suffix: '<small>("空白" 不限制,可单一IP或范围;例: "1.1.1.1", "1.1.1.0/24", "1.1.1.1 - 2.2.2.2" or "me.example.com")</small>' }
 					]);
 			</script>
 		</div>
 		<script type="text/javascript">if (nvram.dmz_enable == '1') show_notice1('<% notice("iptables"); %>');</script>
 
-		<button type="button" value="Save" id="save-button" onclick="save()" class="btn btn-primary">Save <i class="icon-check"></i></button>
-		<button type="button" value="Cancel" id="cancel-button" onclick="javascript:reloadPage();" class="btn">Cancel <i class="icon-cancel"></i></button>
+		<button type="button" value="保存设置" id="save-button" onclick="save()" class="btn btn-primary">保存设置 <i class="icon-check"></i></button>
+		<button type="button" value="取消设置" id="cancel-button" onclick="javascript:reloadPage();" class="btn">取消设置 <i class="icon-cancel"></i></button>
 		<span id="footer-msg" class="alert alert-warning" style="visibility: hidden;"></span>
 
 	</form>

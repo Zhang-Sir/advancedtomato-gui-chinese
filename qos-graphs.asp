@@ -6,7 +6,7 @@ http://www.polarcloud.com/tomato/
 For use with Tomato Firmware only.
 No part of this file may be used without permission.
 -->
-<title>View Graphs</title>
+<title>图形分析</title>
 <content>
 	<style type="text/css">
 		.color {
@@ -57,8 +57,8 @@ No part of this file may be used without permission.
 
 		var svgReady = 0;
 
-		var Unclassified = ['Unclassified'];
-		var Unused = ['Unused'];
+		var Unclassified = ['未分类'];
+		var Unused = ['未使用'];
 		var classNames = nvram.qos_classnames.split(' ');		//Toastman Class Labels
 		var abc = Unclassified.concat(classNames,Unused);
 
@@ -292,17 +292,17 @@ No part of this file may be used without permission.
 
 	<script type="text/javascript">
 		if (nvram.qos_enable != '1') {
-			$('.container .ajaxwrap').prepend('<div class="alert alert-info"><b>QoS is disabled.</b>&nbsp; <a class="ajaxload" href="qos-settings.asp">Enable &raquo;</a> <a class="close"><i class="icon-cancel"></i></a></div>');
+			$('.container .ajaxwrap').prepend('<div class="alert alert-info"><b>QoS 已禁用.</b>&nbsp; <a class="ajaxload" href="qos-settings.asp">启用 &raquo;</a> <a class="close"><i class="icon-cancel"></i></a></div>');
 		}
 	</script>
 
 	<div class="box graphs">
-		<div class="heading">Connections Distribution</div>
+		<div class="heading">连接分布图表</div>
 		<div class="content">
 			<div id="svg-0" class="embedGraph"></div>
 
 			<table id="firstTable">
-				<tr><td>&nbsp;</td><td class="total">Total</td><td id="ccnt-total" class="total count"></td><td class="total pct">100%</td></tr>
+				<tr><td>&nbsp;</td><td class="total">合计</td><td id="ccnt-total" class="total count"></td><td class="total pct">100%</td></tr>
 			</table>
 
 			<script type="text/javascript">
@@ -319,13 +319,13 @@ No part of this file may be used without permission.
 
 	<div class="fluid-grid x2">
 		<div class="box graphs">
-			<div class="heading">Bandwidth Distribution (Outbound)</div>
+			<div class="heading">带宽分布 (出站)</div>
 			<div class="content">
 				<div id="svg-1" class="embedGraph"></div>
 
 				<table id="secondTable">
 					<tr><td class="color" style="height:1em; margin-right: 5px;"></td><td class="title">&nbsp;</td><td class="thead count">kbit/s</td><td class="thead count">KB/s</td><td class="thead pct">&nbsp;</td></tr>
-					<tr><td>&nbsp;</td><td class="total">Total</a></td><td id="bocnt-total" class="total count"></td><td id="bocntx-total" class="total count"></td><td id="rateout" class="total pct"></td></tr>
+					<tr><td>&nbsp;</td><td class="total">合计</a></td><td id="bocnt-total" class="total count"></td><td id="bocntx-total" class="total count"></td><td id="rateout" class="total pct"></td></tr>
 				</table>
 
 				<script type='text/javascript'>
@@ -342,13 +342,13 @@ No part of this file may be used without permission.
 		</div>
 
 		<div class="box graphs">
-			<div class="heading">Bandwidth Distribution (Inbound)</div>
+			<div class="heading">带宽分布 (入站)</div>
 			<div class="content">
 				<div id="svg-2" class="embedGraph"></div>
 
 				<table id="thirdTable">
 					<tr><td class="color" style="height:1em; margin-right: 5px;"></td><td class="title">&nbsp;</td><td class="thead count">kbit/s</td><td class="thead count">KB/s</td><td class="thead pct">&nbsp;</td></tr>
-					<tr><td>&nbsp;</td><td class="total">Total</a></td><td id="bicnt-total" class="total count"></td><td id="bicntx-total" class="total count"></td><td id="ratein" class="total pct"></td></tr>
+					<tr><td>&nbsp;</td><td class="total">合计</a></td><td id="bicnt-total" class="total count"></td><td id="bicntx-total" class="total count"></td><td id="ratein" class="total pct"></td></tr>
 				</table>
 
 				<script type="text/javascript">

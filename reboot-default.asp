@@ -11,7 +11,7 @@ No part of this file may be used without permission.
 	<head>
 		<meta http-equiv='content-type' content='text/html;charset=utf-8'>
 		<meta name='robots' content='noindex,nofollow'>
-		<title>[<% ident(); %>] Restoring Defaults...</title>
+		<title>[<% ident(); %>] 恢复默认值...</title>
 
 		<style>
 			body {
@@ -130,17 +130,17 @@ No part of this file may be used without permission.
 
 		<div style="width:100%; max-width: 650px; margin: 10% auto; text-align: center;">
 			<div style="width:90%; margin:5px auto;padding:5px 5%;" id="msg">
-				<b id="re">Please wait while the defaults are restored... </b>
+				<b id="re">请等待，正在恢复默认值... </b>
 				<div id="progbar" class="progress">
 					<div class="bar info" id="prog">
 						<span class="txt" id="progTXT"></span>
 					</div>
 				</div>
 				<div id="continue" style="display: none;">
-					<button class="btn" type="button" name="go" onclick="go()">Continue</button>
+					<button class="btn" type="button" name="go" onclick="go()">继续</button>
 					<br /><br />
 				</div>
-				The router will reset its address back to 192.168.1.1. <br />You may need to renew your computer's DHCP or reboot your computer before continuing.
+				路由器将其地址重置为 192.168.1.1. <br />您可能需要更新计算机的DHCP或重新启动计算机才能继续.
 			</div>
 		</div>
 		<script type="text/javascript">init();</script>

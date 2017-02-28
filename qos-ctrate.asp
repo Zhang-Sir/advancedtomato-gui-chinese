@@ -9,7 +9,7 @@ http://code.google.com/p/tomato-sdhc-vlan/
 
 For use with Tomato Firmware only.
 No part of this file may be used without permission.
---><title>Per-Connection Transfer Rates</title>
+--><title>传输速率</title>
 <content><style type="text/css">
 		#grid .co6 {
 			text-align: right;
@@ -191,7 +191,7 @@ No part of this file may be used without permission.
 						data[cols[j]] = name + ((ip.indexOf(':') != -1) ? '<br>' : ' ') + '<small>(' + ip + ')</small>';
 						row.setRowData(data);
 						if (E('_f_shortcuts').checked)
-							data[cols[j]] = data[cols[j]] + ' <small><a href="javascript:addExcludeList(\'' + ip + '\')" title="Exclude from List">[Hide]</a></small>';
+							data[cols[j]] = data[cols[j]] + ' <small><a href="javascript:addExcludeList(\'' + ip + '\')" title="从列表中排除">[隐藏]</a></small>';
 						row.cells[cols[j]].innerHTML = data[cols[j]];
 						row.style.cursor = 'default';
 					}
@@ -201,7 +201,7 @@ No part of this file may be used without permission.
 
 		grid.setup = function() {
 			this.init('grid', 'sort');
-			this.headerSet(['Proto', 'Source', 'S Port', 'Destination', 'D Port', 'UL Rate', 'DL Rate']);
+			this.headerSet(['协议', '源地址', '源端口', '目标地址', '目标端口', '上传速率(KB/s)', '下载速率(KB/s)']);
 		}
 
 		var ref = new TomatoRefresh('/update.cgi', '', 0, 'qos_ctrate');
@@ -312,9 +312,9 @@ No part of this file may be used without permission.
 					}
 					if (E('_f_shortcuts').checked) {
 						if (cache[ip] == null) {
-							b[cols[j]] = b[cols[j]] + ' <small><a href="javascript:addToResolveQueue(\'' + ip + '\')" title="Resolve the hostname of this address">[resolve]</a></small>';
+							b[cols[j]] = b[cols[j]] + ' <small><a href="javascript:addToResolveQueue(\'' + ip + '\')" title="解析此主机 IP">[解析]</a></small>';
 						}
-						b[cols[j]] = b[cols[j]] + ' <small><a href="javascript:addExcludeList(\'' + ip + '\')" title="Filter out this IP">[hide]</a></small>';
+						b[cols[j]] = b[cols[j]] + ' <small><a href="javascript:addExcludeList(\'' + ip + '\')" title="过滤此 IP">[隐藏]</a></small>';
 					}
 				}
 
@@ -335,9 +335,9 @@ No part of this file may be used without permission.
 			if (resolveCB) resolve();
 
 			if (numconnshown != numconntotal)
-				E('numtotalconn').innerHTML='<small><i>(showing ' + numconnshown + ' out of ' + numconntotal + ' connections)</i></small>';
+				E('numtotalconn').innerHTML='<small><i>(显示 ' + numconnshown + ' 出站 ' + numconntotal + ' 连接数)</i></small>';
 			else
-				E('numtotalconn').innerHTML='<small><i>(' + numconntotal + ' connections)</i></small>';
+				E('numtotalconn').innerHTML='<small><i>(' + numconntotal + ' 连接数)</i></small>';
 		}
 
 		function addExcludeList(address) {
@@ -453,32 +453,32 @@ No part of this file may be used without permission.
 	</script>
 	<script type="text/javascript">
 		if (nvram.qos_enable != '1') {
-			$('.container .ajaxwrap').prepend('<div class="alert alert-info"><b>QoS is disabled.</b>&nbsp; <a class="ajaxload" href="#qos-settings.asp">Enable &raquo;</a> <a class="close"><i class="icon-cancel"></i></a></div>');
+			$('.container .ajaxwrap').prepend('<div class="alert alert-info"><b>QoS 已禁用.</b>&nbsp; <a class="ajaxload" href="#qos-settings.asp">启用 &raquo;</a> <a class="close"><i class="icon-cancel"></i></a></div>');
 		}
 	</script>
 
 	<div class="box" id="qos-transfer-rates">
-		<div class="heading">QOS Transfer Rates <span id="numtotalconn"></span></div>
+		<div class="heading">QOS 传输速率 <span id="numtotalconn"></span></div>
 		<div class="content">
-			<h4>Filters <a href="javascript:toggleVisibility('filters');"><span id="sesdivfiltersshowhide"><i class="icon-chevron-up"></i></span></a></h4>
+			<h4>过滤器 <a href="javascript:toggleVisibility('filters');"><span id="sesdivfiltersshowhide"><i class="icon-chevron-up"></i></span></a></h4>
 			<div class="section" id="sesdivfilters" style="display:none"></div>
 			<script type="text/javascript">
 				var c;
 				c = [];
-				c.push({ title: 'Show only these IPs', name: 'f_filter_ip', size: 50, maxlen: 255, type: 'text', suffix: ' <small>(Comma separated list)</small>' });
-				c.push({ title: 'Exclude these IPs', name: 'f_filter_ipe', size: 50, maxlen: 255, type: 'text', suffix: ' <small>(Comma separated list)</small>' });
-				c.push({ title: 'Exclude gateway traffic', name: 'f_excludegw', type: 'checkbox', value: ((nvram.t_hidelr) == '1' ? 1 : 0) });
-				c.push({ title: 'Exclude IPv4 broadcast', name: 'f_excludebcast', type: 'checkbox' });
-				c.push({ title: 'Exclude IPv4 multicast', name: 'f_excludemcast', type: 'checkbox' });
-				c.push({ title: 'Ignore inactive connections', name: 'f_excludebythreshold', type: 'checkbox' });
-				c.push({ title: 'Auto resolve addresses', name: 'f_autoresolve', type: 'checkbox' });
-				c.push({ title: 'Show shortcuts', name: 'f_shortcuts', type: 'checkbox' });
+				c.push({ title: '仅包含这些 IP', name: 'f_filter_ip', size: 50, maxlen: 255, type: 'text', suffix: ' <small>(逗号分隔列表)</small>' });
+				c.push({ title: '不包含这些 IP', name: 'f_filter_ipe', size: 50, maxlen: 255, type: 'text', suffix: ' <small>(逗号分隔列表)</small>' });
+				c.push({ title: '不包含网关流量', name: 'f_excludegw', type: 'checkbox', value: ((nvram.t_hidelr) == '1' ? 1 : 0) });
+				c.push({ title: '不包含 IPv4 广播', name: 'f_excludebcast', type: 'checkbox' });
+				c.push({ title: '不包括 IPv4 多播', name: 'f_excludemcast', type: 'checkbox' });
+				c.push({ title: '忽略非活动链接', name: 'f_excludebythreshold', type: 'checkbox' });
+				c.push({ title: '自动解析地址', name: 'f_autoresolve', type: 'checkbox' });
+				c.push({ title: '显示快捷键', name: 'f_shortcuts', type: 'checkbox' });
 				$('#sesdivfilters').forms(c);
 			</script>
 
 			<br /><table id="grid" class="line-table"></table>
 
-			<div id="loading"><br><b>Loading...</b> <div class="spinner"></div></div>
+			<div id="loading"><br><b>载入中...</b> <div class="spinner"></div></div>
 		</div>
 	</div>
 

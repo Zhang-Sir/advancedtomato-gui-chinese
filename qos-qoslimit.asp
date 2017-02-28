@@ -9,14 +9,14 @@ adapted by Victek, Shibby, PrinceAMD, Phykris
 
 For use with Tomato Firmware only.
 No part of this file may be used without permission.
---><title>Bandwidth Limiter</title>
+--><title>宽带限制</title>
 <content>
 	<script type="text/javascript">
 		// <% nvram("qos_enable,new_qoslimit_enable,wan_qos_ibw,wan_qos_obw,new_qoslimit_rules,lan_ipaddr,lan_netmask,qosl_enable,qosl_dlr,qosl_dlc,qosl_ulr,qosl_ulc,qosl_udp,qosl_tcp,limit_br0_prio,limit_br1_enable,limit_br1_dlc,limit_br1_dlr,limit_br1_ulc,limit_br1_ulr,limit_br1_prio,limit_br2_enable,limit_br2_dlc,limit_br2_dlr,limit_br2_ulc,limit_br2_ulr,limit_br2_prio,limit_br3_enable,limit_br3_dlc,limit_br3_dlr,limit_br3_ulc,limit_br3_ulr,limit_br3_prio"); %>
 
-		var class_prio = [['0','Highest'],['1','High'],['2','Normal'],['3','Low'],['4','Lowest']];
-		var class_tcp = [['0','nolimit']];
-		var class_udp = [['0','nolimit']];
+		var class_prio = [['0','最高'],['1','高'],['2','正常'],['3','低'],['4','最低']];
+		var class_tcp = [['0','无限制']];
+		var class_udp = [['0','无限制']];
 		for (var i = 1; i <= 100; ++i) {
 			class_tcp.push([i*10, i*10+'']);
 			class_udp.push([i, i + '/s']);
@@ -33,7 +33,7 @@ No part of this file may be used without permission.
 				{ type: 'select', options: class_prio },
 				{ type: 'select', options: class_tcp },
 				{ type: 'select', options: class_udp }]);
-			this.headerSet(['IP | IP Range | MAC Address', 'DLRate', 'DLCeil', 'ULRate', 'ULCeil', 'Priority', 'TCP Limit', 'UDP Limit']);
+			this.headerSet(['IP | IP 范围 | MAC 地址', '下载速率', '下载上限', '上传速率', '上传上限', '优先级', 'TCP 限制', 'UDP 限制']);
 			var qoslimitrules = nvram.new_qoslimit_rules.split('>');
 			for (var i = 0; i < qoslimitrules.length; ++i) {
 				var t = qoslimitrules[i].split('<');
@@ -130,38 +130,38 @@ No part of this file may be used without permission.
 			*/
 			if(v_macip(f[0], quiet, 0, nvram.lan_ipaddr, nvram.lan_netmask)) {
 				if(this.existIP(f[0].value)) {
-					ferror.set(f[0], 'duplicate IP or MAC address', quiet);
+					ferror.set(f[0], 'IP 或 MAC 地址重复', quiet);
 					ok = 0;
 				}
 			}
 
 			if( this.checkRate(f[1].value)) {
-				ferror.set(f[1], 'DLRate must between 1 and 99999', quiet);
+				ferror.set(f[1], '下载速率必须在1和99999之间', quiet);
 				ok = 0;
 			}
 
 			if( this.checkRate(f[2].value)) {
-				ferror.set(f[2], 'DLCeil must between 1 and 99999', quiet);
+				ferror.set(f[2], '下载上限必须在1和99999之间', quiet);
 				ok = 0;
 			}
 
 			if( this.checkRateCeil(f[1].value, f[2].value)) {
-				ferror.set(f[2], 'DLCeil must be greater than DLRate', quiet);
+				ferror.set(f[2], '下载上限必须大于下载速率', quiet);
 				ok = 0;
 			}
 
 			if( this.checkRate(f[3].value)) {
-				ferror.set(f[3], 'ULRate must between 1 and 99999', quiet);
+				ferror.set(f[3], '上传速率必须在1和99999之间', quiet);
 				ok = 0;
 			}
 
 			if( this.checkRate(f[4].value)) {
-				ferror.set(f[4], 'ULCeil must between 1 and 99999', quiet);
+				ferror.set(f[4], '上传上限必须在1和99999之间', quiet);
 				ok = 0;
 			}
 
 			if( this.checkRateCeil(f[3].value, f[4].value)) {
-				ferror.set(f[4], 'ULCeil must be greater than ULRate', quiet);
+				ferror.set(f[4], '上传上限必须大于上传速率', quiet);
 				ok = 0;
 			}
 
@@ -249,7 +249,7 @@ No part of this file may be used without permission.
 
 	<script type="text/javascript">
 		if (nvram.qos_enable != '1') {
-			$('.container .ajaxwrap').prepend('<div class="alert alert-info"><b>QoS is disabled.</b>&nbsp; <a class="ajaxload" href="#qos-settings.asp">Enable &raquo;</a> <a class="close"><i class="icon-cancel"></i></a></div>');
+			$('.container .ajaxwrap').prepend('<div class="alert alert-info"><b>QoS 已禁用.</b>&nbsp; <a class="ajaxload" href="#qos-settings.asp">启用 &raquo;</a> <a class="close"><i class="icon-cancel"></i></a></div>');
 		}
 	</script>
 
@@ -266,46 +266,46 @@ No part of this file may be used without permission.
 		<input type="hidden" name="limit_br3_enable">
 
 		<div class="box" data-box="qos-lan-limit">
-			<div class="heading">Bandwidth Limiter for LAN (br0)</div>
+			<div class="heading">局域网宽带限制 (br0)</div>
 			<div class="content">
 				<div class="br0-set"></div><hr>
 				<script type="text/javascript">
 					$('.br0-set').forms([
-						{ title: 'Enable Limiter', name: 'f_new_qoslimit_enable', type: 'checkbox', value: nvram.new_qoslimit_enable != '0' },
-						{ title: 'Max Available Download <br><small>(same as used in QoS)</small>', indent: 2, name: 'wan_qos_ibw', type: 'text', maxlen: 6, size: 8, suffix: ' <small>kbit/s</small>', value: nvram.wan_qos_ibw },
-						{ title: 'Max Available Upload <br><small>(same as used in QoS)</small>', indent: 2, name: 'wan_qos_obw', type: 'text', maxlen: 6, size: 8, suffix: ' <small>kbit/s</small>', value: nvram.wan_qos_obw }
+						{ title: '启用限制器', name: 'f_new_qoslimit_enable', type: 'checkbox', value: nvram.new_qoslimit_enable != '0' },
+						{ title: '最大下载宽带 <br><small>(与 QOS 的用法一致)</small>', indent: 2, name: 'wan_qos_ibw', type: 'text', maxlen: 6, size: 8, suffix: ' <small>kbit/s</small>', value: nvram.wan_qos_ibw },
+						{ title: '最大上传宽带 <br><small>(与 QOS 的用法一致)</small>', indent: 2, name: 'wan_qos_obw', type: 'text', maxlen: 6, size: 8, suffix: ' <small>kbit/s</small>', value: nvram.wan_qos_obw }
 					]);
 				</script>
 
 				<table class="line-table" id="qosg-grid"></table><br /><hr>
 
-				<h4>Notes</h4>
+				<h4>说明</h4>
 				<ul>
-					<li><b>IP Address / IP Range:</b>
-					<li>Example: 192.168.1.5 for one IP.
-					<li>Example: 192.168.1.4-7 for IP 192.168.1.4 to 192.168.1.7
-					<li>Example: 4-7 for IP Range .4 to .7
-					<li><b>The IP Range devices will share the Bandwidth</b>
-					<li><b>MAC Address</b> Example: 00:2E:3C:6A:22:D8
+					<li><b>IP地址/ IP范围:</b>
+					<li>例如: 192.168.1.5 为一个IP.
+					<li>例如: 192.168.1.4-7 为 IP 192.168.1.4 到 192.168.1.7
+					<li>例如: 4-7 IP范围 .4 到 .7
+					<li><b>IP范围的设备将共享宽带</b>
+					<li><b>MAC地址</b> 例如: 00:2E:3C:6A:22:D8
 				</ul>
 			</div>
 		</div>
 
 		<div class="box" id="qoslimitbr0" data-box="qos-br0-limit">
-			<div class="heading">Default Class for unlisted MAC / IP's in LAN (br0)</div>
+			<div class="heading">局域网内未收录的默认分类 MAC / IP (br0)</div>
 			<div class="content">
 				<div id="unlistedmac"></div><hr>
 				<script type="text/javascript">
 					$('#unlistedmac').forms([
-						{ title: 'Enable', name: 'f_qosl_enable', type: 'checkbox', value: nvram.qosl_enable == '1'},
-						{ title: 'Download rate', indent: 2, name: 'qosl_dlr', type: 'text', maxlen: 6, size: 8, suffix: ' <small>kbit/s</small>', value: nvram.qosl_dlr },
-						{ title: 'Download ceil', indent: 2, name: 'qosl_dlc', type: 'text', maxlen: 6, size: 8, suffix: ' <small>kbit/s</small>', value: nvram.qosl_dlc },
-						{ title: 'Upload rate', indent: 2, name: 'qosl_ulr', type: 'text', maxlen: 6, size: 8, suffix: ' <small>kbit/s</small>', value: nvram.qosl_ulr },
-						{ title: 'Upload ceil', indent: 2, name: 'qosl_ulc', type: 'text', maxlen: 6, size: 8, suffix: ' <small>kbit/s</small>', value: nvram.qosl_ulc },
-						{ title: 'Priority', indent: 2, name: 'limit_br0_prio', type: 'select', options:
-							[['0','Highest'],['1','High'],['2','Normal'],['3','Low'],['4','Lowest']], value: nvram.limit_br0_prio },
-						{ title: 'TCP Limit', indent: 2, name: 'qosl_tcp', type: 'select', options:
-							[['0', 'no limit'],
+						{ title: '启用', name: 'f_qosl_enable', type: 'checkbox', value: nvram.qosl_enable == '1'},
+						{ title: '下载速率', indent: 2, name: 'qosl_dlr', type: 'text', maxlen: 6, size: 8, suffix: ' <small>kbit/s</small>', value: nvram.qosl_dlr },
+						{ title: '下载上限', indent: 2, name: 'qosl_dlc', type: 'text', maxlen: 6, size: 8, suffix: ' <small>kbit/s</small>', value: nvram.qosl_dlc },
+						{ title: '上传速率', indent: 2, name: 'qosl_ulr', type: 'text', maxlen: 6, size: 8, suffix: ' <small>kbit/s</small>', value: nvram.qosl_ulr },
+						{ title: '上传上限', indent: 2, name: 'qosl_ulc', type: 'text', maxlen: 6, size: 8, suffix: ' <small>kbit/s</small>', value: nvram.qosl_ulc },
+						{ title: '优先级', indent: 2, name: 'limit_br0_prio', type: 'select', options:
+							[['0','最高'],['1','高'],['2','正常'],['3','低'],['4','最低']], value: nvram.limit_br0_prio },
+						{ title: 'TCP 限制', indent: 2, name: 'qosl_tcp', type: 'select', options:
+							[['0', '不限制'],
 								['1', '1'],
 								['2', '2'],
 								['5', '5'],
@@ -316,8 +316,8 @@ No part of this file may be used without permission.
 								['200', '200'],
 								['500', '500'],
 								['1000', '1000']], value: nvram.qosl_tcp },
-						{ title: 'UDP limit', indent: 2, name: 'qosl_udp', type: 'select', options:
-							[['0', 'no limit'],
+						{ title: 'UDP 限制', indent: 2, name: 'qosl_udp', type: 'select', options:
+							[['0', '不限制'],
 								['1', '1/s'],
 								['2', '2/s'],
 								['5', '5/s'],
@@ -329,80 +329,80 @@ No part of this file may be used without permission.
 				</script>
 
 				<ul>
-					<li>Default Class - IP / MAC's non included in the list will take the Default Rate/Ceiling setting</li>
-					<li>The bandwidth will be shared by all unlisted hosts in br0</li>
+					<li>默认分类 - 未收录的 IP/MAC 地址将被归为默认分类.</li>
+					<li>所有的未收录主机将共享 br0 的带宽。</li>
 				</ul>
 			</div>
 		</div>
 
 		<div class="box" id="qoslimitbr1" data-box="qos-limit-br1">
-			<div class="heading">Default Class for LAN1 (br1)</div>
+			<div class="heading">默认分类用于 LAN1 (br1)</div>
 			<div class="content">
 				<div class="table-set1"></div><hr>
 				<script type="text/javascript">
 					$('.table-set1').forms([
-						{ title: 'Enable', name: 'f_limit_br1_enable', type: 'checkbox', value: nvram.limit_br1_enable == '1'},
-						{ title: 'Download rate', indent: 2, name: 'limit_br1_dlr', type: 'text', maxlen: 6, size: 8, suffix: ' <small>kbit/s</small>', value: nvram.limit_br1_dlr },
-						{ title: 'Download ceil', indent: 2, name: 'limit_br1_dlc', type: 'text', maxlen: 6, size: 8, suffix: ' <small>kbit/s</small>', value: nvram.limit_br1_dlc },
-						{ title: 'Upload rate', indent: 2, name: 'limit_br1_ulr', type: 'text', maxlen: 6, size: 8, suffix: ' <small>kbit/s</small>', value: nvram.limit_br1_ulr },
-						{ title: 'Upload ceil', indent: 2, name: 'limit_br1_ulc', type: 'text', maxlen: 6, size: 8, suffix: ' <small>kbit/s</small>', value: nvram.limit_br1_ulc },
-						{ title: 'Priority', indent: 2, name: 'limit_br1_prio', type: 'select', options:
-							[['0','Highest'],['1','High'],['2','Normal'],['3','Low'],['4','Lowest']], value: nvram.limit_br1_prio }
+						{ title: '启用', name: 'f_limit_br1_enable', type: 'checkbox', value: nvram.limit_br1_enable == '1'},
+						{ title: '下载速率', indent: 2, name: 'limit_br1_dlr', type: 'text', maxlen: 6, size: 8, suffix: ' <small>kbit/s</small>', value: nvram.limit_br1_dlr },
+						{ title: '下载上限', indent: 2, name: 'limit_br1_dlc', type: 'text', maxlen: 6, size: 8, suffix: ' <small>kbit/s</small>', value: nvram.limit_br1_dlc },
+						{ title: '上传速率', indent: 2, name: 'limit_br1_ulr', type: 'text', maxlen: 6, size: 8, suffix: ' <small>kbit/s</small>', value: nvram.limit_br1_ulr },
+						{ title: '上传上限', indent: 2, name: 'limit_br1_ulc', type: 'text', maxlen: 6, size: 8, suffix: ' <small>kbit/s</small>', value: nvram.limit_br1_ulc },
+						{ title: '优先级', indent: 2, name: 'limit_br1_prio', type: 'select', options:
+							[['0','最高'],['1','高'],['2','正常'],['3','低'],['4','最低']], value: nvram.limit_br1_prio }
 					]);
 				</script>
 
 				<ul>
-					<li>The bandwidth will be shared by all hosts in br1.</li>
+					<li>所有的未收录主机将共享 br1 的带宽.</li>
 				</ul>
 			</div>
 		</div>
 
 		<div class="box" id="qoslimitbr2" data-box="qos-limit-br2">
-			<div class="heading">Default Class for LAN2 (br2)</div>
+			<div class="heading">默认分类用于 LAN2 (br2)</div>
 			<div class="content">
 				<div class="table-set2"></div><hr>
 				<script type="text/javascript">
 					$('.table-set2').forms([
-						{ title: 'Enable', name: 'f_limit_br2_enable', type: 'checkbox', value: nvram.limit_br2_enable == '1'},
-						{ title: 'Download rate', indent: 2, name: 'limit_br2_dlr', type: 'text', maxlen: 6, size: 8, suffix: ' <small>kbit/s</small>', value: nvram.limit_br2_dlr },
-						{ title: 'Download ceil', indent: 2, name: 'limit_br2_dlc', type: 'text', maxlen: 6, size: 8, suffix: ' <small>kbit/s</small>', value: nvram.limit_br2_dlc },
-						{ title: 'Upload rate', indent: 2, name: 'limit_br2_ulr', type: 'text', maxlen: 6, size: 8, suffix: ' <small>kbit/s</small>', value: nvram.limit_br2_ulr },
-						{ title: 'Upload ceil', indent: 2, name: 'limit_br2_ulc', type: 'text', maxlen: 6, size: 8, suffix: ' <small>kbit/s</small>', value: nvram.limit_br2_ulc },
-						{ title: 'Priority', indent: 2, name: 'limit_br2_prio', type: 'select', options:
-							[['0','Highest'],['1','High'],['2','Normal'],['3','Low'],['4','Lowest']], value: nvram.limit_br2_prio }
+						{ title: '启用', name: 'f_limit_br2_enable', type: 'checkbox', value: nvram.limit_br2_enable == '1'},
+						{ title: '下载速率', indent: 2, name: 'limit_br2_dlr', type: 'text', maxlen: 6, size: 8, suffix: ' <small>kbit/s</small>', value: nvram.limit_br2_dlr },
+						{ title: '下载上限', indent: 2, name: 'limit_br2_dlc', type: 'text', maxlen: 6, size: 8, suffix: ' <small>kbit/s</small>', value: nvram.limit_br2_dlc },
+						{ title: '上传速率', indent: 2, name: 'limit_br2_ulr', type: 'text', maxlen: 6, size: 8, suffix: ' <small>kbit/s</small>', value: nvram.limit_br2_ulr },
+						{ title: '上传上限', indent: 2, name: 'limit_br2_ulc', type: 'text', maxlen: 6, size: 8, suffix: ' <small>kbit/s</small>', value: nvram.limit_br2_ulc },
+						{ title: '优先级', indent: 2, name: 'limit_br2_prio', type: 'select', options:
+							[['0','最高'],['1','高'],['2','正常'],['3','低'],['4','最低']], value: nvram.limit_br2_prio }
 					]);
 				</script>
 
 				<ul>
-					<li>The bandwidth will be shared by all hosts in br2.</li>
+					<li>所有的未收录主机将共享 br2 的带宽.</li>
 				</ul>
 			</div>
 		</div>
 
 		<div class="box" id="qoslimitbr3" data-box="qos-limit-br3">
-			<div class="heading">Default Class for LAN3 (br3)</div>
+			<div class="heading">默认分类用于 LAN2 (br2)</div>
 			<div class="content">
 				<div class="table-set3"></div><hr>
 				<script type="text/javascript">
 					$('.table-set3').forms([
-						{ title: 'Enable', name: 'f_limit_br3_enable', type: 'checkbox', value: nvram.limit_br3_enable == '1'},
-						{ title: 'Download rate', indent: 2, name: 'limit_br3_dlr', type: 'text', maxlen: 6, size: 8, suffix: ' <small>kbit/s</small>', value: nvram.limit_br3_dlr },
-						{ title: 'Download ceil', indent: 2, name: 'limit_br3_dlc', type: 'text', maxlen: 6, size: 8, suffix: ' <small>kbit/s</small>', value: nvram.limit_br3_dlc },
-						{ title: 'Upload rate', indent: 2, name: 'limit_br3_ulr', type: 'text', maxlen: 6, size: 8, suffix: ' <small>kbit/s</small>', value: nvram.limit_br3_ulr },
-						{ title: 'Upload ceil', indent: 2, name: 'limit_br3_ulc', type: 'text', maxlen: 6, size: 8, suffix: ' <small>kbit/s</small>', value: nvram.limit_br3_ulc },
-						{ title: 'Priority', indent: 2, name: 'limit_br3_prio', type: 'select', options:
-							[['0','Highest'],['1','High'],['2','Normal'],['3','Low'],['4','Lowest']], value: nvram.limit_br3_prio }
+						{ title: '启用', name: 'f_limit_br3_enable', type: 'checkbox', value: nvram.limit_br3_enable == '1'},
+						{ title: '下载速率', indent: 2, name: 'limit_br3_dlr', type: 'text', maxlen: 6, size: 8, suffix: ' <small>kbit/s</small>', value: nvram.limit_br3_dlr },
+						{ title: '下载上限', indent: 2, name: 'limit_br3_dlc', type: 'text', maxlen: 6, size: 8, suffix: ' <small>kbit/s</small>', value: nvram.limit_br3_dlc },
+						{ title: '上传速率', indent: 2, name: 'limit_br3_ulr', type: 'text', maxlen: 6, size: 8, suffix: ' <small>kbit/s</small>', value: nvram.limit_br3_ulr },
+						{ title: '上传上限', indent: 2, name: 'limit_br3_ulc', type: 'text', maxlen: 6, size: 8, suffix: ' <small>kbit/s</small>', value: nvram.limit_br3_ulc },
+						{ title: '优先级', indent: 2, name: 'limit_br3_prio', type: 'select', options:
+							[['0','最高'],['1','高'],['2','正常'],['3','低'],['4','最低']], value: nvram.limit_br3_prio }
 					]);
 				</script>
 
 				<ul>
-					<li>The bandwidth will be shared by all hosts in br3.</li>
+					<li>所有的未收录主机将共享 br3 的带宽.</li>
 				</ul>
 			</div>
 		</div>
 
-		<button type="button" value="Save" id="save-button" onclick="save()" class="btn btn-primary">Save <i class="icon-check"></i></button>
-		<button type="button" value="Cancel" id="cancel-button" onclick="javascript:reloadPage();" class="btn">Cancel <i class="icon-cancel"></i></button>
+		<button type="button" value="保存设置" id="save-button" onclick="save()" class="btn btn-primary">保存设置 <i class="icon-check"></i></button>
+		<button type="button" value="取消设置" id="cancel-button" onclick="javascript:reloadPage();" class="btn">取消设置 <i class="icon-cancel"></i></button>
 		<span id="footer-msg" class="alert alert-warning" style="visibility: hidden;"></span>
 
 	</form>

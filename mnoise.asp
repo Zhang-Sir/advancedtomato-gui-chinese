@@ -10,7 +10,7 @@
 	<head>
 		<meta http-equiv="content-type" content="text/html;charset=utf-8">
 		<meta name="robots" content="noindex,nofollow">
-		<title>[<% ident(); %>] Measuring Noise...</title>
+		<title>[<% ident(); %>] 测量噪声...</title>
 
 		<link href="css/bootstrap.min.css" rel="stylesheet">
 		<style>
@@ -77,8 +77,8 @@
 	<body onload="init()" onclick="go()">
 
 		<div id="loader">
-			<div style="font-size: 14px; font-weight: bold; padding-bottom: 5px;"><div class="spinner"></div>&nbsp; Measuring radio noise floor...</div>
-			Wireless access has been temporarily disabled for <span id="time">15 seconds</span>.
+			<div style="font-size: 14px; font-weight: bold; padding-bottom: 5px;"><div class="spinner"></div>&nbsp; 测量无线电本底噪声...</div>
+			无线访问已暂时停用 <span id="time">15 seconds</span>.
 		</div>
 
 	</body>

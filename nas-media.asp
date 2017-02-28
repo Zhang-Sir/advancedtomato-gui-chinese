@@ -4,7 +4,7 @@ Media Server Settings - !!TB
 
 For use with Tomato Firmware only.
 No part of this file may be used without permission.
---><title>Media Server</title>
+--><title>媒体服务</title>
 <content>
 	<script type="text/javascript">
 		//	<% nvram("at_update,tomatoanon_answer,ms_enable,ms_port,ms_dirs,ms_dbdir,ms_tivo,ms_stdlna,ms_sas,cifs1,cifs2,jffs2_on"); %>
@@ -12,7 +12,7 @@ No part of this file may be used without permission.
 		changed = 0;
 		mdup = parseInt('<% psup("minidlna"); %>');
 
-		var mediatypes = [['', 'All Media Files'], ['A', 'Audio only'], ['V', 'Video only'], ['P', 'Images only']];
+		var mediatypes = [['', '所有媒体文件'], ['A', '仅音频文件'], ['V', '仅视频文件'], ['P', '仅图像文件']];
 		var msg = new TomatoGrid();
 
 		msg.dataToView = function(data) {
@@ -35,7 +35,7 @@ No part of this file may be used without permission.
 			var f;
 			f = fields.getAll(row);
 
-			if (!v_nodelim(f[0], quiet, 'Directory', 1) || !v_path(f[0], quiet, 1))
+			if (!v_nodelim(f[0], quiet, '目录', 1) || !v_path(f[0], quiet, 1))
 				ok = 0;
 
 			changed |= ok;
@@ -58,7 +58,7 @@ No part of this file may be used without permission.
 				{ type: 'text', maxlen: 256 },
 				{ type: 'select', options: mediatypes }
 			]);
-			this.headerSet(['Directory', 'Content Filter']);
+			this.headerSet(['目录', '内容过滤']);
 
 			var s = ('' + nvram.ms_dirs).split('>');
 			for (var i = 0; i < s.length; ++i) {
@@ -118,7 +118,7 @@ No part of this file may be used without permission.
 			/* JFFS2-BEGIN */
 			else if (v == '/jffs/dlna') {
 				if (nvram.jffs2_on != '1') {
-					ferror.set(eLoc, 'JFFS is not enabled.', quiet || !ok);
+					ferror.set(eLoc, 'JFFS 未启用.', quiet || !ok);
 					ok = 0;
 				}
 				else ferror.clear(eLoc);
@@ -128,7 +128,7 @@ No part of this file may be used without permission.
 			/* CIFS-BEGIN */
 			else if (v.match(/^\/cifs(1|2)\/dlna$/)) {
 				if (nvram['cifs' + RegExp.$1].substr(0, 1) != '1') {
-					ferror.set(eLoc, 'CIFS #' + RegExp.$1 + ' is not enabled.', quiet || !ok);
+					ferror.set(eLoc, 'CIFS #' + RegExp.$1 + ' 未启用.', quiet || !ok);
 					ok = 0;
 				}
 				else ferror.clear(eLoc);
@@ -167,7 +167,7 @@ No part of this file may be used without permission.
 		function restart(isup)
 		{
 			if (changed) {
-				if (!confirm("Unsaved changes will be lost. Continue anyway?")) return;
+				if (!confirm("未保存的设置将会丢失.仍然继续?")) return;
 			}
 			$('.minidlna-control').html('<div class="spinner spinner-small"></div>');
 			E('_restart_button').disabled = true;
@@ -230,7 +230,7 @@ No part of this file may be used without permission.
 		<span id="notice-msg"></span>
 
 		<div class="box" id="dlna" data-box="dlna-media-serv">
-			<div class="heading">Media / DLNA Server </div>
+			<div class="heading">媒体 / DLNA 服务 </div>
 			<div class="content mediadlna"></div>
 			<script type="text/javascript">
 
@@ -247,10 +247,10 @@ No part of this file may be used without permission.
 				}
 
 				$('.content.mediadlna').forms([
-					{ title: 'Enable', name: 'f_ms_enable', type: 'checkbox', value: nvram.ms_enable == '1' },
-					{ title: 'Port', name: 'ms_port', type: 'text', maxlen: 5, size: 6, value: nvram.ms_port, suffix: '<small>(range: 0 - 65535; default (random) set 0)</small>' },
-					{ title: 'Database Location', multi: [
-						{ name: 'f_loc', type: 'select', options: [['','RAM (Temporary)'],
+					{ title: '启用', name: 'f_ms_enable', type: 'checkbox', value: nvram.ms_enable == '1' },
+					{ title: '端口', name: 'ms_port', type: 'text', maxlen: 5, size: 6, value: nvram.ms_port, suffix: '<small>(范围: 0 - 65535; 默认(随机)设置为0</small>' },
+					{ title: '数据库位置', multi: [
+						{ name: 'f_loc', type: 'select', options: [['','RAM (临时的)'],
 							/* JFFS2-BEGIN */
 							['/jffs/dlna','JFFS'],
 							/* JFFS2-END */
@@ -259,31 +259,31 @@ No part of this file may be used without permission.
 							['/cifs1/dlna','CIFS 1'],['/cifs2/dlna','CIFS 2'],
 							/* CIFS-END */
 							/* REMOVE-END */
-							['*user','Custom Path']], value: loc },
+							['*user','自定义路径']], value: loc },
 						{ name: 'f_user', type: 'text', maxlen: 256, size: 60, value: nvram.ms_dbdir }
 					] },
-					{ title: 'Scan Media at Startup*', indent: 2, name: 'f_ms_sas', type: 'checkbox', value: nvram.ms_sas == '1', hidden: 1 },
-					{ title: 'Rescan on the next run*', indent: 2, name: 'f_ms_rescan', type: 'checkbox', value: 0,
-						suffix: '&nbsp; <small>(Media scan may take considerable time to complete.)</small>' },
-					{ title: 'TiVo Support', name: 'f_ms_tivo', type: 'checkbox', value: nvram.ms_tivo == '1' },
-					{ title: 'Strictly adhere to DLNA standards', name: 'f_ms_stdlna', type: 'checkbox', value: nvram.ms_stdlna == '1' }
+					{ title: '在启动时扫描介质*', indent: 2, name: 'f_ms_sas', type: 'checkbox', value: nvram.ms_sas == '1', hidden: 1 },
+					{ title: '在下一次运行时重新扫描*', indent: 2, name: 'f_ms_rescan', type: 'checkbox', value: 0,
+						suffix: '&nbsp; <small>(介质扫描可能需要相当长的时间才能完成.)</small>' },
+					{ title: 'TiVo 支持', name: 'f_ms_tivo', type: 'checkbox', value: nvram.ms_tivo == '1' },
+					{ title: '严格遵守 DLNA 标准', name: 'f_ms_stdlna', type: 'checkbox', value: nvram.ms_stdlna == '1' }
 				]);
 
-				$('#dlna .heading').append('<a href="#" class="minidlna-control pull-right" data-toggle="tooltip" title="' + (mdup ? 'Res' : 'S') + 'tart Now" onclick="restart(mdup)"' +
+				$('#dlna .heading').append('<a href="#" class="minidlna-control pull-right" data-toggle="tooltip" title="' + (mdup ? '重新启' : '启') + '动" onclick="restart(mdup)"' +
 					'id="_restart_button">' + (mdup ? '<i class="icon-reboot"></i>' : '<i class="icon-play"></i>') + '</a>');
-				$('#dlna .heading').append('<small ' + (mdup ? 'style="color: green;">(Running' : 'style="color: red;">(Stopped') + ')</small>');
+				$('#dlna .heading').append('<small ' + (mdup ? 'style="color: green;">(运行中' : 'style="color: red;">(停止') + ')</small>');
 			</script>
 		</div>
 
 		<div class="box" data-box="dlna-dirs">
-			<div class="heading">Media Directories</div>
+			<div class="heading">媒体目录</div>
 			<div class="content">
 				<table class="line-table" id="ms-grid"></table>
 			</div>
 		</div>
 
-		<button type="button" value="Save" id="save-button" onclick="save()" class="btn btn-primary">Save <i class="icon-check"></i></button>
-		<button type="button" value="Cancel" id="cancel-button" onclick="javascript:reloadPage();" class="btn">Cancel <i class="icon-cancel"></i></button>
+		<button type="button" value="保存设置" id="save-button" onclick="save()" class="btn btn-primary">保存设置 <i class="icon-check"></i></button>
+		<button type="button" value="取消设置" id="cancel-button" onclick="javascript:reloadPage();" class="btn">取消设置 <i class="icon-cancel"></i></button>
 		<span id="footer-msg" class="alert alert-warning" style="visibility: hidden;"></span>
 
 	</form>
