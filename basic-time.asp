@@ -5,21 +5,21 @@ http://www.polarcloud.com/tomato/
 
 For use with Tomato Firmware only.
 No part of this file may be used without permission.
---><title>Time</title>
+--><title>时间设置</title>
 <content>
 	<script type="text/javascript">
 		//	<% nvram("at_update,tomatoanon_answer,tm_sel,tm_dst,tm_tz,ntp_updates,ntp_server,ntp_tdod,ntp_kiss"); %>
 
 		var ntpList = [
-			['custom', 'Custom...'],
-			['', 'Default'],
-			['africa', 'Africa'],
-			['asia', 'Asia'],
-			['europe', 'Europe'],
-			['oceania', 'Oceania'],
-			['north-america', 'North America'],
-			['south-america', 'South America'],
-			['us', 'US']
+			['custom', '自定义...'],
+			['', '默认'],
+			['africa', '非洲'],
+			['asia', '亚洲'],
+			['europe', '欧洲'],
+			['oceania', '大洋洲'],
+			['north-america', '北美洲'],
+			['south-america', '南美洲'],
+			['us', '美国']
 		];
 
 		function ntpString(name)
@@ -75,7 +75,7 @@ No part of this file may be used without permission.
 
 			if (a) {
 				if ((E('_f_ntp_1').value == '') && (E('_f_ntp_2').value == '') && ((E('_f_ntp_3').value == ''))) {
-					ferror.set('_f_ntp_1', 'At least one NTP server is required', quiet);
+					ferror.set('_f_ntp_1', '至少需要指定一个 NTP 时间服务器', quiet);
 					return 0;
 				}
 			}
@@ -137,7 +137,7 @@ No part of this file may be used without permission.
 		<input type="hidden" name="ntp_kiss" value="" disabled>
 
 		<div class="box">
-			<div class="heading">Router Time</div>
+			<div class="heading">路由器时间</div>
 			<div class="content">
 				<div id="timesec" class="section"></div>
 				<script type="text/javascript">
@@ -176,64 +176,64 @@ No part of this file may be used without permission.
 					REMOVE-END */
 
 					$('#timesec').forms([
-						{ title: 'Router Time', text: '<span id="clock"><% time(); %></span>' },
+						{ title: '现在时间', text: '<span id="clock"><% time(); %></span>' },
 						null,
-						{ title: 'Time Zone', name: 'tm_sel', type: 'select', options: [
-							['custom','Custom...'],
-							['UTC12','UTC-12:00 Kwajalein'],
-							['UTC11','UTC-11:00 Midway Island, Samoa'],
-							['UTC10','UTC-10:00 Hawaii'],
-							['NAST9NADT,M3.2.0/2,M11.1.0/2','UTC-09:00 Alaska'],
-							['PST8PDT,M3.2.0/2,M11.1.0/2','UTC-08:00 Pacific Time'],
-							['UTC7','UTC-07:00 Arizona'],
-							['MST7MDT,M3.2.0/2,M11.1.0/2','UTC-07:00 Mountain Time'],
-							['UTC6','UTC-06:00 Mexico'],
-							['CST6CDT,M3.2.0/2,M11.1.0/2','UTC-06:00 Central Time'],
-							['UTC5','UTC-05:00 Colombia, Panama'],
-							['EST5EDT,M3.2.0/2,M11.1.0/2','UTC-05:00 Eastern Time'],
-							['VET4:30','UTC-04:30 Venezuela'],
-							['UTC4','UTC-04:00 Aruba, Bermuda, Guyana, Puerto Rico'],
-							['BOT4','UTC-04:00 Bolivia'],
-							['AST4ADT,M3.2.0/2,M11.1.0/2','UTC-04:00 Atlantic Time'],
-							['BRWST4BRWDT,M10.3.0/0,M2.5.0/0','UTC-04:00 Brazil West'],
-							['NST3:30NDT,M3.2.0/0:01,M11.1.0/0:01','UTC-03:30 Newfoundland'],
-							['WGST3WGDT,M3.5.6/22,M10.5.6/23','UTC-03:00 Greenland'],
-							['BRT3BRST,M10.3.0/0,M2.3.0/0','UTC-03:00 Brazil East'],
-							['UTC3','UTC-03:00 Argentina, French Guiana, Surinam'],
-							['UTC2','UTC-02:00 Mid-Atlantic'],
-							['STD1DST,M3.5.0/2,M10.5.0/2','UTC-01:00 Azores'],
-							['UTC0','UTC+00:00 Gambia, Liberia, Morocco'],
-							['GMT0BST,M3.5.0/2,M10.5.0/2','UTC+00:00 England'],
-							['UTC-1','UTC+01:00 Tunisia'],
-							['CET-1CEST,M3.5.0/2,M10.5.0/3','UTC+01:00 France, Germany, Italy, Poland, Sweden'],
-							['EET-2EEST-3,M3.5.0/3,M10.5.0/4','UTC+02:00 Estonia, Finland, Latvia, Lithuania'],
-							['UTC-2','UTC+02:00 South Africa, Israel'],
-							['STD-2DST,M3.5.0/2,M10.5.0/2','UTC+02:00 Greece, Ukraine, Romania, Turkey, Latvia'],
-							['UTC-3','UTC+03:00 Iraq, Jordan, Kalingrad, Kuwait,'],
-							['UTC-4','UTC+04:00 Moscow, Oman, UAE'],
-							['AMT-4AMST,M3.5.0,M10.5.0/3','UTC+04:00 Armenia'],
-							['UTC-4:30','UTC+04:30 Kabul'],
-							['UTC-5','UTC+05:00 Pakistan'],
-							['UTC-5:30','UTC+05:30 Bombay, Calcutta, Madras, New Delhi'],
-							['UTC-6','UTC+06:00 Bangladesh, Yekaterinburg'],
-							['UTC-7','UTC+07:00 Omsk, Thailand'],
-							['UTC-8','UTC+08:00 China, Hong Kong, Krasnoyarsk, Western Australia, Singapore, Taiwan'],
-							['UTC-9','UTC+09:00 Irkutsk, Japan, Korea'],
-							['ACST-9:30ACDT,M10.1.0/2,M4.1.0/3', 'UTC+09:30 South Australia'],
-							['ACST-9:30', 'UTC+09:30 Darwin'],
-							['AEST-10AEDT,M10.1.0,M4.1.0/3', 'UTC+10:00 Australia'],
-							['AEST-10', 'UTC+10:00 Brisbane, Yakutsk'],
-							['UTC-11','UTC+11:00 Solomon Islands, Guam, Vladivostok'],
-							['UTC-12','UTC+12:00 Fiji, Magadan'],
-							['NZST-12NZDT,M9.5.0/2,M4.1.0/3','UTC+12:00 New Zealand']
+						{ title: '时区', name: 'tm_sel', type: 'select', options: [
+							['custom','自定义时区...'],
+							['UTC12','UTC-12:00 太平洋/夸贾林岛'],
+							['UTC11','UTC-11:00 中途岛, 美属萨摩亚'],
+							['UTC10','UTC-10:00 夏威夷'],
+							['NAST9NADT,M3.2.0/2,M11.1.0/2','UTC-09:00 阿拉斯加'],
+							['PST8PDT,M3.2.0/2,M11.1.0/2','UTC-08:00 美国太平洋标准时间'],
+							['UTC7','UTC-07:00 亚利桑那'],
+							['MST7MDT,M3.2.0/2,M11.1.0/2','UTC-07:00 美国西部山脉时间'],
+							['UTC6','UTC-06:00 墨西哥'],
+							['CST6CDT,M3.2.0/2,M11.1.0/2','UTC-06:00 美国中部标准时间'],
+							['UTC5','UTC-05:00 哥伦比亚,巴拿马'],
+							['EST5EDT,M3.2.0/2,M11.1.0/2','UTC-05:00 美国东部标准时间'],
+							['VET4:30','UTC-04:30 委内瑞拉'],
+							['UTC4','UTC-04:00 阿鲁巴, 百慕大, 圭亚那, 波多黎各'],
+							['BOT4','UTC-04:00 玻利维亚'],
+							['AST4ADT,M3.2.0/2,M11.1.0/2','UTC-04:00 大西洋时间'],
+							['BRWST4BRWDT,M10.3.0/0,M2.5.0/0','UTC-04:00 巴西西部'],
+							['NST3:30NDT,M3.2.0/0:01,M11.1.0/0:01','UTC-03:30 加拿大纽芬兰'],
+							['WGST3WGDT,M3.5.6/22,M10.5.6/23','UTC-03:00 格陵兰'],
+							['BRST3BRDT,M10.3.0/0,M2.5.0/0','UTC-03:00 巴西东部'],
+							['UTC3','UTC-03:00 阿根廷, 盖亚那, 苏里南'],
+							['UTC2','UTC-02:00 大西洋中部'],
+							['STD1DST,M3.5.0/2,M10.5.0/2','UTC-01:00 大西洋 / 亚速尔群岛'],
+							['UTC0','UTC+00:00 甘比亚, 赖比瑞亚, 摩洛哥'],
+							['GMT0BST,M3.5.0/2,M10.5.0/2','UTC+00:00 英国'],
+							['UTC-1','UTC+01:00 突尼西亚'],
+							['CET-1CEST,M3.5.0/2,M10.5.0/3','UTC+01:00 法国, 德国, 意大利, 波兰, 瑞典'],
+							['EET-2EEST-3,M3.5.0/3,M10.5.0/4','UTC+02:00 爱沙尼亚，芬兰，拉脱维亚，立陶宛'],
+							['UTC-2','UTC+02:00 南非, 以色列'],
+							['STD-2DST,M3.5.0/2,M10.5.0/2','UTC+02:00 希腊, 乌克兰, 罗马尼亚, 土耳其, 拉脱维亚'],
+							['UTC-3','UTC+03:00 伊拉克,约旦,科威特'],
+							['UTC-4','UTC+04:00 莫斯科, 阿曼，阿联酋'],
+							['AMT-4AMST,M3.5.0,M10.5.0/3','UTC+04:00 亚美尼亚'],
+							['UTC-4:30','UTC+04:30 喀布尔'],
+							['UTC-5','UTC+05:00 巴基斯坦'],
+							['UTC-5:30','UTC+05:30 孟买, 加尔各答, 马德拉斯, 新德里'],
+							['UTC-6','UTC+06:00 孟加拉国, 叶卡捷琳堡'],
+							['UTC-7','UTC+07:00 鄂木斯克, 泰国'],
+							['UTC-8','UTC+08:00 中国, 香港, 克拉斯诺亚尔斯克, 澳洲西部, 新加坡, 台湾'],
+							['UTC-9','UTC+09:00 伊尔库茨克, 日本, 韩国'],
+							['ACST-9:30ACDT,M10.1.0/2,M4.1.0/3', 'UTC+09:30 南澳大利亚'],
+							['ACST-9:30', 'UTC+09:30 达尔文'],
+							['AEST-10AEDT,M10.1.0,M4.1.0/3', 'UTC+10:00 澳大利亚'],
+							['AEST-10', 'UTC+10:00 布里斯班'],
+							['UTC-11','UTC+11:00 所罗门群岛'],
+							['UTC-12','UTC+12:00 斐济'],
+							['NZST-12NZDT,M9.5.0/2,M4.1.0/3','UTC+12:00 纽西兰']
 							], value: nvram.tm_sel },
-						{ title: 'Auto Daylight Savings Time', indent: 2, name: 'f_tm_dst', type: 'checkbox', value: nvram.tm_dst != '0' },
-						{ title: 'Custom TZ String', indent: 2, name: 'f_tm_tz', type: 'text', maxlen: 32, size: 34, value: nvram.tm_tz || '' },
+						{ title: '自动夏令制时间', indent: 2, name: 'f_tm_dst', type: 'checkbox', value: nvram.tm_dst != '0' },
+						{ title: '自定义时区标识', indent: 2, name: 'f_tm_tz', type: 'text', maxlen: 32, size: 34, value: nvram.tm_tz || '' },
 						null,
-						{ title: 'Auto Update Time', name: 'ntp_updates', type: 'select', options: [[-1,'Never'],[0,'Only at startup'],[1,'Every hour'],[2,'Every 2 hours'],[4,'Every 4 hours'],[6,'Every 6 hours'],[8,'Every 8 hours'],[12,'Every 12 hours'],[24,'Every 24 hours']],
+						{ title: '自动同步时间', name: 'ntp_updates', type: 'select', options: [[-1,'不同步'],[0,'启动时更新'],[1,'1 小时'],[2,'2 小时'],[4,'4 小时'],[6,'6 小时'],[8,'8 小时'],[12,'12 小时'],[24,'24 小时']],
 							value: nvram.ntp_updates },
-						{ title: 'Trigger Connect On Demand', indent: 2, name: 'f_ntp_tdod', type: 'checkbox', value: nvram.ntp_tdod != '0' },
-						{ title: 'NTP Time Server', name: 'f_ntp_server', type: 'select', options: ntpList, value: ntpSel },
+						{ title: '需要时同步', indent: 2, name: 'f_ntp_tdod', type: 'checkbox', value: nvram.ntp_tdod != '0' },
+						{ title: 'NTP 时间服务器', name: 'f_ntp_server', type: 'select', options: ntpList, value: ntpSel },
 						{ title: '&nbsp;', text: '<small><span id="ntp-preset">xx</span></small>', hidden: 1 },
 						{ title: '', name: 'f_ntp_1', type: 'text', maxlen: 48, size: 50, value: ntp[0] || 'pool.ntp.org', hidden: 1 },
 						{ title: '', name: 'f_ntp_2', type: 'text', maxlen: 48, size: 50, value: ntp[1] || '', hidden: 1 },
@@ -242,18 +242,18 @@ No part of this file may be used without permission.
 				</script>
 
 				<div id="ntpkiss" style="display:none">
-					The following NTP servers have been automatically blocked by request from the server:
+					下列的 NTP 服务器已被服务器自动封锁:
 					<b id="ntpkiss-ip"></b>
 					<div>
-						<input type="button" value="Clear" onclick="save(1)" class="btn">
+						<input type="button" value="清除" onclick="save(1)" class="btn">
 					</div>
 				</div>
 			</div>
 		</div>
 	</form>
 
-	<button type="button" value="Save" id="save-button" onclick="save()" class="btn btn-primary">Save <i class="icon-check"></i></button>
-	<button type="button" value="Cancel" id="cancel-button" onclick="javascript:reloadPage();" class="btn">Cancel <i class="icon-cancel"></i></button>
+	<button type="button" value="保存设置" id="save-button" onclick="save()" class="btn btn-primary">保存设置 <i class="icon-check"></i></button>
+	<button type="button" value="取消设置" id="cancel-button" onclick="javascript:reloadPage();" class="btn">取消设置 <i class="icon-cancel"></i></button>
 	<span id="footer-msg" class="alert alert-warning" style="visibility: hidden;"></span>
 
 	<script type='text/javascript'>earlyInit()</script>

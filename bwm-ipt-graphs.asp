@@ -6,7 +6,7 @@ For use with Tomato Firmware only.
 No part of this file may be used without permission.
 LAN Access admin module by Augusto Bott
 -->
-<title>IP Traffic Graphs</title>
+<title>IP 流量监控:图形查看</title>
 <content>
 	<style type="text/css">
 		table { margin: 8px 0 0; }
@@ -230,7 +230,7 @@ LAN Access admin module by Augusto Bott
 		function init() {
 
 			if (nvram.cstats_enable != '1') {
-				$('.cstats').before('<div class="alert alert-info">IP Traffic monitoring disabled.</b> <a href="/#admin-iptraffic.asp">Enable &raquo;</a>');
+				$('.cstats').before('<div class="alert alert-info">IP 流量监控已禁用.</b> <a href="/#admin-iptraffic.asp">启用 &raquo;</a>');
 				return;
 			}
 
@@ -280,46 +280,46 @@ LAN Access admin module by Augusto Bott
 	</script>
 
 	<ul class="nav-tabs">
-		<li><a class="ajaxload" href="bwm-ipt-realtime.asp"><i class="icon-hourglass"></i> Real-Time</a></li>
-		<li><a class="ajaxload" href="bwm-ipt-24.asp"><i class="icon-clock"></i> Last 24 Hours</a></li>
-		<li><a class="active"><i class="icon-graphs"></i> View Graphs</a></li>
-		<li><a class="ajaxload" href="bwm-ipt-details.asp"><i class="icon-globe"></i> Transfer Rates</a></li>
-		<li><a class="ajaxload" href="bwm-ipt-daily.asp"><i class="icon-clock"></i> Daily</a></li>
-		<li><a class="ajaxload" href="bwm-ipt-monthly.asp"><i class="icon-month"></i> Monthly</a></li>
+		<li><a class="ajaxload" href="bwm-ipt-realtime.asp"><i class="icon-hourglass"></i> 实时</a></li>
+		<li><a class="ajaxload" href="bwm-ipt-24.asp"><i class="icon-clock"></i> 最近24小时</a></li>
+		<li><a class="active"><i class="icon-graphs"></i> 查看图表</a></li>
+		<li><a class="ajaxload" href="bwm-ipt-details.asp"><i class="icon-globe"></i> 传输速率</a></li>
+		<li><a class="ajaxload" href="bwm-ipt-daily.asp"><i class="icon-clock"></i> 每天</a></li>
+		<li><a class="ajaxload" href="bwm-ipt-monthly.asp"><i class="icon-month"></i> 每月</a></li>
 	</ul>
 
 	<div class="fluid-grid x3">
 		<div class="box graphs">
-			<div class="heading">IP Traffic</div>
+			<div class="heading">IP 流量</div>
 			<div class="content">
 				<div id="svg-0"></div>
 				<table id="firstTable">
 					<tr><td class="color" style="height:1em"></td><td class="title" style="width:45px">&nbsp;</td><td class="thead count">kbit/s</td><td class="pct">&nbsp;</td></tr>
-					<tr><td>&nbsp;</td><td class="total">Total</td><td id="ccnt-total" class="total count"></td><td class="total pct">100%</td></tr>
+					<tr><td>&nbsp;</td><td class="total">合计</td><td id="ccnt-total" class="total count"></td><td class="total pct">100%</td></tr>
 				</table>
 			</div>
 		</div>
 
 		<div class="box graphs">
-			<div class="heading">Bandwidth Distribution (Inbound)</div>
+			<div class="heading">带宽分布 (入站)</div>
 			<div class="content">
 				<div id="svg-1"></div>
 
 				<table id="secondTable">
 					<tr><td class="color" style="height:1em"></td><td class="title" style="width:45px">&nbsp;</td><td class="thead count">kbit/s</td><td class="thead count">KB/s</td><td class="pct">&nbsp;</td></tr>
-					<tr><td>&nbsp;</td><td class="total">Total</td><td id="bcnt-total" class="total count"></td><td id="bcntx-total" class="total count"></td><td class="total pct">100%</td></tr>
+					<tr><td>&nbsp;</td><td class="total">合计</td><td id="bcnt-total" class="total count"></td><td id="bcntx-total" class="total count"></td><td class="total pct">100%</td></tr>
 				</table>
 			</div>
 		</div>
 
 		<div class="box graphs">
-			<div class="heading">Bandwidth Distribution (Outbound)</div>
+			<div class="heading">带宽分布 (出站)</div>
 			<div class="content">
 				<div id="svg-2"></div>
 
 				<table id="thirdTable">
 					<tr><td class="color" style="height:1em"></td><td class="title" style="width:45px">&nbsp;</td><td class="thead count">kbit/s</td><td class="thead count">KB/s</td><td class="pct">&nbsp;</td></tr>
-					<tr><td>&nbsp;</td><td class="total">Total</td><td id="obcnt-total" class="total count"></td><td id="obcntx-total" class="total count"></td><td class="total pct">100%</td></tr>
+					<tr><td>&nbsp;</td><td class="total">合计</td><td id="obcnt-total" class="total count"></td><td id="obcntx-total" class="total count"></td><td class="total pct">100%</td></tr>
 				</table>
 			</div>
 		</div>

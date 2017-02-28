@@ -9,7 +9,7 @@ http://code.google.com/p/tomato-sdhc-vlan/
 
 For use with Tomato Firmware only.
 No part of this file may be used without permission.
---><title>Wireless Filter</title>
+--><title>无线过滤</title>
 <content>
 	<script type="text/javascript" src="js/wireless.jsx?_http_id=<% nv(http_id); %>"></script>
 	<script type="text/javascript">
@@ -52,7 +52,7 @@ No part of this file may be used without permission.
 				{ type: 'text', maxlen: 17 },
 				{ type: 'text', maxlen: 48 }
 			]);
-			this.headerSet(['MAC Address', 'Description']);
+			this.headerSet(['MAC 地址', '描述']);
 			macs = nvram.wl_maclist.split(/\s+/);
 			names = nvram.macnames.split('>');
 			for (i = 0; i < macs.length; ++i) {
@@ -144,13 +144,13 @@ No part of this file may be used without permission.
 		</script>
 
 		<div class="box">
-			<div class="heading">Wireless Filter</div>
+			<div class="heading">无线客户端过滤</div>
 			<div class="content">
-				<div class="radio c-radio"><label><input type="radio" name="f_type" id="_f_disable" value="disabled"><span class="icon-check"></span> Disable filter</label></div>
+				<div class="radio c-radio"><label><input type="radio" name="f_type" id="_f_disable" value="disabled"><span class="icon-check"></span> 禁止使用过滤器</label></div>
 				&nbsp;
-				<div class="radio c-radio"><label><input type="radio" name="f_type" id="_f_allow" value="allow"><span class="icon-check"></span> Permit only the following clients</label></div>
+				<div class="radio c-radio"><label><input type="radio" name="f_type" id="_f_allow" value="allow"><span class="icon-check"></span> 仅允许如下客户端</label></div>
 				&nbsp;
-				<div class="radio c-radio"><label><input type="radio" name="f_type" id="_f_deny" value="deny"><span class="icon-check"></span> Block the following clients</label></div>
+				<div class="radio c-radio"><label><input type="radio" name="f_type" id="_f_deny" value="deny"><span class="icon-check"></span> 阻止如下客户端</label></div>
 
 				<br /><br />
 				<table id="sm-grid" class="line-table"></table>
@@ -158,8 +158,8 @@ No part of this file may be used without permission.
 			</div>
 		</div>
 
-		<button type="button" value="Save" id="save-button" onclick="save()" class="btn btn-primary">Save <i class="icon-check"></i></button>
-		<button type="button" value="Cancel" id="cancel-button" onclick="javascript:reloadPage();" class="btn">Cancel <i class="icon-cancel"></i></button>
+		<button type="button" value="保存设置" id="save-button" onclick="save()" class="btn btn-primary">保存设置 <i class="icon-check"></i></button>
+		<button type="button" value="取消设置" id="cancel-button" onclick="javascript:reloadPage();" class="btn">取消设置 <i class="icon-cancel"></i></button>
 		<span id="footer-msg" class="alert alert-warning" style="visibility: hidden;"></span>
 	</form>
 

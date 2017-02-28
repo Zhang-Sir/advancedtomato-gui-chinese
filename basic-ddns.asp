@@ -5,7 +5,7 @@ http://www.polarcloud.com/tomato/
 
 For use with Tomato Firmware only.
 No part of this file may be used without permission.
---><title>Dynamic DNS</title>
+--><title>动态 DNS</title>
 <content>
 	<script type="text/javascript">
 		//<% nvram("ddnsx0,ddnsx1,ddnsx_ip,wan_dns,wan_get_dns,dns_addget,ddnsx_refresh,ddnsx_save"); %>
@@ -28,39 +28,39 @@ No part of this file may be used without permission.
 		 REMOVE-END */
 
 		var services = [
-			[ '', 'None', '', '' ],
-			[ '3322', '3322', 'http://www.3322.org/', 'uhwmb' ],
-			[ '3322-static', '3322 - Static', 'http://www.3322.org/', 'uhwmb' ],
-			[ 'dnsexit', 'DNS Exit', 'http://www.dnsexit.com/', 'uh' ],
-			[ 'dnsomatic', 'DNS-O-Matic', 'http://www.dnsomatic.com/', 'uj' ],
-			[ 'dyndns', 'DynDNS - Dynamic', 'http://www.dyndns.com/', 'uhwmbs' ],
-			[ 'dyndns-static', 'DynDNS - Static', 'http://www.dyndns.com/', 'uhwmbs' ],
-			[ 'dyndns-custom', 'DynDNS - Custom', 'http://www.dyndns.com/', 'uhwmbs' ],
-			[ 'sdyndns', 'DynDNS (https) - Dynamic', 'http://www.dyndns.com/', 'uhwmbs' ],
-			[ 'sdyndns-static', 'DynDNS (https) - Static', 'http://www.dyndns.com/', 'uhwmbs' ],
-			[ 'sdyndns-custom', 'DynDNS (https) - Custom', 'http://www.dyndns.com/', 'uhwmbs' ],
-			[ 'dyns', 'DyNS', 'http://www.dyns.cx/', 'uh' ],
-			[ 'easydns', 'easyDNS', 'http://www.easydns.com/', 'uhwm' ],
-			[ 'seasydns', 'easyDNS (https)', 'http://www.easydns.com/', 'uhwm' ],
-			[ 'editdns', 'EditDNS', 'http://www.editdns.net/', 'tpz' ],
-			[ 'everydns', 'EveryDNS', 'http://www.everydns.net/', 'uj', null, null, 'Domain <small>(optional)</small>' ],
-			[ 'minidns', 'miniDNS', 'http://www.minidns.net/', 'uh' ],
-			[ 'enom', 'eNom', 'http://www.enom.com/', 'ut', 'Domain' ],
-			[ 'afraid', 'FreeDNS (afraid.org)', 'http://freedns.afraid.org/', 'az' ],
-			[ 'heipv6tb', 'HE.net IPv6 Tunnel Broker', 'http://www.tunnelbroker.net/', 'uh', 'User ID <small>(not your username)</small>', null, 'Global Tunnel ID' ],
-			[ 'ieserver', 'ieServer.net', 'http://www.ieserver.net/', 'uhz', 'Username / Hostname', null, 'Domain' ],
-			[ 'namecheap', 'namecheap', 'http://www.namecheap.com/', 'ut', 'Domain' ],
-			[ 'noip', 'No-IP.com', 'http://www.no-ip.com/', 'uh', 'Email Address', null, 'Hostname / Group' ],
-			[ 'opendns', 'OpenDNS', 'http://www.opendns.com/', 'uhoz', null, null, 'Network <small>(optional)</small>' ],
-			[ 'tzo', 'TZO', 'http://www.tzo.com/', 'uh', 'Email Address', 'Password' ],
-			[ 'zoneedit', 'ZoneEdit', 'http://www.zoneedit.com/', 'uh' ],
-			[ 'szoneedit', 'ZoneEdit (https)', 'http://www.zoneedit.com/', 'uh' ],
-			[ 'pairnic', 'pairNIC', 'http://www.pairnic.com/', 'uh' ],
-			[ 'spairnic', 'pairNIC (https)', 'http://www.pairnic.com/', 'uh' ],
-			[ 'ovh', 'OVH', 'http://www.ovh.com/', 'uh' ],
-			[ 'sovh', 'OVH (https)', 'https://www.ovh.com/', 'uh' ],
-			[ 'schangeip', 'ChangeIP (https)', 'https://www.changeip.com/', 'uh' ],
-			[ 'custom', 'Custom URL', '', 'c' ] ];
+			[ '', '无', '', '' ],
+			['3322', '3322', 'http://www.3322.org/', 'uhwmb'],
+			['3322-static', '3322 - 静态', 'http://www.3322.org/', 'uhwmb'],
+			['dnsexit', 'DNS Exit', 'http://www.dnsexit.com/', 'uh'],
+			['dnsomatic', 'DNS-O-Matic', 'http://www.dnsomatic.com/', 'uj'],
+			['dyndns', 'DynDNS - 动态', 'http://www.dyndns.com/', 'uhwmbs'],
+			['dyndns-static', 'DynDNS - 静态', 'http://www.dyndns.com/', 'uhwmbs'],
+			['dyndns-custom', 'DynDNS - 自定义', 'http://www.dyndns.com/', 'uhwmbs'],
+			['sdyndns', 'DynDNS (https) - 动态', 'http://www.dyndns.com/', 'uhwmbs'],
+			['sdyndns-static', 'DynDNS (https) - 静态', 'http://www.dyndns.com/', 'uhwmbs'],
+			['sdyndns-custom', 'DynDNS (https) - 自定义', 'http://www.dyndns.com/', 'uhwmbs'],
+			['dyns', 'DyNS', 'http://www.dyns.cx/', 'uh'],
+			['easydns', 'easyDNS', 'http://www.easydns.com/', 'uhwm'],
+			['seasydns', 'easyDNS (https)', 'http://www.easydns.com/', 'uhwm'],
+			['editdns', 'EditDNS', 'http://www.editdns.net/', 'tpz'],
+			['everydns', 'EveryDNS', 'http://www.everydns.net/', 'uj', null, null, '域名 <small>(可选)</small>'],
+			['minidns', 'miniDNS', 'http://www.minidns.net/', 'uh'],
+			['enom', 'eNom', 'http://www.enom.com/', 'ut', '域名'],
+			['afraid', 'FreeDNS (afraid.org)', 'http://freedns.afraid.org/', 'az'],
+			['heipv6tb', 'HE.net IPv6 Tunnel Broker', 'http://www.tunnelbroker.net/', 'uh', '用户ID <small>(不是你的用户名)</small>', null, 'Global Tunnel ID'],
+			['ieserver', 'ieServer.net', 'http://www.ieserver.net/', 'uhz', '用户名 / 主机名', null, '域名'],
+			['namecheap', 'namecheap', 'http://www.namecheap.com/', 'ut', '域名'],
+			['noip', 'No-IP.com', 'http://www.no-ip.com/', 'uh', 'Email 地址', null, '主机名 / 组'],
+			['opendns', 'OpenDNS', 'http://www.opendns.com/', 'uhoz', null, null, '网络 <small>(可选)</small>'],
+			['tzo', 'TZO', 'http://www.tzo.com/', 'uh', 'Email 地址', '密码'],
+			['zoneedit', 'ZoneEdit', 'http://www.zoneedit.com/', 'uh'],
+			['szoneedit', 'ZoneEdit (https)', 'http://www.zoneedit.com/', 'uh'],
+			['pairnic', 'pairNIC', 'http://www.pairnic.com/', 'uh'],
+			['spairnic', 'pairNIC (https)', 'http://www.pairnic.com/', 'uh'],
+			['ovh', 'OVH', 'http://www.ovh.com/', 'uh'],
+			['sovh', 'OVH (https)', 'https://www.ovh.com/', 'uh'],
+			['schangeip', 'ChangeIP (https)', 'https://www.changeip.com/', 'uh'],
+			['custom', '自定义URL', '', 'c']];
 
 		var opendns = [ '208.67.222.222', '208.67.220.220' ];
 		var opendnsInUse = 0;
@@ -72,7 +72,7 @@ No part of this file may be used without permission.
 			if ( r = s.match( /^(.*?): (.*)/ ) ) {
 				r[ 2 ] = r[ 2 ].replace( /#RETRY (\d+) (\d+)/,
 				                         function( s, min, num ) {
-					                         return '<br><small>(' + ((num >= 1) ? (num + '/3: ') : '') + 'Automatically retrying in ' + min + ' minutes)</small>';
+					                         return '<br><small>(' + ((num >= 1) ? (num + '/3: ') : '') + '自动连接在 ' + min + ' 分钟内)</small>';
 				                         }
 				);
 				return '<small>' + (new Date( r[ 1 ] )).toLocaleString() + ':</small><br>' + r[ 2 ];
@@ -134,9 +134,9 @@ No part of this file may be used without permission.
 				elem.display( 'last-update' + i, enabled && !op.z );
 
 				if ( enabled ) {
-					$( '[for="_f_user' + i + '"]' ).html( data[ 4 ] || 'Username' );
-					$( '[for="_f_pass' + i + '"]' ).html( data[ 5 ] || 'Password' );
-					$( '[for="_f_host' + i + '"]' ).html( data[ 6 ] || 'Hostname' );
+					$( '[for="_f_user' + i + '"]' ).html( data[ 4 ] || '用户名称' );
+					$( '[for="_f_pass' + i + '"]' ).html( data[ 5 ] || '用户密码' );
+					$( '[for="_f_host' + i + '"]' ).html( data[ 6 ] || '主机名称' );
 
 					e = E( 'url' + i );
 					e.href = data[ 2 ];
@@ -149,7 +149,7 @@ No part of this file may be used without permission.
 							e.value = 'http://';
 						}
 						if ( e.value.search( /http(s?):\/\/./ ) != 0 ) {
-							ferror.set( e, 'Expecting a URL -- http://... or https://...', quiet );
+							ferror.set( e, '请输入类似 URL -- http://... or https://...', quiet );
 							r = 0;
 						}
 						else {
@@ -164,7 +164,7 @@ No part of this file may be used without permission.
 							e.value = RegExp.$1;
 						}
 						if ( e.value.search( /^[A-Za-z0-9]+/ ) == -1 ) {
-							ferror.set( e, 'Invalid hash or URL', quiet );
+							ferror.set( e, '无效哈希或 URL', quiet );
 							r = 0;
 						}
 						else {
@@ -173,11 +173,11 @@ No part of this file may be used without permission.
 						}
 					}
 					else {
-						if ( ((op.u) && (!v_length( '_f_user' + i, quiet, 1 ) || !v_nodelim( '_f_user' + i, quiet, 'Username' ))) ||
-						     (!v_length( '_f_pass' + i, quiet, 1 ) || !v_nodelim( '_f_pass' + i, quiet, 'Password' )) ||
+						if ( ((op.u) && (!v_length( '_f_user' + i, quiet, 1 ) || !v_nodelim( '_f_user' + i, quiet, '用户名' ))) ||
+						     (!v_length( '_f_pass' + i, quiet, 1 ) || !v_nodelim( '_f_pass' + i, quiet, '密码' )) ||
 						     ((op.m) && (!v_nodelim( '_f_mx' + i, quiet, 'MX' ))) ||
-						     ((op.h) && (!op.o) && (!v_length( '_f_host' + i, quiet, 1 ) || !v_nodelim( '_f_host' + i, quiet, 'Hostname' ))) ||
-						     ((op.t) && (!v_length( '_f_hosttop' + i, quiet, 1 ) || !v_nodelim( '_f_hosttop' + i, quiet, 'Hostname' ))) ) {
+						     ((op.h) && (!op.o) && (!v_length( '_f_host' + i, quiet, 1 ) || !v_nodelim( '_f_host' + i, quiet, '主机名' ))) ||
+						     ((op.t) && (!v_length( '_f_hosttop' + i, quiet, 1 ) || !v_nodelim( '_f_hosttop' + i, quiet, '主机名' ))) ) {
 							r = 0;
 						}
 					}
@@ -318,7 +318,7 @@ No part of this file may be used without permission.
 		{
 			if ('<% psup("ddns-update"); %>' != 0) {
 				var e = E('footer-msg');
-				e.innerHTML = 'DDNS update is running. Please refresh after a few seconds.';
+				e.innerHTML = '动态域名正在更新, 请稍等几秒钟后再刷新.';
 				e.style.visibility = 'visible';
 			}
 		}
@@ -339,7 +339,7 @@ No part of this file may be used without permission.
 		<input type="hidden" name="ddnsx_save" value="">
 
 		<div class="box">
-			<div class="heading">Dynamic DNS Service</div>
+			<div class="heading">动态 DNS 设置</div>
 			<div class="content">
 
 				<div id="ddnsconf"></div>
@@ -351,27 +351,27 @@ No part of this file may be used without permission.
 					$( '#ddnsconf' ).forms(
 							[
 								{
-									title: 'IP address', name: 'f_ddnsx_ip', type: 'select',
+									title: 'IP 地址', name: 'f_ddnsx_ip', type: 'select',
 									options: [
-										[ 'wan', 'Use WAN IP Address ' + ddnsx_ip + ' (recommended)' ],
-										[ 'wan2', 'Use WAN2 IP Address ' + ddnsx2_ip ],
+										[ 'wan', '使用 WAN IP 地址 ' + ddnsx_ip + ' (推荐)' ],
+										[ 'wan2', '使用 WAN2 IP 地址 ' + ddnsx2_ip ],
 										/* MULTIWAN-BEGIN */
-										[ 'wan3', 'Use WAN3 IP Address ' + ddnsx3_ip ],
-										[ 'wan4', 'Use WAN4 IP Address ' + ddnsx4_ip ],
+										[ 'wan3', '使用 WAN3 IP 地址 ' + ddnsx3_ip ],
+										[ 'wan4', '使用 WAN4 IP 地址 ' + ddnsx4_ip ],
 										/* MULTIWAN-END */
-										[ '@', 'Use External IP Address Checker (every 10 minutes)' ],
-										[ '0.0.0.0', 'Offline (0.0.0.0)' ],
-										[ '1.1.1.1', 'Offline (1.1.1.1)' ],
-										[ '10.1.1.1', 'Offline (10.1.1.1)' ],
-										[ 'custom', 'Custom IP Address...' ]
+										[ '@', '使用外部IP 地址(每十分钟检查)' ],
+										[ '0.0.0.0', '离线 (0.0.0.0)' ],
+										[ '1.1.1.1', '离线 (1.1.1.1)' ],
+										[ '10.1.1.1', '离线 (10.1.1.1)' ],
+										[ 'custom', '自定义 IP 地址...' ]
 									],
 									value: a ? 'custom' : nvram.ddnsx_ip
 								},
 								{
-									title: 'Custom IP address', indent: 2, name: 'f_custom_ip', type: 'text', maxlen: 15, size: 20,
+									title: '自定义 IP 地址', indent: 2, name: 'f_custom_ip', type: 'text', maxlen: 15, size: 20,
 									value: a ? nvram.ddnsx_ip : '', hidden: !a
 								},
-								{ title: 'Auto refresh every', name: 'ddnsx_refresh', type: 'text', maxlen: 8, size: 8, suffix: '<small> days (0 = disable)</small>', value: fixInt( nvram.ddnsx_refresh, 0, 90, 28 ) }
+								{ title: '自动刷新每', name: 'ddnsx_refresh', type: 'text', maxlen: 8, size: 8, suffix: '<small> 天 (0 = 关闭)</small>', value: fixInt( nvram.ddnsx_refresh, 0, 90, 28 ) }
 							]
 					);
 
@@ -420,31 +420,31 @@ No part of this file may be used without permission.
 						if ( u.length != 2 ) u = [ '', '' ];
 						h = (v[ 0 ] == '');
 
-						$('#ddnsconf').append('<br><h5>Dynamic DNS ' + (i + 1) + '</h5><br>');
+						$('#ddnsconf').append('<br><h5>动态 DNS ' + (i + 1) + '</h5><br>');
 						$( '#ddnsconf' ).forms(
 								[
-									{ title: 'Service', name: 'f_service' + i, type: 'select', options: services, value: v[ 0 ] },
+									{ title: '服务', name: 'f_service' + i, type: 'select', options: services, value: v[ 0 ] },
 									{ title: 'URL', indent: 2, text: '<a href="" id="url' + i + '" target="tomato-ext-ddns"></a>', hidden: 1 },
-									{ title: '&nbsp;', text: '<small>* This service determines the IP address using its own method.</small>', hidden: 1, rid: 'row_z' + i },
-									{ title: 'Hostname', name: 'f_hosttop' + i, type: 'text', maxlen: 96, size: 35, value: v[ 2 ], hidden: 1 },
-									{ title: 'Username', name: 'f_user' + i, type: 'text', maxlen: 64, size: 35, value: u[ 0 ], hidden: 1 },
-									{ title: 'Password', name: 'f_pass' + i, type: 'password', maxlen: 64, size: 35, peekaboo: 1, value: u[ 1 ], hidden: 1 },
-									{ title: 'Hostname', name: 'f_host' + i, type: 'text', maxlen: 255, size: 80, value: v[ 2 ], hidden: 1 },
+									{ title: '&nbsp;', text: '<small>* 该服务使用自己的方法检测 IP 地址.</small>', hidden: 1, rid: 'row_z' + i },
+									{ title: '主机名称', name: 'f_hosttop' + i, type: 'text', maxlen: 96, size: 35, value: v[ 2 ], hidden: 1 },
+									{ title: '用户名称', name: 'f_user' + i, type: 'text', maxlen: 64, size: 35, value: u[ 0 ], hidden: 1 },
+									{ title: '用户密码', name: 'f_pass' + i, type: 'password', maxlen: 64, size: 35, peekaboo: 1, value: u[ 1 ], hidden: 1 },
+									{ title: '主机名称', name: 'f_host' + i, type: 'text', maxlen: 255, size: 80, value: v[ 2 ], hidden: 1 },
 									{ title: 'URL', name: 'f_cust' + i, type: 'text', maxlen: 255, size: 80, value: v[ 6 ], hidden: 1 },
-									{ title: ' ', text: '(Use @IP for the current IP address)', rid: ('custmsg' + i), hidden: 1 },
-									{ title: 'Wildcard', indent: 2, name: 'f_wild' + i, type: 'checkbox', value: v[ 3 ] != '0', hidden: 1 },
+									{ title: ' ', text: '(给当前的IP地址使用@IP)', rid: ('custmsg' + i), hidden: 1 },
+									{ title: '通配符', indent: 2, name: 'f_wild' + i, type: 'checkbox', value: v[ 3 ] != '0', hidden: 1 },
 									{ title: 'MX', name: 'f_mx' + i, type: 'text', maxlen: 32, size: 35, value: v[ 4 ], hidden: 1 },
-									{ title: 'Backup MX', indent: 2, name: 'f_bmx' + i, type: 'checkbox', value: v[ 5 ] != '0', hidden: 1 },
+									{ title: '备份 MX', indent: 2, name: 'f_bmx' + i, type: 'checkbox', value: v[ 5 ] != '0', hidden: 1 },
 									{
-										title: 'Use as DNS', name: 'f_opendns' + i, type: 'checkbox', value: (opendnsInUse == opendns.length),
-										suffix: '<br><small>(Current DNS: ' + dns + ')</small>', hidden: 1
+										title: '需要更新的域名', name: 'f_opendns' + i, type: 'checkbox', value: (opendnsInUse == opendns.length),
+										suffix: '<br><small>(当前 DNS: ' + dns + ')</small>', hidden: 1
 									},
 									{ title: 'Token / URL', name: 'f_afraid' + i, type: 'text', maxlen: 255, size: 80, value: v[ 6 ], hidden: 1 },
-									{ title: 'Save state when IP changes (nvram commit)', name: 'f_ddnsx_save' + i, type: 'checkbox', value: nvram.ddnsx_save == '1', hidden: 1 },
-									{ title: 'Force next update', name: 'f_force' + i, type: 'checkbox', value: 0, hidden: 1 },
+									{ title: '当 IP 改变时保存状态(nvram commit)', name: 'f_ddnsx_save' + i, type: 'checkbox', value: nvram.ddnsx_save == '1', hidden: 1 },
+									{ title: '强制下次更新', name: 'f_force' + i, type: 'checkbox', value: 0, hidden: 1 },
 									null,
-									{ title: 'Last IP Address', custom: msgLoc( ddnsx_last[ i ] ), rid: 'last-update' + i, hidden: 1 },
-									{ title: 'Last Result', custom: msgLoc( ddnsx_msg[ i ] ), rid: 'last-response' + i, hidden: h }
+									{ title: '最近 IP 地址', custom: msgLoc( ddnsx_last[ i ] ), rid: 'last-update' + i, hidden: 1 },
+									{ title: '最近更新状况', custom: msgLoc( ddnsx_msg[ i ] ), rid: 'last-response' + i, hidden: h }
 								]
 						);
 
@@ -453,8 +453,8 @@ No part of this file may be used without permission.
 			</div>
 		</div>
 
-		<button type="button" value="Save" id="save-button" onclick="save()" class="btn btn-primary">Save <i class="icon-check"></i></button>
-		<button type="button" value="Cancel" id="cancel-button" onclick="javascript:reloadPage();" class="btn">Cancel <i class="icon-cancel"></i></button>
+		<button type="button" value="保存设置" id="save-button" onclick="save()" class="btn btn-primary">保存设置 <i class="icon-check"></i></button>
+		<button type="button" value="取消设置" id="cancel-button" onclick="javascript:reloadPage();" class="btn">取消设置 <i class="icon-cancel"></i></button>
 		<span id="footer-msg" class="alert alert-warning" style="visibility: hidden;"></span>
 	</form>
 	<script type="text/javascript">verifyFields(null, 1);</script>

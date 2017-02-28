@@ -7,7 +7,7 @@ http://www.polarcloud.com/tomato/
 For use with Tomato Firmware only.
 No part of this file may be used without permission.
 -->
-<title>Bandwidth: Weekly</title>
+<title>带宽监控:每周流量</title>
 <content>
 	<style>
 		table tr td { width: 25%; }
@@ -29,8 +29,8 @@ No part of this file may be used without permission.
 			rstats_busy = 1;
 		}
 
-		var weeks = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-		var weeksShort = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+		var weeks = ['周日', '周一', '周二', '周三', '周四', '周五', '周六'];
+		var weeksShort = ['日', '一', '二', '三', '四', '五', '六'];
 		var startwk = 0;
 		var summary = 1;
 
@@ -95,7 +95,7 @@ No part of this file may be used without permission.
 
 			if (summary) {
 				grid = '<table class="line-table">';
-				grid += '<tr><td><b>Date</b></td><td><b>Download</b></td><td><b>Upload</b></td><td><b>Total</b></td></tr>';
+				grid += '<tr><td><b>日期</b></td><td><b>下载</b></td><td><b>上传</b></td><td><b>合计</b></td></tr>';
 			}
 			else {
 				grid = '';
@@ -103,11 +103,11 @@ No part of this file may be used without permission.
 
 			function flush_block()
 			{
-				grid += '<h5>' + dbeg + ' to ' + dend + '</h5>' +
+				grid += '<h5>' + dbeg + ' 至 ' + dend + '</h5>' +
 				'<table class="line-table">' +
-				'<tr><td><b>Date</b></td><td><b>Download</b></td><td><b>Upload</b></td><td><b>Total</b></td></tr>' +
+				'<tr><td><b>日期</b></td><td><b>下载</b></td><td><b>上传</b></td><td><b>合计</b></td></tr>' +
 				block.join('') +
-				makeRow('bold', 'Total', rescale(dl), rescale(ul), rescale(dl + ul)) +
+				makeRow('bold', '合计', rescale(dl), rescale(ul), rescale(dl + ul)) +
 				'</table><br>';
 			}
 
@@ -203,7 +203,7 @@ No part of this file may be used without permission.
 		{
 			var s;
 
-			if (nvram.rstats_enable != '1') { $('#rstats').before('<div class="alert alert-warning">Bandwidth monitoring disabled.</b> <a href="/#admin-bwm.asp">Enable &raquo;</a></div>'); return; }
+			if (nvram.rstats_enable != '1') { $('#rstats').before('<div class="alert alert-warning">宽带监控已禁用.</b> <a href="/#admin-bwm.asp">启用 &raquo;</a></div>'); return; }
 
 			if ((s = cookie.get('weekly')) != null) {
 				if (s.match(/^([0-2]),([0-6]),([0-1])$/)) {
@@ -220,27 +220,27 @@ No part of this file may be used without permission.
 	</script>
 
 	<ul class="nav-tabs">
-		<li><a class="ajaxload" href="bwm-realtime.asp"><i class="icon-hourglass"></i> Real-Time</a></li>
-		<li><a class="ajaxload" href="bwm-24.asp"><i class="icon-graphs"></i> Last 24 Hours</a></li>
-		<li><a class="ajaxload" href="bwm-daily.asp"><i class="icon-clock"></i> Daily</a></li>
-		<li><a class="active"><i class="icon-week"></i> Weekly</a></li>
-		<li><a class="ajaxload" href="bwm-monthly.asp"><i class="icon-month"></i> Monthly</a></li>
+		<li><a class="ajaxload" href="bwm-realtime.asp"><i class="icon-hourglass"></i> 实时</a></li>
+		<li><a class="ajaxload" href="bwm-24.asp"><i class="icon-graphs"></i> 最近24小时</a></li>
+		<li><a class="ajaxload" href="bwm-daily.asp"><i class="icon-clock"></i> 每天</a></li>
+		<li><a class="active"><i class="icon-week"></i> 每周</a></li>
+		<li><a class="ajaxload" href="bwm-monthly.asp"><i class="icon-month"></i> 每月</a></li>
 	</ul>
 
 	<div id="rstats" class="box">
-		<div class="heading">Weekly Bandwidth <a class="pull-right" href="#" data-toggle="tooltip" title="Reload Information" onclick="reloadPage(); return false;"><i class="icon-refresh"></i></a></div>
+		<div class="heading">每周带宽 <a class="pull-right" href="#" data-toggle="tooltip" title="刷新信息" onclick="reloadPage(); return false;"><i class="icon-refresh"></i></a></div>
 		<div class="content">
 			<div id="bwm-weekly-grid"></div>
 
 		</div>
 	</div>
 
-	<a href="admin-bwm.asp" class="btn btn-danger ajaxload">Configure <i class="icon-tools"></i></a>
+	<a href="admin-bwm.asp" class="btn btn-danger ajaxload">配置 <i class="icon-tools"></i></a>
 	<span class="pull-right">
-		<b>Show</b> <select onchange="changeMode(this)" id="shmode"><option value="1" selected>Summary<option value="0">Full</select> &nbsp;
-		<b>Date</b> <select onchange="changeDate(this, 'ymd')" id="dafm"><option value="0">yyyy-mm-dd</option><option value="1">mm-dd-yyyy</option><option value="2">mmm dd, yyyy</option><option value="3">dd.mm.yyyy</option></select>  &nbsp;
-		<b>Start</b> <select onchange="changeStart(this)" id="startwk"><option value="0" selected>Sun<option value="1">Mon<option value="2">Tue<option value="3">Wed<option value="4">Thu<option value="5">Fri<option value="6">Sat</select>  &nbsp;
-		<b>Scale</b> <select onchange="changeScale(this)" id="scale"><option value="0">KB</option><option value="1">MB</option><option value="2" selected>GB</option></select> &nbsp;
+		<b>显示方式</b> <select onchange="changeMode(this)" id="shmode"><option value="1" selected>总和<option value="0">列表</select> &nbsp;
+		<b>日期格式</b> <select onchange="changeDate(this, 'ymd')" id="dafm"><option value="0">年-月-日</option><option value="1">月-日-年</option><option value="2">月 日, 年</option><option value="3">日.月.年</option></select>  &nbsp;
+		<b>每周第一天</b> <select onchange="changeStart(this)" id="startwk"><option value="0" selected>星期日<option value="1">星期一<option value="2">星期二<option value="3">星期三<option value="4">星期四<option value="5">星期五<option value="6">星期六</select>  &nbsp;
+		<b>单位大小</b> <select onchange="changeScale(this)" id="scale"><option value="0">KB</option><option value="1">MB</option><option value="2" selected>GB</option></select> &nbsp;
 	</span>
 
 	<script type="text/javascript">init()</script>

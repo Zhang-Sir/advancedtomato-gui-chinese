@@ -6,7 +6,7 @@ http://www.polarcloud.com/tomato/
 
 For use with Tomato Firmware only.
 No part of this file may be used without permission.
---><title>Bandwidth: Last 24 Hours</title>
+--><title>带宽监控:最近24小时</title>
 <content>
 	<script type="text/javascript" src="js/wireless.jsx?_http_id=<% nv(http_id); %>"></script>
 	<script type="text/javascript" src="js/bwm-hist.js"></script>
@@ -96,7 +96,7 @@ No part of this file may be used without permission.
 
 		function init()
 		{
-			if (nvram.rstats_enable != '1') { $('#rstats').before('<div class="alert alert-warning">Bandwidth monitoring disabled.</b> <a href="/#admin-bwm.asp">Enable &raquo;</a></div>'); return; }
+			if (nvram.rstats_enable != '1') { $('#rstats').before('<div class="alert alert-warning">带宽监控已禁用.</b> <a href="/#admin-bwm.asp">启用 &raquo;</a></div>'); return; }
 
 			try {
 				//<% bandwidth("speed"); %>
@@ -121,17 +121,17 @@ No part of this file may be used without permission.
 	</script>
 
 	<ul class="nav-tabs">
-		<li><a class="ajaxload" href="bwm-realtime.asp"><i class="icon-hourglass"></i> Real-Time</a></li>
-		<li><a class="active"><i class="icon-graphs"></i> Last 24 Hours</a></li>
-		<li><a class="ajaxload" href="bwm-daily.asp"><i class="icon-clock"></i> Daily</a></li>
-		<li><a class="ajaxload" href="bwm-weekly.asp"><i class="icon-week"></i> Weekly</a></li>
-		<li><a class="ajaxload" href="bwm-monthly.asp"><i class="icon-month"></i> Monthly</a></li>
+		<li><a class="ajaxload" href="bwm-realtime.asp"><i class="icon-hourglass"></i> 实时</a></li>
+		<li><a class="active"><i class="icon-graphs"></i> 最近24小时</a></li>
+		<li><a class="ajaxload" href="bwm-daily.asp"><i class="icon-clock"></i> 每天</a></li>
+		<li><a class="ajaxload" href="bwm-weekly.asp"><i class="icon-week"></i> 每周</a></li>
+		<li><a class="ajaxload" href="bwm-monthly.asp"><i class="icon-month"></i> 每月</a></li>
 	</ul>
 
 	<div id="rstats" class="box">
 		<div class="heading">
-			24h Bandwidth History &nbsp; <div class="spinner" id="refresh-spinner" style="visibility:hidden;" onclick="debugTime=1"></div>
-			<a href="#" data-toggle="tooltip" onclick="ref.toggleX(); return false;" title="Auto refresh graphs" class="pull-right" id="refresh-but"><i class="icon-refresh"></i></a>
+			24小时带宽的历史 &nbsp; <div class="spinner" id="refresh-spinner" style="visibility:hidden;" onclick="debugTime=1"></div>
+			<a href="#" data-toggle="tooltip" onclick="ref.toggleX(); return false;" title="自动刷新图示" class="pull-right" id="refresh-but"><i class="icon-refresh"></i></a>
 		</div>
 		<div class="content">
 			<div id="tab-area" class="btn-toolbar"></div>
@@ -143,8 +143,8 @@ No part of this file may be used without permission.
 			</script>
 
 			<div id="bwm-controls">
-				<small>(2 minute interval)</small> -
-				<b>Hours</b>:
+				<small>(2 分钟间隔)</small> -
+				<b>单位(小时)</b>:
 				<a href="javascript:switchHours(1);" id="hr1">1</a>,
 				<a href="javascript:switchHours(2);" id="hr2">2</a>,
 				<a href="javascript:switchHours(4);" id="hr4">4</a>,
@@ -152,50 +152,50 @@ No part of this file may be used without permission.
 				<a href="javascript:switchHours(12);" id="hr12">12</a>,
 				<a href="javascript:switchHours(18);" id="hr18">18</a>,
 				<a href="javascript:switchHours(24);" id="hr24">24</a>
-				| <b>Avg</b>:
-				<a href="javascript:switchAvg(1)" id="avg1">Off</a>,
+				| <b>平均值</b>:
+				<a href="javascript:switchAvg(1)" id="avg1">关闭</a>,
 				<a href="javascript:switchAvg(2)" id="avg2">2x</a>,
 				<a href="javascript:switchAvg(4)" id="avg4">4x</a>,
 				<a href="javascript:switchAvg(6)" id="avg6">6x</a>,
 				<a href="javascript:switchAvg(8)" id="avg8">8x</a>
-				| <b>Max</b>:
-				<a href="javascript:switchScale(0)" id="scale0">Uniform</a> or
-				<a href="javascript:switchScale(1)" id="scale1">Per IF</a>
-				| <b>Display</b>:
-				<a href="javascript:switchDraw(0)" id="draw0">Solid</a> or
-				<a href="javascript:switchDraw(1)" id="draw1">Line</a>
-				| <b>Color</b>: <a href="javascript:switchColor()" id="drawcolor">-</a>
-				<small><a href="javascript:switchColor(1)" id="drawrev">[reverse]</a></small> |
-				<a class="ajaxload" href="admin-bwm.asp"><b>Configure</b></a>
+				| <b>最大值</b>:
+				<a href="javascript:switchScale(0)" id="scale0">统一</a> 或
+				<a href="javascript:switchScale(1)" id="scale1">单独</a>
+				| <b>显示方案</b>:
+				<a href="javascript:switchDraw(0)" id="draw0">填充</a> 或
+				<a href="javascript:switchDraw(1)" id="draw1">实线</a>
+				| <b>颜色方案</b>: <a href="javascript:switchColor()" id="drawcolor">-</a>
+				<small><a href="javascript:switchColor(1)" id="drawrev">[反色]</a></small> |
+				<a class="ajaxload" href="admin-bwm.asp"><b>配置</b></a>
 			</div>
 
 			<table id="txt" class="data-table bwm-info">
 				<tr>
-					<td><b style="border-bottom:blue 1px solid" id="rx-name">RX</b> <i class="icon-arrow-down"></i></td>
+					<td><b style="border-bottom:blue 1px solid" id="rx-name">接收</b> <i class="icon-arrow-down"></i></td>
 					<td><span id="rx-current"></span></td>
-					<td><b>Avg</b></td>
+					<td><b>平均值</b></td>
 					<td id="rx-avg"></td>
-					<td><b>Peak</b></td>
+					<td><b>最大值</b></td>
 					<td id="rx-max"></td>
-					<td><b>Total</b></td>
+					<td><b>合计</b></td>
 					<td id="rx-total"></td>
 					<td>&nbsp;</td>
 				</tr>
 				<tr>
-					<td><b style="border-bottom:blue 1px solid" id="tx-name">TX</b>
+					<td><b style="border-bottom:blue 1px solid" id="tx-name">发送</b>
 						<i class="icon-arrow-up"></i></td>
 					<td><span id="tx-current"></span></td>
-					<td><b>Avg</b></td>
+					<td><b>平均值</b></td>
 					<td id="tx-avg"></td>
-					<td><b>Peak</b></td>
+					<td><b>最大值</b></td>
 					<td id="tx-max"></td>
-					<td><b>Total</b></td>
+					<td><b>合计</b></td>
 					<td id="tx-total"></td>
 					<td>&nbsp;</td>
 				</tr>
 			</table>
 
-			<div id="rbusy" class="alert alert-warning" style="display:none">Warning: 10 second session timeout, restarting...&nbsp;</div>
+			<div id="rbusy" class="alert alert-warning" style="display:none">警告：10秒的会话超时，重新绘图中...&nbsp;</div>
 
 		</div>
 	</div>

@@ -1,8 +1,8 @@
-<title>Clear Cookies</title>
+<title>清除 Cookies</title>
 <content>
 
 	<div class="box">
-		<div class="heading">Cleared Cookies</div>
+		<div class="heading">清除 Cookies</div>
 		<div class="content clearcookies"></div>
 	</div>
 	<script type="text/javascript">

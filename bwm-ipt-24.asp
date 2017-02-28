@@ -9,7 +9,7 @@ http://code.google.com/p/tomato-sdhc-vlan/
 
 For use with Tomato Firmware only.
 No part of this file may be used without permission.
---><title>IP Traffic: Last 24 Hours</title>
+--><title>IP 流量监控:最近24小时</title>
 <content>
 	<style type="text/css">
 		table tr td:nth-child(even) { width: 25%; }
@@ -127,7 +127,7 @@ No part of this file may be used without permission.
 		function init() {
 
 			if (nvram.cstats_enable != '1') {
-				$('.cstats').before('<div class="alert alert-info">IP Traffic monitoring disabled.</b> <a href="/#admin-iptraffic.asp">Enable &raquo;</a>');
+				$('.cstats').before('<div class="alert alert-info">IP 流量监控已禁用.</b> <a href="/#admin-iptraffic.asp">启用 &raquo;</a>');
 				return;
 			}
 
@@ -252,18 +252,18 @@ No part of this file may be used without permission.
 	</script>
 
 	<ul class="nav-tabs">
-		<li><a class="ajaxload" href="bwm-ipt-realtime.asp"><i class="icon-hourglass"></i> Real-Time</a></li>
-		<li><a class="active"><i class="icon-clock"></i> Last 24 Hours</a></li>
-		<li><a class="ajaxload" href="bwm-ipt-graphs.asp"><i class="icon-graphs"></i> View Graphs</a></li>
-		<li><a class="ajaxload" href="bwm-ipt-details.asp"><i class="icon-globe"></i> Transfer Rates</a></li>
-		<li><a class="ajaxload" href="bwm-ipt-daily.asp"><i class="icon-clock"></i> Daily</a></li>
-		<li><a class="ajaxload" href="bwm-ipt-monthly.asp"><i class="icon-month"></i> Monthly</a></li>
+		<li><a class="ajaxload" href="bwm-ipt-realtime.asp"><i class="icon-hourglass"></i> 实时</a></li>
+		<li><a class="active"><i class="icon-clock"></i> 最近24小时</a></li>
+		<li><a class="ajaxload" href="bwm-ipt-graphs.asp"><i class="icon-graphs"></i> 查看图表</a></li>
+		<li><a class="ajaxload" href="bwm-ipt-details.asp"><i class="icon-globe"></i> 传输速率</a></li>
+		<li><a class="ajaxload" href="bwm-ipt-daily.asp"><i class="icon-clock"></i> 每天</a></li>
+		<li><a class="ajaxload" href="bwm-ipt-monthly.asp"><i class="icon-month"></i> 每月</a></li>
 	</ul>
 
 	<div id="cstats" class="box">
 		<div class="heading">
-			24h IP Traffic History &nbsp; <div class="spinner" id="refresh-spinner" style="visibility:hidden;" onclick="debugTime=1"></div>
-			<a href="#" data-toggle="tooltip" onclick="ref.toggleX(); return false;" title="Auto refresh graphs" class="pull-right" id="refresh-but"><i class="icon-refresh"></i></a>
+			24小时 IP 流量历史 &nbsp; <div class="spinner" id="refresh-spinner" style="visibility:hidden;" onclick="debugTime=1"></div>
+			<a href="#" data-toggle="tooltip" onclick="ref.toggleX(); return false;" title="自动刷新图形" class="pull-right" id="refresh-but"><i class="icon-refresh"></i></a>
 		</div>
 		<div class="content">
 			<div id="tab-area" class="btn-toolbar"></div>
@@ -276,8 +276,8 @@ No part of this file may be used without permission.
 			</script>
 
 			<div id="bwm-controls">
-				<small>(2 minute interval)</small> -
-				<b>Hours</b>:
+				<small>(2 分钟间隔)</small> -
+				<b>单位(小时)</b>:
 				<a href="javascript:switchHours(1);" id="hr1">1</a>,
 				<a href="javascript:switchHours(2);" id="hr2">2</a>,
 				<a href="javascript:switchHours(4);" id="hr4">4</a>,
@@ -285,43 +285,43 @@ No part of this file may be used without permission.
 				<a href="javascript:switchHours(12);" id="hr12">12</a>,
 				<a href="javascript:switchHours(18);" id="hr18">18</a>,
 				<a href="javascript:switchHours(24);" id="hr24">24</a>
-				| <b>Avg</b>:
+				| <b>平均值</b>:
 				<a href="javascript:switchAvg(1)" id="avg1">Off</a>,
 				<a href="javascript:switchAvg(2)" id="avg2">2x</a>,
 				<a href="javascript:switchAvg(4)" id="avg4">4x</a>,
 				<a href="javascript:switchAvg(6)" id="avg6">6x</a>,
 				<a href="javascript:switchAvg(8)" id="avg8">8x</a>
-				| <b>Max</b>:
-				<a href="javascript:switchScale(0)" id="scale0">Uniform</a> or
-				<a href="javascript:switchScale(1)" id="scale1">Per IF</a>
-				| <b>Display</b>:
-				<a href="javascript:switchDraw(0)" id="draw0">Solid</a> or
-				<a href="javascript:switchDraw(1)" id="draw1">Line</a>
-				| <b>Color</b>: <a href="javascript:switchColor()" id="drawcolor">-</a>
-				<small><a href="javascript:switchColor(1)" id="drawrev">[reverse]</a></small> |
-				<a class="ajaxload" href="admin-bwm.asp"><b>Configure</b></a>
+				| <b>最大值</b>:
+				<a href="javascript:switchScale(0)" id="scale0">统一</a> 或
+				<a href="javascript:switchScale(1)" id="scale1">单独</a>
+				| <b>显示方案</b>:
+				<a href="javascript:switchDraw(0)" id="draw0">填充</a> 或
+				<a href="javascript:switchDraw(1)" id="draw1">实线</a>
+				| <b>颜色方案</b>: <a href="javascript:switchColor()" id="drawcolor">-</a>
+				<small><a href="javascript:switchColor(1)" id="drawrev">[反色]</a></small> |
+				<a class="ajaxload" href="admin-iptraffic.asp"><b>配置</b></a>
 			</div>
 
 			<table id="txt" class="data-table bwm-info">
 				<tr>
-					<td><b style="border-bottom:blue 1px solid" id="rx-name">RX</b> <i class="icon-arrow-down"></i></td>
+					<td><b style="border-bottom:blue 1px solid" id="rx-name">接收</b> <i class="icon-arrow-down"></i></td>
 					<td><span id="rx-current"></span></td>
-					<td><b>Avg</b></td>
+					<td><b>平均值</b></td>
 					<td id="rx-avg"></td>
-					<td><b>Peak</b></td>
+					<td><b>最大值</b></td>
 					<td id="rx-max"></td>
-					<td><b>Total</b></td>
+					<td><b>合计</b></td>
 					<td id="rx-total"></td>
 					<td>&nbsp;</td>
 				</tr>
 				<tr>
-					<td><b style="border-bottom:blue 1px solid" id="tx-name">TX</b> <i class="icon-arrow-up"></i></td>
+					<td><b style="border-bottom:blue 1px solid" id="tx-name">发送</b> <i class="icon-arrow-up"></i></td>
 					<td><span id="tx-current"></span></td>
-					<td><b>Avg</b></td>
+					<td><b>平均值</b></td>
 					<td id="tx-avg"></td>
-					<td><b>Peak</b></td>
+					<td><b>最大值</b></td>
 					<td id="tx-max"></td>
-					<td><b>Total</b></td>
+					<td><b>合计</b></td>
 					<td id="tx-total"></td>
 					<td>&nbsp;</td>
 				</tr>
@@ -330,13 +330,13 @@ No part of this file may be used without permission.
 			<hr><div id="settings"></div>
 			<script type="text/javascript">
 				$('#settings').forms([
-					{ title: 'IPs currently on graphic', name: 'f_ipt_addr_shown', type: 'select', options: [[0,'Select']], suffix: '&nbsp; <small>(Click/select a device from this list to hide it)</small>' },
-					{ title: 'Hidden addresses', name: 'f_ipt_addr_hidden', type: 'select', options: [[0,'Select']], suffix: '&nbsp; <small>(Click/select to show it again)</small>' }
+					{ title: '隐藏设备', name: 'f_ipt_addr_shown', type: 'select', options: [[0,'选择']], suffix: '&nbsp; <small>( (点击/选择 从该列表中隐藏设备))</small>' },
+					{ title: '显示设置', name: 'f_ipt_addr_hidden', type: 'select', options: [[0,'选择']], suffix: '&nbsp; <small>((点击/选择 显示已隐藏的设备))</small>' }
 				]);
 			</script>
 
 			<span id="dtime"></span>
-			<div class="alert alert-warning" style="display:none" id="rbusy">The cstats program is not responding or is busy. Try reloading after a few seconds.</div>
+			<div class="alert alert-warning" style="display:none" id="rbusy">程序忙或没有响应，几秒钟后重新加载.</div>
 		</div>
 	</div>
 
