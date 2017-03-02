@@ -106,7 +106,7 @@ No part of this file may be used without permission.
 						<div class="col-sm-9">
 							<div id="reset-input">
 								<div class="checkbox c-checkbox"><label><input class="custom" type="checkbox" id="f_reset">
-									<span class="icon-check"></span> &nbsp; 闪烁后，擦除 NVRAM 内存中的所有数据</label>
+									<span class="icon-check"></span> &nbsp; 刷写后，擦除 NVRAM 内存中的所有数据</label>
 								</div>
 							</div>
 						</div>
