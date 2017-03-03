@@ -149,7 +149,7 @@
 				c( 'wan' + u + 'gateway', stats.wangateway[ uidx - 1 ] );
 				c( 'wan' + u + 'dns', stats.dns[ uidx - 1 ] );
 				c( 'wan' + u + 'uptime', stats.wanuptime[ uidx - 1 ] );
-				c( 'wan' + u + 'status', ( ( stats.wanstatus[ uidx - 1 ] == '已连接') ? '<span class="text-red">已连接</span>' : '<span class="text-green">' + stats.wanstatus[ uidx - 1 ] + '</span>') );
+				c( 'wan' + u + 'status', ( ( stats.wanstatus[ uidx - 1 ] == 'Connected') ? '<span class="text-red">已连接</span>' : '<span class="text-green">' + stats.wanstatus[ uidx - 1 ] + '</span>') );
 				if ( show_dhcpc[ uidx - 1 ] ) c( 'wan' + u + 'lease', stats.wanlease[ uidx - 1 ] );
 				if ( show_dhcpc[ uidx - 1 ] ) c( 'wan' + u + 'lease', stats.wanlease[ uidx - 1 ] );
 				if ( show_codi ) {
