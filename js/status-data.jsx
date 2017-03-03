@@ -128,7 +128,7 @@ do {
 /* DUALWAN-END */
 
 	for(var uidx = 1; uidx <= nvram.mwan_num; ++uidx) {
-		if (stats.wanstatus[uidx-1] != '已连接') stats.wanstatus[uidx-1] = '<b>' + stats.wanstatus[uidx-1] + '</b>';
+		if (stats.wanstatus[uidx-1] != 'Connected') stats.wanstatus[uidx-1] = '<b>' + stats.wanstatus[uidx-1] + '</b>';
 	}
 
 	stats.channel = [];
@@ -142,8 +142,8 @@ do {
 		if (i < 0) i = -i;
 		stats.channel.push('<a href="#tools-survey.asp">' + ((i) ? i + '' : 'Auto') +
 			((wlstats[uidx].mhz) ? ' - ' + (wlstats[uidx].mhz / 1000.0).toFixed(3) + ' <small>GHz</small>' : '') + '</a>' +
-			((a < 0) ? ' <small>(scanning...)</small>' : ''));
-		stats.interference.push((wlstats[uidx].intf >= 0) ? ((wlstats[uidx].intf) ? 'Severe' : 'Acceptable') : '');
+			((a < 0) ? ' <small>(扫描中...)</small>' : ''));
+		stats.interference.push((wlstats[uidx].intf >= 0) ? ((wlstats[uidx].intf) ? '严重' : '可接受') : '');
 
 		a = wlstats[uidx].nbw * 1;
 		wlstats[uidx].nbw = (a > 0) ? (a + ' <small>MHz</small>') : 'Auto';
