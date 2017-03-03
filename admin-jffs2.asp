@@ -32,7 +32,7 @@ No part of this file may be used without permission.
 				$('.fclock').html('请稍等');
 			}
 			else {
-				$('.fclock').html(((ftime > 0) ? '剩余 ' : '') + ftime + ' 秒' + ((ftime == 1) ? '' : 's'));
+				$('.fclock').html(((ftime > 0) ? '剩余 ' : '') + ftime + ' 秒' + ((ftime == 1) ? '' : ''));
 			}
 			if (--ftime >= 0) setTimeout(formatClock, 1000);
 		}
