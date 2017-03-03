@@ -297,7 +297,7 @@ No part of this file may be used without permission.
 			</script>
 
 			<span id="dtime" style="display:none;"></span>
-			<div class="alert alert-warning" id="warnwd" style="display:none">Warning: 10 second timeout, restarting...&nbsp;</div>
+			<div class="alert alert-warning" id="warnwd" style="display:none">警告：10秒超时，重新启动...&nbsp;</div>
 		</div>
 	</div>
 	<script type="text/javascript">init();</script>
