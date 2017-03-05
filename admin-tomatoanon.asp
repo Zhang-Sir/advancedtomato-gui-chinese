@@ -85,8 +85,7 @@ No part of this file may be used without permission.
 
 				<h5>AdvancedTomato 固件汉化说明</h5>
 				<p>
-					<li>AdvancedTomato 固件由网友 ZhangSir 独立汉化。</li>
-					<li>部分专业术语参考了网友 <b><a target="_blank" href="http://tt.onv.cc/?lang=zh">bwq518</a></b> 固件内容。</li>
+					<li>AdvancedTomato 固件由网友 ZhangSir 独立汉化。</li>			
 					<li>转发与转载请保留汉化作者信息，请勿打击作者积极性。</li>
 					<li>汉化作者博客地址 <b><a target="_blank" href="https://www.getlinux.cn">GetLinux.cn</a></b></li>
 					<li>汉化项目 GitHub 链接：<b><a target="_blank" href="https://github.com/Zhang-Sir/advancedtomato-gui-Chinese-localization">https://github.com/Zhang-Sir/advancedtomato-gui-Chinese-localization</a></b></li>
